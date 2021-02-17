@@ -1,0 +1,109 @@
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dore jQuery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="/css/vendor/bootstrap-float-label.min.css" />
+    <link rel="stylesheet" href="/css/vendor/component-custom-switch.min.css" />
+    <link rel="stylesheet" href="/css/vendor/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/css/vendor/bootstrap-tagsinput.css" />
+</head>
+
+<body id="app-container" class="menu-default show-spinner">
+    
+
+    
+
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Create Comic</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="#">Pages</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/me/stored/comics/comic-list">All Comics</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Create Comic</li>
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="mb-4">Tạo Truyện Mới</h5>
+                    {{!-- form --}}
+                    <form method="POST" action="/me/stored/comics/create">
+                        <label class="form-group has-float-label">
+                            <input class="form-control" id="title" name="title" />
+                            <span>Tên truyện</span>
+                        </label>
+            
+                        <label class="form-group has-float-label">
+                            <input data-role="tagsinput" type="text" id="tags" name="tags" value="comic">
+                            <span>Tags</span>
+                        </label>
+            
+                        <label class="form-group has-float-label">
+                            <input class="form-control datepicker" id="description" name="description">
+                            <span>Mô tả</span>
+                        </label>
+
+                        <div class="form-row mb-4 ml-1">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio1">
+                                    Publish
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio ml-4">
+                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio2">
+                                    UnPublish
+                                </label>
+                            </div>
+                        </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">Translator</label>
+                                    <input type="text" class="form-control" id="inputCity">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">Badge</label>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>None</option>
+                                        <option>Mới</option>
+                                        <option>Hot</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        <button class="btn btn-primary default" type="submit">Đăng truyện</button>
+                    </form> {{!-- /form --}}
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+   
+
+
+    <script src="/js/vendor/jquery-3.3.1.min.js"></script>
+    <script src="/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/js/vendor/perfect-scrollbar.min.js"></script>
+    <script src="/js/vendor/bootstrap-tagsinput.min.js"></script>
+    <script src="/js/vendor/select2.full.js"></script>
+    <script src="/js/dore.script.js"></script>
+    {{!-- <script src="/js/scripts.js"></script> --}}
+    <script src="/js/scripts.single.theme.js"></script>
+</body>
+

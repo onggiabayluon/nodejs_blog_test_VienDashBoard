@@ -1,0 +1,106 @@
+<div class="mt-4">
+    <div class="row">
+        
+        {{!-- ảnh bìa (thumbnail) --}}
+        {{#each manga}}
+            <div class="col-lg-3">
+                {{#each this.thumbnail}}
+                    <img src="{{this.url}}" alt="img" width="100%" height="auto">
+                {{/each}}
+                <a class="btn btn-success mt-2 btn-block" href="#" role="button">Theo dõi</a>
+                <p class="text-center"> <small> Có 94 người đang theo dõi </small></p>
+            </div>
+        {{/each}}
+        {{!-- Mô tả (Description) --}}
+        <div class="col-lg-9" >
+            <div class="row">
+                <button class="btn btn-outline-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Thêm chapter mới</button>
+                <div class="dropdown-menu">
+                    {{#each manga}}
+                    <a id="dropdown-form-btn" class="dropdown-item " 
+                        href="/manga/{{this.slug}}/uploadChapter">Tạo chapter</a>
+                    <a class="dropdown-item" 
+                        href="/manga/{{this.slug}}/edit" class="btn btn-link">
+                        Chỉnh sửa nội dung</a>
+                    {{/each}}
+                </div>
+            </div>
+
+           
+
+            
+            {{!-- row 1 col 2 --}}
+            <div class="row-1-col-2">
+                    {{#each manga}}   
+                        {{#if this.title}}
+                            <h3 class="mt-2"> {{ this.title }} </h3>
+                        {{/if}}
+                    {{/each}}
+                <div class="row">
+                    <div class="col-lg-2">
+                        <p><strong> Tên khác: </strong> </p>
+                        <p><strong> Tác Giả: </strong> </p>
+                        <p><strong> Thể loại: </strong> </p>
+                        <p><strong> Nội dung: </strong> </p>
+                    </div>
+                    <div class="col-lg-7">
+                       {{#each manga}}   
+                        <p> Đang cập nhật </p>
+                        <p> Pháp sư của Anesia </p>
+                        <p> Action, Fantasy, Manhwa (Tag Type) </p>     
+                        <p> {{this.description}} </p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            {{!-- /row 1 col 2 --}}
+        </div>
+
+        <div class="col-lg-3 "></div>
+        <div class="col-lg-9">
+            {{#each manga}}  
+                <p> <strong> Chapter {{this.title}} </strong></p>
+            {{/each}}
+            <div class="row">
+                <div class="col-lg">
+                    <a class="btn btn-success mr-2 btn-block" href="#" role="button">Đọc từ đầu <br> Tập 1</a>
+                </div>
+                <div class="col-lg">
+                    <a class="btn btn-success mr-2 btn-block" href="#" role="button">Đọc mới nhất <br> Tập 100</a>
+                </div>
+            </div>
+            {{!--  Search place     --}}
+            <form class="form-inline">
+                <input class="form-control m-2" type="search" placeholder="Search" aria-label="Search" style="width: 100%;">
+            </form>
+            {{!--  Danh sách chương --}}
+            <div class="danh-sach-chuong">
+                <div class="row m-2">
+                    <div class="col text-center"> Số chương </div>
+                    <div class="col text-center"> Cập nhật </div>
+                    <div class="col text-center"> Lượt xem </div>
+                </div>
+                {{#each chapters}}
+                {{#if this.chapter}}
+                    <div class="row m-2">
+                        <div class="col text-center"> 
+                            <a href="/manga/{{this.chaptername}}/{{this.chapter}}">
+                            {{replaceHyphenIntoSpace this.chapter}}
+                            </a> 
+                        </div>
+                        <div class="col text-center">
+                            <p> 1 giờ trước </p>
+                        </div>
+                        <div class="col text-center">
+                            <p> 8,233 </p>
+                        </div>
+                    </div>
+                {{/if}}
+                {{/each}}
+            
+        </div>
+    </div>
+</div>
+
+
