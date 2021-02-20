@@ -1,8 +1,8 @@
-const Course = require('../models/Course');
+const Course  = require('../models/Course');
 const shortid = require('shortid');
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
-const removeVietnameseTones
-  = require('../../config/middleware/VnameseToEng');
+const removeVietnameseTones  = require('../../config/middleware/VnameseToEng');
+const TimeDifferent = require('../../config/middleware/TimeDifferent')
 class meController {
 
 
@@ -75,7 +75,7 @@ class meController {
   }
 
   /*
-  2. Render All Comic page
+  2. Render All comic list
   */
   // [GET] / me / stored / comics / comic-list
   getComicList(req, res, next) {
@@ -83,14 +83,21 @@ class meController {
     Promise.all([Course.find({ $and: [{ title: { $exists: true } }, { chaptername: { $not: { $exists: true } } }] }), Course.countDocumentsDeleted()]
     )
 
-      .then(([mangas, deletedCount]) =>
+      .then(([mangas, deletedCount]) => 
+      {
+        mangas.map(manga => {
+          var time = TimeDifferent(manga.updatedAt)
+          //console.log(time)
+          manga["mangaUpdateTime"] = time;
+        })
+        //console.log(mangas)
         res.render('me/Pages.Comics.List.hbs',
-          {
-            layout: 'admin',
-            deletedCount,
-            mangas: multiMongooseToObject(mangas),
-          })
-      )
+        {
+          layout: 'admin',
+          deletedCount,
+          mangas: multiMongooseToObject(mangas),
+        })
+      })
       .catch(next);
   }
 
@@ -116,6 +123,11 @@ class meController {
               noChapters
             })
           } else {
+            chapters.map(chapter => {
+              var time = TimeDifferent(chapter.updatedAt)
+              //console.log(time)
+              chapter["mangaUpdateTime"] = time;
+            })
             res.status(200).render('me/Pages.Comics.ChapterList.hbs', {
               layout: 'admin',
               linkComics,

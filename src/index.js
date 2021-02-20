@@ -2,6 +2,7 @@
 const path      = require('path');
 const express   = require('express');
 const morgan    = require('morgan');
+const moment = require('moment-timezone');
 
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
@@ -10,6 +11,12 @@ const methodOverride = require('method-override');
 
 const route = require('./routes');
 const db    = require('./config/db');
+
+/*
+//Set Timezone
+const dateThailand = moment.tz(Date.now(), "Asia/Bangkok");
+console.log(dateThailand); 
+*/
 
 //connect to DB
 db.connect();

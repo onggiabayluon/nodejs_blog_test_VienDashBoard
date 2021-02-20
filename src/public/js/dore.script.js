@@ -3419,7 +3419,7 @@ $.dore = function (element, options) {
       });
     }
     */
-
+   
 
     /* 03.21. Cropperjs */
     var Cropper = window.Cropper;

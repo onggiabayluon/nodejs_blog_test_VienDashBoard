@@ -3,8 +3,7 @@
 <head>
     <title>Dore jQuery</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/css/vendor/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="/css/vendor/component-custom-switch.min.css" />
+    
 </head>
 
 <body id="app-container" class="menu-default show-spinner">
@@ -165,8 +164,8 @@
                                 <a href="#" class="w-40 w-sm-100">
                                     <p class="list-item-heading mb-0 truncate">{{replaceHyphenIntoSpace this.chapter}}</p>
                                 </a>
-                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">Cupcakes</p>
-                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">13.04.2018</p>
+                                
+                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">{{this.mangaUpdateTime}}</p>
   
                                  <div class="w-20 w-sm-100 d-flex social-menu myPadding-top-sm" style="justify-content: space-evenly;">
             
@@ -235,10 +234,8 @@
         </div>
     </main>
     
-    <script src="/js/vendor/jquery-3.3.1.min.js"></script>
-    <script src="/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="/js/vendor/perfect-scrollbar.min.js"></script>
-    {{!-- <script src="/js/vendor/mousetrap.min.js"></script> --}}
+    {{!-- Bootstrap Js --}}
+    
 </body>
 
 {{!-- Confirm delete course --}}

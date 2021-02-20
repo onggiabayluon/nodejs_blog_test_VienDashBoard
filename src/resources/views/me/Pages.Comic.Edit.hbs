@@ -3,14 +3,10 @@
     <meta charset="UTF-8">
     <title>Dore jQuery</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/css/vendor/component-custom-switch.min.css" />
-    <link rel="stylesheet" href="/css/vendor/perfect-scrollbar.css" />
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
-    <link rel="stylesheet" href="/css/vendor/bootstrap-tagsinput.css" />
+    
+    {{!-- Bootstrap CSS --}}
     <link rel="stylesheet" href="/css/vendor/bootstrap-float-label.min.css" />
-    <!-- <link rel="stylesheet" href="css/main.css" /> -->
+    
 </head>
 
 <body id="app-container" class="menu-default show-spinner">
@@ -169,31 +165,28 @@
             </div>
         </div>
     </main>
+    
+    {{!-- Bootstrap JS --}}
     <script src="/js/vendor/jquery-3.3.1.min.js"></script>
-    <script src="/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="/js/vendor/perfect-scrollbar.min.js"></script>
-    <script src="/js/vendor/bootstrap-tagsinput.min.js"></script>
     {{!-- <script src="/js/vendor/select2.full.js"></script> --}}
-    {{!-- <script src="/js/vendor/mousetrap.min.js"></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+    
+    
 </body>
-
-<script>
-     
-         
+<script >
+    $(document).ready(function () {
     if ($().dropzone && !$(".dropzone").hasClass("disabled")) {
         Dropzone.autoDiscover = false;
-        
-       $(document).ready(function() {
+
+
         var submitDropzonebtn = document.getElementById('submitDropzonebtn');
         var myDropzone = new Dropzone('#buldUploadForm', {
-            paramName : 'single-file',
+            paramName: 'single-file',
             autoProcessQueue: false,
-            maxFiles : 1,
+            maxFiles: 1,
             acceptedFiles: 'image/*',
             dictMaxFilesExceeded: 'fail',
             init: function () {
-            var myDropzone = this;
+                var myDropzone = this;
                 $("#buldUploadForm").submit(function (e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -211,6 +204,7 @@
         /*myDropzone.on("complete", function (file) {
                myDropzone.removeFile(file);
            });*/
-       });
+
     }
+});
 </script>

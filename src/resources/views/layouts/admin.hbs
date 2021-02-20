@@ -4,16 +4,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {{!-- FontAweSome cdn --}}
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    {{!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> --}}
     {{!-- Bootstrap cdn --}}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    {{!-- CSS --}}
-    <link rel="stylesheet" href="/css/app.css"> 
+    {{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
     
-    {{!-- bootstrap --}}
+    {{!-- Font Icon CSS --}}
     <link rel="stylesheet" href="/font/iconsmind-s/css/iconsminds.css" />
     <link rel="stylesheet" href="/font/simple-line-icons/css/simple-line-icons.css" />
+    {{!-- bootstrap CSS --}}
     <link rel="stylesheet" href="/css/vendor/bootstrap.min.css" />
+    {{!-- JS cdn CSS --}}
+    <link rel="stylesheet" href="/css/vendor/bootstrap-tagsinput.css" />
+    <link rel="stylesheet" href="/css/vendor/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/css/vendor/component-custom-switch.min.css" />
+    <link rel="stylesheet" href="/css/vendor/dropzone.min.css" />
+    {{!-- CSS --}}
+    <link rel="stylesheet" href="/css/app.css"> 
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/dore.light.purple.min.css" />
     {{!-- <link rel="stylesheet" href="/css/dore.dark.blue.min.css" /> --}}
@@ -31,11 +37,19 @@
         {{> adminFooter}}
     </div>
 
+    
+    {{!-- bootstrap --}}
+    <script src="/js/vendor/jquery-3.3.1.min.js"></script>
+    <script src="/js/vendor/bootstrap.bundle.min.js"></script>
     {{!-- JS cdn --}}
-    {{!-- <script src="/js/vendor/jquery-3.3.1.min.js"></script> --}}
-    {{!-- <script src="/js/vendor/bootstrap.bundle.min.js"></script> --}}
+    <script src="/js/vendor/dropzone.min.js"></script>
+    <script src="/js/vendor/bootstrap-tagsinput.min.js"></script>
+    <script src="/js/vendor/perfect-scrollbar.min.js"></script>
+    {{!-- <script src="/js/vendor/mousetrap.min.js"></script> --}}
+    {{!-- Script Js --}}
     <script src="/js/dore.script.js"></script>
     <script src="/js/scripts.single.theme.js"></script>
+    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> --}}
     {{!-- <script src="/js/scripts.js"></script> --}}
     {{!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> --}}
     {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> --}}
