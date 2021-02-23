@@ -2,8 +2,7 @@
 const path      = require('path');
 const express   = require('express');
 const morgan    = require('morgan');
-const moment = require('moment-timezone');
-
+const compression = require('compression')
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
@@ -12,19 +11,28 @@ const methodOverride = require('method-override');
 const route = require('./routes');
 const db    = require('./config/db');
 
-/*
-//Set Timezone
-const dateThailand = moment.tz(Date.now(), "Asia/Bangkok");
-console.log(dateThailand); 
-*/
 
-//connect to DB
+//  connect to DB
 db.connect();
 
 const app   = express();
 const port  = 3000;
 
-//
+// Compression
+app.use(compression({
+    level: 6,
+    threshold: 0, // 100 * 1000 Dưới 100KB không bị compress
+    filter: (req, res) => {
+        if (req.headers['x-no-compression']) {
+            // don't compress responses with this request header
+            return false
+        } else {
+            return compression.filter(req, res)
+        }
+    }
+}))
+
+// Defind Static path
 app.use(express.static(path.join(__dirname, 'public')));
 
 //add cái này cho form (post) parse ra dạng kiểu dữ liệu cho console.log

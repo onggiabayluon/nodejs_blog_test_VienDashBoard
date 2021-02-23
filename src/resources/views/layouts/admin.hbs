@@ -8,9 +8,12 @@
     {{!-- Bootstrap cdn --}}
     {{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
     
+    {{!-- font --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700">
     {{!-- Font Icon CSS --}}
     <link rel="stylesheet" href="/font/iconsmind-s/css/iconsminds.css" />
     <link rel="stylesheet" href="/font/simple-line-icons/css/simple-line-icons.css" />
+
     {{!-- bootstrap CSS --}}
     <link rel="stylesheet" href="/css/vendor/bootstrap.min.css" />
     {{!-- JS cdn CSS --}}
@@ -18,10 +21,15 @@
     <link rel="stylesheet" href="/css/vendor/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/css/vendor/component-custom-switch.min.css" />
     <link rel="stylesheet" href="/css/vendor/dropzone.min.css" />
+
+    
+    {{!-- CSS Bundle --}}
+    {{!-- <link rel="stylesheet" href="/dist/css/Vendorbundle.css">  --}}
+    {{!-- nên gộp cả 2 file css bên dưới --}}
     {{!-- CSS --}}
-    <link rel="stylesheet" href="/css/app.css"> 
+    {{!-- <link rel="stylesheet" href="/css/app.css">  --}}
     <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/dore.light.purple.min.css" />
+    <link rel="stylesheet" href="/css/dore.light.purple.css" />
     {{!-- <link rel="stylesheet" href="/css/dore.dark.blue.min.css" /> --}}
     
 </head>
@@ -38,21 +46,62 @@
     </div>
 
     
-    {{!-- bootstrap --}}
+    {{!-- jquerry --}}
     <script src="/js/vendor/jquery-3.3.1.min.js"></script>
+    {{!-- Js Bundle --}}
+    {{!-- <script src="/dist/js/bundle.js"></script> --}}
+    
+    {{!-- Bootstrap --}}
     <script src="/js/vendor/bootstrap.bundle.min.js"></script>
     {{!-- JS cdn --}}
     <script src="/js/vendor/dropzone.min.js"></script>
     <script src="/js/vendor/bootstrap-tagsinput.min.js"></script>
     <script src="/js/vendor/perfect-scrollbar.min.js"></script>
-    {{!-- <script src="/js/vendor/mousetrap.min.js"></script> --}}
-    {{!-- Script Js --}}
+    
+    {{!-- <script src="/js/scripts.js"></script> --}}
     <script src="/js/dore.script.js"></script>
     <script src="/js/scripts.single.theme.js"></script>
-    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> --}}
     {{!-- <script src="/js/scripts.js"></script> --}}
-    {{!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> --}}
-    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> --}}
-    {{!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
+    {{!-- <script>
+        var head = document.getElementsByTagName("head")[0];
+        var findlink = $(head).find('[href$="/css/dore.light.purple.min.css"]');
+        var hreflink = $(findlink).attr("href")
+        console.log(hreflink)
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = hreflink;
+       console.log(link)
+         
+    </script> --}}
+    <script>
+        // DOM Elements
+        const BtnSwitch = $('#switchDark')
+        console.log(BtnSwitch)
+        const darkButton = document.getElementById('dark');
+        const lightButton = document.getElementById('light');
+        const solarButton = document.getElementById('solar');
+        const body = document.body;
 
+
+        // Apply the cached theme on reload
+
+        const theme = localStorage.getItem('theme');
+        const isSolar = localStorage.getItem('isSolar');
+
+        if (theme) {
+            body.classList.add(theme);
+            isSolar && body.classList.add('solar');
+        }
+
+        // Button Event Handlers
+
+        BtnSwitch.on('click', () => {
+            $( ":root" ).toggleClass('dark')
+            console.log('hello')
+        })
+            
+
+        
+    </script>
 </body>

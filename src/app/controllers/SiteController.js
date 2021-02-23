@@ -16,6 +16,7 @@ class SiteController {
         //render courses vao homepage
         //2.
         //test
+        
         // Course.findOne({title: 'test time zone'}
         // , function (err, page) {
            
