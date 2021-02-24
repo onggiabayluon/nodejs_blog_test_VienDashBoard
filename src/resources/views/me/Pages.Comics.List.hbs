@@ -139,10 +139,10 @@
                     <div class="card d-flex flex-row mb-3">
                         <a class="d-flex" href="/me/stored/comics/{{this.slug}}/edit">
                             {{#each thumbnail}}
-                            <img src="{{this.url}}" alt="Chưa có thumbnail"
-                                class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style" />
+                            <div data-bg="{{this.url}}"
+                                class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style"></div>
                             {{else}}
-                             <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"
+                             <img src="/img/goose-  -thumb.jpg" alt="Chưa có thumbnail"
                                 class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style" />
                             {{/each}}
                         </a>
@@ -274,6 +274,18 @@
 </form>
 
 <script>
+        (() => {
+            var clourdinary_name = 'dwajvm53v';
+            const baseUrl = `https://res.cloudinary.com/${clourdinary_name}/image/fetch`
+
+            Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+                const { clientWidth, clientHeight } = image
+                const pixelRatio = window.devicePixelRatio || 1.0
+                const imageParams = `w_${100 * Math.round(clientWidth * pixelRatio / 100)},h_${100 * Math.round(clientHeight * pixelRatio / 100)},c_fill,g_auto,f_auto`
+                const url = `${baseUrl}/${imageParams}/${image.dataset.bg}`
+                image.style.backgroundImage = `url('${url}')`
+            })
+        })()
         document.addEventListener('DOMContentLoaded', function() {
             var chapterSlug;
             var hiddenForm = document.forms['hidden-form'];

@@ -57,6 +57,7 @@ Table of Contents
 
 // @import url("https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700");
 
+
 $main-menu-item-height: 110px;
 $main-menu-width: 120px;
 $main-menu-width-lg: 110px;
@@ -105,7 +106,90 @@ html {
   width: 100%;
   height: 100%;
   background: var(--background-color);
-  //transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+// Tạo các biến màu bên đây rồi lấy màu bên light.purple
+// color dark để bên light.purple luôn
+
+  /* Light */
+$separator-color-light: #f3f3f3;
+$separator-color: #d7d7d7;
+$background-color: #f8f8f8;
+$background-color-dark: black;
+$foreground-color : white;
+$input-background: white;
+
+$dark-btn-background: #575057;
+$light-btn-background: #d4d4d4;
+
+$button-text-color: #fff;
+
+$theme-color-1: #922c88;
+$theme-color-2: #4556ac;
+$theme-color-3: #af67a4;
+$theme-color-4: #743c6e;
+$theme-color-5: #4b5480;
+$theme-color-6: #795d75;
+
+$primary-color: #3a3a3a;
+$primary-color-dark: #3a3a3a;
+$secondary-color: #8f8f8f;
+$muted-color: #909090;
+
+$gradient-color-1 : #a9449f;
+$gradient-color-2 : #3c164f;
+$gradient-color-3 : #8a3481;
+
+$lp-bg-color-1 : #400d47;
+$lp-bg-color-2 : #511452;
+$lp-bg-color-3 : #b02ba6;
+$lp-bg-color-4 : #cb33bd;
+
+  /* End Light */
+:root {
+  --separator-color-light: #{$separator-color-light};
+  --separator-color: #{$separator-color};
+  --background-color: #{$background-color};
+  --foreground-color : #{$foreground-color};
+  --input-background: #{$input-background};
+
+  --dark-btn-background: #{$dark-btn-background};
+  --light-btn-background: #{$light-btn-background};
+
+  --button-text-color: #{$button-text-color};
+
+  --theme-color-1: #{$theme-color-1};
+  --theme-color-2: #{$theme-color-2};
+  --theme-color-3: #{$theme-color-3};
+  --theme-color-4: #{$theme-color-4};
+  --theme-color-5: #{$theme-color-5};
+  --theme-color-6: #{$theme-color-6};
+  --theme-color-1-10: #{rgba($theme-color-1, 0.1)};
+  --theme-color-2-10: #{rgba($theme-color-2, 0.1)};
+  --theme-color-3-10: #{rgba($theme-color-3, 0.1)};
+  --theme-color-4-10: #{rgba($theme-color-4, 0.1)};
+  --theme-color-5-10: #{rgba($theme-color-5, 0.1)};
+  --theme-color-6-10: #{rgba($theme-color-6, 0.1)};
+
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --muted-color: #{$muted-color};
+  --foreground-color: #{$foreground-color};
+  --separator-color: #{$separator-color};
+
+  --gradient-color-1 : #{$gradient-color-1};
+  --gradient-color-2 : #{$gradient-color-2};
+  --gradient-color-3 : #{$gradient-color-3};
+
+  --lp-bg-color-1 : #{$lp-bg-color-1};
+  --lp-bg-color-2 : #{$lp-bg-color-2};
+  --lp-bg-color-3 : #{$lp-bg-color-3};
+  --lp-bg-color-4 : #{$lp-bg-color-4};
+}
+.dark {
+  --primary-color: #{$primary-color-dark};
+  --background-color: #{$primary-color-dark};
 }
 
 body {
@@ -114,7 +198,7 @@ body {
   font-weight: 400;
   color: var(--primary-color);
   background: var(--background-color);
-  //transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+
   &.background {
     height: 100%;
 
@@ -162,15 +246,15 @@ body {
 }
 
 ::selection {
-  background: lightness(var(--theme-color-3), 0.2);
+  background: lighten(var(--theme-color-3), 20%);
 }
 
 ::-moz-selection {
-  background: lightness(var(--theme-color-3), 20%);
+  background: lighten(var(--theme-color-3), 20%);
 }
 
 .ps__thumb-y {
-  background-color: var(--separator-color);
+  background-color: $separator-color;
 }
 
 .logo-single {
@@ -336,9 +420,6 @@ button {
   margin-bottom: 2rem !important;
 }
 
-.separator.mb-5 {
-  //transition: background 500ms ease-in-out ;
-}
 .separator.mb-5,
 .separator-tabs.mb-5 {
   @include respond-below(md) {
@@ -353,11 +434,11 @@ button {
 }
 
 .main-heading {
-  border-bottom: 1px solid var(--separator-color);
+  border-bottom: 1px solid $separator-color;
 }
 
 .separator {
-  border-bottom: 1px solid var(--separator-color);
+  border-bottom: 1px solid $separator-color;
 }
 
 .alert-dismissible .close {
@@ -718,8 +799,8 @@ button {
 
   &:hover {
     color: var(--button-text-color);
-    background-color: darkness(var(--theme-color-1), 8%);
-    border-color: darkness(var(--theme-color-1), 8%);
+    background-color: darken(var(--theme-color-1), 8%);
+    border-color: darken(var(--theme-color-1), 8%);
   }
 }
 
@@ -756,7 +837,7 @@ button {
 .dropdown-menu {
   font-size: 0.8rem;
   border-radius: $border-radius;
-  background: var(--input-background);
+  background: $input-background;
   border-color: rgba(var(--primary-color), 0.15);
 }
 
@@ -767,7 +848,7 @@ button {
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-  background-color: var(--background-color);
+  background-color: $background-color;
   color: var(--primary-color);
 }
 
@@ -779,14 +860,14 @@ button {
 }
 
 .dropdown-divider {
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-  background-color: darkness(var(--theme-color-1), 12%);
-  border-color: darkness(var(--theme-color-1), 12%);
+  background-color: darken(var(--theme-color-1), 12%);
+  border-color: darken(var(--theme-color-1), 12%);
   color: var(--button-text-color);
 }
 
@@ -797,45 +878,45 @@ button {
 
   &:hover {
     color: var(--button-text-color);
-    background-color: darkness(var(--theme-color-2), 8%);
-    border-color: darkness(var(--theme-color-2), 8%);
+    background-color: darken(var(--theme-color-2), 8%);
+    border-color: darken(var(--theme-color-2), 8%);
   }
 }
 
 .btn-secondary:not(:disabled):not(.disabled):active,
 .btn-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-secondary.dropdown-toggle {
-  background-color: darkness(var(--theme-color-2), 12%);
-  border-color: darkness(var(--theme-color-2), 12%);
+  background-color: darken(var(--theme-color-2), 12%);
+  border-color: darken(var(--theme-color-2), 12%);
   color: var(--button-text-color);
 }
 
 .btn-primary.btn-primary-gradient {
-  background: linear-gradient(to right, var(--theme-color-1), darkness(var(--theme-color-1), 15%));
+  background: linear-gradient(to right, var(--theme-color-1), darken(var(--theme-color-1), 15%));
 
   &:hover {
-    background: linear-gradient(to right, var(--theme-color-1), darkness(var(--theme-color-1), 8%));
+    background: linear-gradient(to right, var(--theme-color-1), darken(var(--theme-color-1), 8%));
   }
 }
 
 .btn-primary-gradient:not(:disabled):not(.disabled):active,
 .btn-primary-gradient:not(:disabled):not(.disabled).active,
 .show > .btn-primary-gradient.dropdown-toggle {
-  background: linear-gradient(to right, var(--theme-color-1), darkness(var(--theme-color-1), 15%));
+  background: linear-gradient(to right, var(--theme-color-1), darken(var(--theme-color-1), 15%));
 }
 
 .btn-secondary-gradient {
-  background: linear-gradient(to right, var(--theme-color-2), darkness(var(--theme-color-2), 15%));
+  background: linear-gradient(to right, var(--theme-color-2), darken(var(--theme-color-2), 15%));
 
   &:hover {
-    background: linear-gradient(to right, var(--theme-color-2), darkness(var(--theme-color-2), 8%));
+    background: linear-gradient(to right, var(--theme-color-2), darken(var(--theme-color-2), 8%));
   }
 }
 
 .btn-secondary-gradient:not(:disabled):not(.disabled):active,
 .btn-secondary-gradient:not(:disabled):not(.disabled).active,
 .show > .btn-secondary-gradient.dropdown-toggle {
-  background: linear-gradient(to right, var(--theme-color-2), darkness(var(--theme-color-2), 15%));
+  background: linear-gradient(to right, var(--theme-color-2), darken(var(--theme-color-2), 15%));
 }
 
 .btn-warning {
@@ -859,7 +940,7 @@ button {
 .btn-outline-danger,
 .btn-outline-warning {
   &:hover {
-    color: var(--foreground-color);
+    color: $foreground-color;
   }
 }
 
@@ -870,8 +951,8 @@ button {
 
   &:hover {
     color: var(--dark-btn-background);
-    background-color: darkness(var(--light-btn-background), 8%);
-    border-color: darkness(var(--light-btn-background), 8%);
+    background-color: darken(var(--light-btn-background), 8%);
+    border-color: darken(var(--light-btn-background), 8%);
   }
 }
 
@@ -882,8 +963,8 @@ button {
 
   &:hover {
     color: var(--light-btn-background);
-    background-color: darkness(var(--dark-btn-background), 5%);
-    border-color: darkness(var(--dark-btn-background), 5%);
+    background-color: darken(var(--dark-btn-background), 5%);
+    border-color: darken(var(--dark-btn-background), 5%);
   }
 }
 
@@ -892,7 +973,7 @@ button {
   border-color: var(--dark-btn-background);
 
   &:hover {
-    color: var(--foreground-color);
+    color: $foreground-color;
     background-color: var(--dark-btn-background);
     border-color: var(--dark-btn-background);
   }
@@ -914,7 +995,7 @@ button {
   border-color: var(--light-btn-background);
 
   &:hover {
-    color: var(--foreground-color);
+    color: $foreground-color;
     background-color: var(--light-btn-background);
     border-color: var(--light-btn-background);
   }
@@ -925,7 +1006,7 @@ button {
   border-color: var(--theme-color-1);
 
   &:hover {
-    color: var(--foreground-color);
+    color: $foreground-color;
     background-color: var(--theme-color-1);
     border-color: var(--theme-color-1);
   }
@@ -939,7 +1020,7 @@ button {
   &:hover {
     background-color: var(--theme-color-3);
     border-color: var(--theme-color-3);
-    color: var(--foreground-color);
+    color: $foreground-color;
   }
 }
 
@@ -948,7 +1029,7 @@ button {
 .show > .btn-outline-primary.dropdown-toggle {
   background-color: var(--theme-color-1);
   border-color: var(--theme-color-1);
-  color: var(--foreground-color);
+  color: $foreground-color;
 }
 
 .btn-outline-secondary {
@@ -958,7 +1039,7 @@ button {
   &:hover {
     background-color: var(--theme-color-2);
     border-color: var(--theme-color-2);
-    color: var(--foreground-color);
+    color: $foreground-color;
   }
 }
 
@@ -967,17 +1048,17 @@ button {
 .show > .btn-outline-secondary.dropdown-toggle {
   background-color: var(--theme-color-2);
   border-color: var(--theme-color-2);
-  color: var(--foreground-color);
+  color: $foreground-color;
 }
 
 .btn-header-light {
-  color: var(--separator-color);
+  color: $separator-color;
   border-color: transparent;
   background: transparent;
 
   &:hover {
     background-color: transparent;
-    border-color: var(--separator-color);
+    border-color: $separator-color;
   }
 }
 
@@ -1048,14 +1129,14 @@ button {
 .btn-primary:disabled {
   background-color: var(--theme-color-1);
   border-color: var(--theme-color-1);
-  color: var(--foreground-color);
+  color: $foreground-color;
 }
 
 .btn-secondary.disabled,
 .btn-secondary:disabled {
   background-color: var(--theme-color-2);
   border-color: var(--theme-color-2);
-  color: var(--foreground-color);
+  color: $foreground-color;
 }
 
 .btn-group > .btn:not(:last-child):not(.dropdown-toggle),
@@ -1153,13 +1234,13 @@ button {
 
   &.btn-primary:disabled {
     opacity: 1;
-    background: darkness(var(--theme-color-1), 10%);
-    border-color: darkness(var(--theme-color-1), 10%);
+    background: darken(var(--theme-color-1), 10%);
+    border-color: darken(var(--theme-color-1), 10%);
   }
 
   &.btn-secondary:disabled {
     opacity: 1;
-    border-color: darkness(var(--theme-color-2), 10%);
+    border-color: darken(var(--theme-color-2), 10%);
   }
 }
 
@@ -1274,23 +1355,23 @@ button {
 
 /* 04.Borders */
 .border {
-  border: 1px solid var(--separator-color-light) !important;
+  border: 1px solid $separator-color-light !important;
 }
 
 .border-right {
-  border-right: 1px solid var(--separator-color-light) !important;
+  border-right: 1px solid $separator-color-light !important;
 }
 
 .border-left {
-  border-left: 1px solid var(--separator-color-light) !important;
+  border-left: 1px solid $separator-color-light !important;
 }
 
 .border-top {
-  border-top: 1px solid var(--separator-color-light) !important;
+  border-top: 1px solid $separator-color-light !important;
 }
 
 .border-bottom {
-  border-bottom: 1px solid var(--separator-color-light) !important;
+  border-bottom: 1px solid $separator-color-light !important;
 }
 
 .border-primary,
@@ -1495,7 +1576,7 @@ button {
 
 /* 07.Tabs */
 .nav-tabs.separator-tabs {
-  border-bottom: 1px solid var(--separator-color);
+  border-bottom: 1px solid $separator-color;
 }
 
 .nav-tabs .nav-link {
@@ -1512,7 +1593,7 @@ button {
 .nav-tabs .nav-item.show .nav-link::before {
   content: " ";
   background: var(--theme-color-1);
-  color: var(--foreground-color);
+  color: $foreground-color;
   border-radius: 10px;
   position: absolute;
   width: calc(100% - 1rem);
@@ -1655,7 +1736,7 @@ button {
   width: 6px;
   height: 6px;
   border-radius: 10px;
-  background: var(--separator-color);
+  background: $separator-color;
   outline: initial !important;
   border: initial;
   margin: 0 5px;
@@ -1668,8 +1749,7 @@ button {
 
 /* 10.Navbar*/
 .navbar {
-  //transition: background 500ms ease-in-out, color 1000ms ease-in-out; 
-  background: var(--foreground-color);
+  background: $foreground-color;
   height: $navbar-height;
   padding: 0.7rem 0 0.7rem 0;
   @include depth(1);
@@ -1698,7 +1778,7 @@ button {
     display: inline-block;
     text-align: center;
     margin-bottom: 1.7rem;
-    color: lightness(var(--primary-color), 20%);
+    color: lighten(var(--primary-color), 20%);
 
     i {
       font-size: 32px;
@@ -1795,11 +1875,10 @@ button {
   }
 
   .search {
-    //transition: background 500ms ease-in-out, color 1000ms ease-in-out; 
     position: relative;
     width: $sub-menu-width;
     border-radius: 20px;
-    background: var(--background-color);
+    background: $background-color;
 
     input {
       border: initial;
@@ -1815,7 +1894,7 @@ button {
     .search-icon {
       font-size: 17px;
       border-radius: 10px;
-      color: var(--separator-color);
+      color: $separator-color;
       position: absolute;
       width: 40px;
       height: 40px;
@@ -1842,7 +1921,7 @@ button {
       height: 30px;
       background: initial;
       margin-left: 0.6rem;
-      color: lightness(var(--primary-color), 30%);
+      color: lighten(var(--primary-color), 30%);
 
       input {
         display: none;
@@ -1862,7 +1941,7 @@ button {
         width: 100%;
         position: fixed;
         z-index: 2;
-        background: var(--foreground-color);
+        background: $foreground-color;
         left: 0;
         top: 0;
         height: $navbar-height-xs;
@@ -1935,7 +2014,7 @@ button {
   }
 
   .user {
-    color: lightness(var(--primary-color), 30%);
+    color: lighten(var(--primary-color), 30%);
     position: relative;
 
     img {
@@ -1945,7 +2024,7 @@ button {
     }
 
     .name {
-      color: lightness(var(--primary-color), 30%);
+      color: lighten(var(--primary-color), 30%);
     }
 
     @include respond-below(md) {
@@ -2023,6 +2102,7 @@ button {
 }
 
 /* 11.Menu*/
+
 .menu {
   position: fixed;
   top: 0;
@@ -2035,7 +2115,7 @@ button {
   .main-menu {
     width: $main-menu-width;
     height: calc(100% - #{$navbar-height});
-    background: var(--foreground-color);
+    background: $foreground-color;
     z-index: 3;
     position: fixed;
     padding-top: 10px;
@@ -2052,7 +2132,6 @@ button {
     }
 
     &.default-transition {
-      //transition: background 500ms ease-in-out !important;
       transition: transform $menu-collapse-time, border-radius $menu-collapse-time;
     }
 
@@ -2076,7 +2155,7 @@ button {
           font-size: 13px;
           font-style: normal;
           font-weight: 400;
-          border-bottom: 1px solid var(--separator-color-light);
+          border-bottom: 1px solid $separator-color-light;
           color: var(--primary-color);
           transition: color $menu-collapse-time;
           transition: background $menu-collapse-time;
@@ -2099,7 +2178,7 @@ button {
         &.active:after {
           content: " ";
           background: var(--theme-color-1);
-          color: var(--foreground-color);
+          color: $foreground-color;
           border-radius: 10px;
           position: absolute;
           width: 6px;
@@ -2148,11 +2227,11 @@ button {
 
   .sub-menu {
     width: $sub-menu-width;
-    background: var(--foreground-color);
+    background: $foreground-color;
     z-index: 2;
     position: fixed;
     left: $main-menu-width;
-    border-left: 1px solid var(--separator-color-light);
+    border-left: 1px solid $separator-color-light;
     height: calc(100% - #{$navbar-height});
     padding-top: 10px;
     padding-bottom: 10px;
@@ -2420,7 +2499,7 @@ button {
   width: $app-menu-width;
   height: 100%;
   float: right;
-  background: var(--foreground-color);
+  background: $foreground-color;
   transition: transform $menu-collapse-time;
   position: fixed;
   right: 0;
@@ -2457,7 +2536,7 @@ button {
   .app-menu-button {
     position: absolute;
     left: -28px;
-    background: var(--foreground-color);
+    background: $foreground-color;
     top: $main-margin - 15;
     padding: 12px 8px 12px 5px;
     border-radius: 0.2rem;
@@ -2583,7 +2662,7 @@ button {
 .chat-input-container {
   width: 100%;
   height: 90px;
-  background: var(--input-background);
+  background: $input-background;
   position: fixed;
   left: 0;
   right: 0;
@@ -2896,9 +2975,8 @@ main {
 
 /* 17.Cards*/
 .card {
-  //transition: background 500ms ease-in-out, color 1000ms ease-in-out;
   border: initial;
-  background: var(--foreground-color);
+  background: $foreground-color;
 
   .card-header .card-icon {
     right: 5px;
@@ -2906,7 +2984,7 @@ main {
 
     i {
       font-size: 12px;
-      color: var(--separator-color);
+      color: $separator-color;
     }
   }
 
@@ -3231,7 +3309,7 @@ main {
   background: url("../img/plane.jpg");
   background-size: contain;
   background-repeat: no-repeat;
-  background-color: var(--foreground-color);
+  background-color: $foreground-color;
 
   .card-body {
     padding: 120px 50px 30px 50px;
@@ -3246,7 +3324,7 @@ main {
     border-radius: $border-radius;
     box-shadow: 0px -10px 15px 0px rgba(0, 0, 0, 0.04);
     padding: 2rem;
-    background-color: var(--foreground-color);
+    background-color: $foreground-color;
   }
 }
 
@@ -3455,7 +3533,7 @@ main {
 .fc table,
 .fc .table-bordered th,
 .fc .table-bordered td {
-  border-color: var(--separator-color-light) !important;
+  border-color: $separator-color-light !important;
 }
 
 .fc-day-header {
@@ -3474,7 +3552,7 @@ main {
 .fc-event,
 .fc-event-dot {
   background-color: var(--theme-color-2);
-  color: var(--foreground-color) !important;
+  color: $foreground-color !important;
   padding: 1px 6px;
   border-radius: 10px;
   cursor: pointer;
@@ -3489,7 +3567,7 @@ main {
 table.dataTable td {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--separator-color-light);
+  border-bottom: 1px solid $separator-color-light;
   outline: initial !important;
 }
 
@@ -3594,7 +3672,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
     }
 
     td {
-      background: var(--foreground-color);
+      background: $foreground-color;
     }
 
     th.empty {
@@ -3633,72 +3711,72 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
   display: none;
 }
 
-// /* 21.Alerts */
-// .alert {
-//   border-radius: 0;
-// }
+/* 21.Alerts */
+.alert {
+  border-radius: 0;
+}
 
-// .alert-primary {
-//   color: var(--theme-color-1);
-//   background-color: mix(var(--theme-color-1), var(--background-color), 20%);
-//   border-color: rgba(var(--theme-color-1), 0.1);
-// }
+.alert-primary {
+  color: var(--theme-color-1);
+  background-color: mix(var(--theme-color-1), $background-color, 20%);
+  border-color: rgba(var(--theme-color-1), 0.1);
+}
 
-// .alert-secondary {
-//   color: var(--theme-color-2);
-//   background-color: mix(var(--theme-color-2), var(--background-color), 20%);
-//   border-color: rgba(var(--theme-color-2), 0.1);
-// }
+.alert-secondary {
+  color: var(--theme-color-2);
+  background-color: mix(var(--theme-color-2), $background-color, 20%);
+  border-color: rgba(var(--theme-color-2), 0.1);
+}
 
-// .alert-success {
-//   color: $success-color;
-//   background-color: mix($success-color, var(--background-color), 20%);
-//   border-color: rgba($success-color, 0.1);
-// }
+.alert-success {
+  color: $success-color;
+  background-color: mix($success-color, $background-color, 20%);
+  border-color: rgba($success-color, 0.1);
+}
 
-// .alert-info {
-//   color: $info-color;
-//   background-color: mix($info-color, var(--background-color), 20%);
-//   border-color: rgba($info-color, 0.1);
-// }
+.alert-info {
+  color: $info-color;
+  background-color: mix($info-color, $background-color, 20%);
+  border-color: rgba($info-color, 0.1);
+}
 
-// .alert-warning {
-//   color: $warning-color;
-//   background-color: mix($warning-color, var(--background-color), 20%);
-//   border-color: rgba($warning-color, 0.1);
-// }
+.alert-warning {
+  color: $warning-color;
+  background-color: mix($warning-color, $background-color, 20%);
+  border-color: rgba($warning-color, 0.1);
+}
 
-// .alert-danger {
-//   color: $error-color;
-//   background-color: mix($error-color, var(--background-color), 20%);
-//   border-color: rgba($error-color, 0.1);
-// }
+.alert-danger {
+  color: $error-color;
+  background-color: mix($error-color, $background-color, 20%);
+  border-color: rgba($error-color, 0.1);
+}
 
-// .alert-light {
-//   color: var(--light-btn-background);
-//   background-color: mix(var(--light-btn-background), var(--background-color), 20%);
-//   border-color: rgba(var(--light-btn-background), 0.1);
-// }
+.alert-light {
+  color: var(--light-btn-background);
+  background-color: mix(var(--light-btn-background), $background-color, 20%);
+  border-color: rgba(var(--light-btn-background), 0.1);
+}
 
-// .alert-dark {
-//   color: var(--dark-btn-background);
-//   background-color: mix(var(--dark-btn-background), var(--background-color), 20%);
-//   border-color: rgba(var(--dark-btn-background), 0.1);
-// }
+.alert-dark {
+  color: var(--dark-btn-background);
+  background-color: mix(var(--dark-btn-background), $background-color, 20%);
+  border-color: rgba(var(--dark-btn-background), 0.1);
+}
 
-// .alert-dismissible .close,
-// button.close {
-//   text-shadow: initial;
-// }
+.alert-dismissible .close,
+button.close {
+  text-shadow: initial;
+}
 
-// .alert *[data-notify="title"] {
-//   display: block;
-//   font-size: 0.9rem;
-// }
+.alert *[data-notify="title"] {
+  display: block;
+  font-size: 0.9rem;
+}
 
-// div[data-notify="container"] {
-//   padding: 18px;
-// }
+div[data-notify="container"] {
+  padding: 18px;
+}
 
 /* 22.Forms */
 .form-check-label,
@@ -3715,10 +3793,10 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
   font-size: 0.8rem;
   padding: 0.5rem 0.75rem;
   line-height: 1;
-  border: 1px solid var(--separator-color);
-  background: var(--input-background);
+  border: 1px solid $separator-color;
+  background: $input-background;
   color: var(--primary-color);
-  border-color: var(--separator-color);
+  border-color: $separator-color;
   height: calc(2em + 0.8rem);
 }
 
@@ -3766,7 +3844,7 @@ input:-webkit-autofill {
 .has-float-label label::after,
 .has-float-label > span::after,
 .has-float-label > span::after {
-  background: var(--input-background);
+  background: $input-background;
 }
 
 .has-float-label > div.error::after {
@@ -3774,7 +3852,7 @@ input:-webkit-autofill {
 }
 
 .form-control:focus {
-  background: var(--input-background);
+  background: $input-background;
   color: var(--primary-color);
 }
 
@@ -3930,7 +4008,7 @@ div.error {
   padding: 0.5rem 1rem;
   font-size: 0.76rem;
   color: var(--primary-color);
-  background: var(--foreground-color);
+  background: $foreground-color;
   border: 1px solid var(--theme-color-1);
   text-align: center;
   width: unset !important;
@@ -3963,7 +4041,7 @@ div.error {
     margin-left: 50%;
     width: 10px;
     height: 5px;
-    border-bottom: solid 5px var(--foreground-color);
+    border-bottom: solid 5px $foreground-color;
     border-left: solid 5px transparent;
     border-right: solid 5px transparent;
   }
@@ -4029,7 +4107,7 @@ div.error {
     position: absolute;
     top: initial;
     bottom: -4px;
-    border-top: solid 5px var(--foreground-color);
+    border-top: solid 5px $foreground-color;
     border-bottom: initial;
   }
 }
@@ -4060,7 +4138,7 @@ div.error {
     position: absolute;
     top: initial;
     bottom: -4px;
-    border-top: solid 5px var(--foreground-color);
+    border-top: solid 5px $foreground-color;
     border-bottom: initial;
     left: initial;
     right: 25px;
@@ -4094,7 +4172,7 @@ div.error {
     position: absolute;
     top: initial;
     bottom: -4px;
-    border-top: solid 5px var(--foreground-color);
+    border-top: solid 5px $foreground-color;
     border-bottom: initial;
     left: 25px;
     right: initial;
@@ -4135,7 +4213,7 @@ div.error {
     border: initial;
     border-top: solid 5px transparent;
     border-bottom: solid 5px transparent;
-    border-right: solid 5px var(--foreground-color);
+    border-right: solid 5px $foreground-color;
     bottom: initial;
     top: 12px;
     width: 5px;
@@ -4311,7 +4389,7 @@ div.error {
   margin-top: 0;
   font-size: 0.76rem;
   line-height: 1;
-  color: var(--foreground-color);
+  color: $foreground-color;
   border-radius: 0.2rem;
   right: 4px;
   color: $success-color;
@@ -4327,7 +4405,7 @@ div.error {
   margin-top: 0;
   font-size: 0.875rem;
   line-height: 1;
-  color: var(--foreground-color);
+  color: $foreground-color;
   border-radius: 0.2rem;
   right: 4px;
   color: $error-color;
@@ -4337,14 +4415,14 @@ div.error {
 .form-control.is-invalid,
 .was-validated .custom-select:invalid,
 .custom-select.is-invalid {
-  border-color: var(--separator-color) !important;
+  border-color: $separator-color !important;
 }
 
 .was-validated .form-control:valid,
 .form-control.is-valid,
 .was-validated .custom-select:valid,
 .custom-select.is-valid {
-  border-color: var(--separator-color) !important;
+  border-color: $separator-color !important;
 }
 
 .was-validated .form-control:valid:focus,
@@ -4396,11 +4474,11 @@ div.error {
 
 .select2-dropdown,
 .select2-container--bootstrap .select2-selection.form-control {
-  background: var(--input-background);
+  background: $input-background;
 }
 
 .select2-container--bootstrap .select2-results__option[aria-selected="true"] {
-  background: var(--input-background);
+  background: $input-background;
   color: var(--primary-color);
 }
 
@@ -4410,8 +4488,8 @@ div.error {
 }
 
 .input-group-text {
-  background-color: rgba(var(--input-background), 0.1);
-  border-color: var(--separator-color);
+  background-color: rgba($input-background, 0.1);
+  border-color: $separator-color;
   color: var(--primary-color);
   font-size: 0.8rem;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
@@ -4419,7 +4497,7 @@ div.error {
 }
 
 .select2-container--bootstrap .select2-selection {
-  border: 1px solid var(--separator-color);
+  border: 1px solid $separator-color;
 }
 
 .select2-container--bootstrap .select2-selection--multiple {
@@ -4458,21 +4536,21 @@ div.error {
   border-radius: $border-radius !important;
   border: 1px solid var(--secondary-color);
   outline: initial;
-  background: var(--input-background);
+  background: $input-background;
   color: var(--primary-color);
 }
 
 .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
   outline: initial;
-  background: var(--input-background);
+  background: $input-background;
   color: var(--primary-color);
 }
 
 .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
   border-radius: $border-radius;
-  background: var(--foreground-color);
+  background: $foreground-color;
   color: var(--primary-color);
-  border-color: var(--separator-color);
+  border-color: $separator-color;
   margin: 0 0 0 8px;
 }
 
@@ -4545,16 +4623,16 @@ div.error {
 }
 
 .datepicker-dropdown.datepicker-orient-top:after {
-  border-top-color: var(--input-background);
+  border-top-color: $input-background;
 }
 
 .datepicker-dropdown.datepicker-orient-bottom:after {
-  border-bottom-color: var(--input-background);
+  border-bottom-color: $input-background;
 }
 
 .datepicker table tr td.day:hover,
 .datepicker table tr td.focused {
-  background: var(--separator-color);
+  background: $separator-color;
 }
 
 .datepicker table tr td,
@@ -4568,7 +4646,7 @@ div.error {
 .datepicker table tr td.active.highlighted.active,
 .datepicker table tr td.active.highlighted:active,
 .datepicker table tr td.active:active {
-  color: var(--foreground-color);
+  color: $foreground-color;
   background-color: var(--theme-color-1);
   border-color: var(--theme-color-1);
 }
@@ -4585,9 +4663,9 @@ div.error {
 .datepicker table tr td.active:active.focus,
 .datepicker table tr td.active:active:focus,
 .datepicker table tr td.active:active:hover {
-  color: var(--foreground-color);
-  background-color: darkness(var(--theme-color-1), 10%);
-  border-color: darkness(var(--theme-color-1), 10%);
+  color: $foreground-color;
+  background-color: darken(var(--theme-color-1), 10%);
+  border-color: darken(var(--theme-color-1), 10%);
 }
 
 .datepicker table tr td span.active.active,
@@ -4598,8 +4676,8 @@ div.error {
 .datepicker table tr td span.active:active,
 .datepicker table tr td span.active:hover.active,
 .datepicker table tr td span.active:hover:active {
-  background-color: darkness(var(--theme-color-1), 10%);
-  border-color: darkness(var(--theme-color-1), 10%);
+  background-color: darken(var(--theme-color-1), 10%);
+  border-color: darken(var(--theme-color-1), 10%);
 }
 
 .datepicker.datepicker-inline,
@@ -4609,20 +4687,20 @@ div.error {
 
 .datepicker table tr td span.focused,
 .datepicker table tr td span:hover {
-  background: var(--separator-color);
+  background: $separator-color;
 }
 
 .datepicker .datepicker-switch:hover,
 .datepicker .next:hover,
 .datepicker .prev:hover,
 .datepicker tfoot tr th:hover {
-  background: var(--separator-color);
+  background: $separator-color;
 }
 
 .dropzone {
   min-height: 115px !important;
-  border: 1px solid var(--separator-color) !important;
-  background: var(--input-background) !important;
+  border: 1px solid $separator-color !important;
+  background: $input-background !important;
   padding: 10px 10px !important;
   border-radius: $border-radius !important;
   color: var(--primary-color) !important;
@@ -4652,9 +4730,9 @@ div.error {
   width: 260px;
   height: 60px;
   min-height: unset;
-  border: 1px solid var(--separator-color) !important;
+  border: 1px solid $separator-color !important;
   border-radius: $border-radius !important;
-  background: var(--foreground-color) !important;
+  background: $foreground-color !important;
   color: var(--primary-color) !important;
 
   .preview-container {
@@ -4710,8 +4788,8 @@ div.error {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath style='fill:"+encodecolor(
           var(--theme-color-1)
         )+";' d='M4.1,23.9A13.51,13.51,0,0,1,0,14,13.52,13.52,0,0,1,4.1,4.1,13.52,13.52,0,0,1,14,0a13.52,13.52,0,0,1,9.9,4.1A13.52,13.52,0,0,1,28,14a13.51,13.51,0,0,1-4.1,9.9A13.52,13.52,0,0,1,14,28,13.52,13.52,0,0,1,4.1,23.9Z'/%3E%3Cpath style='fill:"+encodecolor(
-          var(--foreground-color)
-        )+";' d='M13.13,19.35V6.17a.88.88,0,1,1,1.75,0V19.35Z'/%3E%3Crect style='fill:"+encodecolor(var(--foreground-color))+";' x='13.13' y='21.07' width='1.75' height='1.64'/%3E%3C/svg%3E");
+          $foreground-color
+        )+";' d='M13.13,19.35V6.17a.88.88,0,1,1,1.75,0V19.35Z'/%3E%3Crect style='fill:"+encodecolor($foreground-color)+";' x='13.13' y='21.07' width='1.75' height='1.64'/%3E%3C/svg%3E");
       width: 28px;
       height: 28px;
     }
@@ -4729,7 +4807,7 @@ div.error {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath style='fill:"+encodecolor(
           var(--theme-color-1)
         )+";' d='M4.1,23.9A13.51,13.51,0,0,1,0,14,13.52,13.52,0,0,1,4.1,4.1,13.52,13.52,0,0,1,14,0a13.52,13.52,0,0,1,9.9,4.1A13.52,13.52,0,0,1,28,14a13.51,13.51,0,0,1-4.1,9.9A13.52,13.52,0,0,1,14,28,13.52,13.52,0,0,1,4.1,23.9Z'/%3E%3Cpath style='fill:"+encodecolor(
-          var(--foreground-color)
+          $foreground-color
         )+";' d='M20.14,8.81A.77.77,0,0,1,21.2,9a.81.81,0,0,1,.25.61.83.83,0,0,1-.25.62L12.48,19l-.11.1a.82.82,0,0,1-1.23,0L6.79,14.74l-.11-.16a.49.49,0,0,1-.08-.18,1.06,1.06,0,0,1,0-.19.61.61,0,0,1,0-.19,1.16,1.16,0,0,1,0-.18,1.26,1.26,0,0,1,.08-.18,1,1,0,0,1,.11-.15.87.87,0,0,1,1.26,0l3.69,3.7L19.94,9A.72.72,0,0,1,20.14,8.81Z'/%3E%3C/svg%3E");
       width: 28px;
       height: 28px;
@@ -4883,7 +4961,7 @@ select.form-control {
 }
 
 .custom-switch .custom-switch-input + .custom-switch-btn {
-  background: var(--separator-color);
+  background: $separator-color;
 }
 
 .custom-switch.custom-switch-primary .custom-switch-input:checked + .custom-switch-btn {
@@ -4897,11 +4975,11 @@ select.form-control {
 }
 
 .custom-switch.custom-switch-primary-inverse .custom-switch-input + .custom-switch-btn {
-  border: 1px solid var(--separator-color);
+  border: 1px solid $separator-color;
 }
 
 .custom-switch.custom-switch-primary-inverse .custom-switch-input:checked + .custom-switch-btn {
-  background: var(--input-background);
+  background: $input-background;
   border: 1px solid var(--theme-color-1);
 }
 
@@ -4910,11 +4988,11 @@ select.form-control {
 }
 
 .custom-switch.custom-switch-secondary-inverse .custom-switch-input + .custom-switch-btn {
-  border: 1px solid var(--separator-color);
+  border: 1px solid $separator-color;
 }
 
 .custom-switch.custom-switch-secondary-inverse .custom-switch-input:checked + .custom-switch-btn {
-  background: var(--input-background);
+  background: $input-background;
   border: 1px solid var(--theme-color-2);
 }
 
@@ -4927,23 +5005,23 @@ select.form-control {
 }
 
 .custom-switch .custom-switch-input + .custom-switch-btn:after {
-  background: var(--input-background);
+  background: $input-background;
 }
 
 .custom-switch .custom-switch-input + .custom-switch-btn {
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .noUi-target {
-  background: var(--input-background);
-  border-color: var(--separator-color);
+  background: $input-background;
+  border-color: $separator-color;
   box-shadow: initial;
 }
 
 .noUi-tooltip {
-  background: var(--input-background);
+  background: $input-background;
   color: var(--primary-color);
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .form-control-sm,
@@ -4991,8 +5069,8 @@ select.form-control {
   border-radius: $border-radius;
   height: calc(2em + 0.8rem);
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-  background: var(--foreground-color);
-  border-color: var(--separator-color);
+  background: $foreground-color;
+  border-color: $separator-color;
 }
 
 .custom-file {
@@ -5018,7 +5096,6 @@ select.form-control {
 .input-group > .custom-select:not(:last-child),
 .input-group > .form-control:not(:first-child),
 .input-group > .form-control:not(:last-child) {
-  //transition: background 500ms ease-in-out, color 1000ms ease-in-out; 
   outline: initial !important;
   box-shadow: initial !important;
 }
@@ -5027,22 +5104,22 @@ select.form-control {
   height: calc(2em + 0.8rem);
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
   color: var(--primary-color);
-  border-color: var(--separator-color);
+  border-color: $separator-color;
   background: transparent;
 }
 
 .input-group > .custom-select:not(:first-child),
 .input-group > .form-control:not(:first-child) {
-  background: var(--foreground-color);
+  background: $foreground-color;
   color: var(--primary-color);
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .input-group > .form-control:not(:last-child),
 .input-group > .custom-select:not(:last-child) {
-  background: var(--foreground-color);
+  background: $foreground-color;
   color: var(--primary-color);
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .jumbotron {
@@ -5104,7 +5181,7 @@ select.form-control {
   & > ul.step-anchor > li > a,
   & > ul.step-anchor > li > a:hover,
   & > ul.step-anchor > li > a:focus {
-    color: var(--separator-color);
+    color: $separator-color;
   }
 
   .step-content {
@@ -5119,7 +5196,7 @@ select.form-control {
   &.sw-theme-check > ul.step-anchor > li > a:before {
     left: 50%;
     transform: translateX(-50%);
-    background: var(--separator-color-light);
+    background: $separator-color-light;
     bottom: 5px;
     width: 24px;
     height: 24px;
@@ -5132,7 +5209,7 @@ select.form-control {
     width: 12px;
     height: 12px;
     bottom: 3px;
-    background: var(--foreground-color);
+    background: $foreground-color;
   }
 
   &.sw-theme-dots > ul.step-anchor > li.done > a:after,
@@ -5147,7 +5224,7 @@ select.form-control {
 
   &.sw-theme-dots > ul.step-anchor:before,
   &.sw-theme-check > ul.step-anchor:before {
-    background: var(--separator-color-light);
+    background: $separator-color-light;
     height: 1px;
     width: calc(100% - 3rem);
     left: 50%;
@@ -5222,8 +5299,8 @@ select.form-control {
   height: 20px;
   border-radius: 20px;
   top: -7px;
-  border-color: var(--separator-color);
-  background: var(--foreground-color);
+  border-color: $separator-color;
+  background: $foreground-color;
 }
 
 .noUi-horizontal .noUi-tooltip {
@@ -5236,7 +5313,7 @@ select.form-control {
 /* 25.Navs */
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-  color: var(--foreground-color);
+  color: $foreground-color;
   background-color: var(--theme-color-1);
 }
 
@@ -5300,14 +5377,14 @@ select.form-control {
 
       &:hover {
         background: var(--theme-color-1);
-        color: var(--foreground-color);
+        color: $foreground-color;
         border: 1px solid var(--theme-color-1);
       }
     }
 
     &:hover {
       background-color: transparent;
-      border-color: lightness(var(--theme-color-1), 10%);
+      border-color: lighten(var(--theme-color-1), 10%);
       color: var(--theme-color-1);
     }
   }
@@ -5319,8 +5396,8 @@ select.form-control {
   }
 
   &.disabled .page-link {
-    border-color: var(--separator-color);
-    color: var(--separator-color);
+    border-color: $separator-color;
+    color: $separator-color;
     background: transparent;
   }
 }
@@ -5385,8 +5462,8 @@ select.form-control {
 /* 26.Tooltip and popover */
 .popover {
   border-radius: $border-radius;
-  background-color: var(--foreground-color);
-  border-color: var(--separator-color);
+  background-color: $foreground-color;
+  border-color: $separator-color;
 
   .popover-body {
     color: var(--primary-color);
@@ -5418,9 +5495,9 @@ select.form-control {
 .tooltip-inner {
   padding: 0.5rem 0.75rem;
   color: var(--primary-color);
-  background-color: var(--foreground-color);
+  background-color: $foreground-color;
   border-radius: 0.1rem;
-  border: 1px solid var(--separator-color);
+  border: 1px solid $separator-color;
 }
 
 .tooltip.show {
@@ -5429,42 +5506,42 @@ select.form-control {
 
 .bs-popover-right .arrow::before,
 .bs-popover-auto[x-placement^="right"] .arrow::before {
-  border-right-color: var(--separator-color);
+  border-right-color: $separator-color;
 }
 
 .bs-popover-right .arrow::after,
 .bs-popover-auto[x-placement^="right"] .arrow::after {
-  border-right-color: var(--foreground-color);
+  border-right-color: $foreground-color;
 }
 
 .bs-popover-left .arrow::before,
 .bs-popover-auto[x-placement^="left"] .arrow::before {
-  border-left-color: var(--separator-color);
+  border-left-color: $separator-color;
 }
 
 .bs-popover-left .arrow::after,
 .bs-popover-auto[x-placement^="left"] .arrow::after {
-  border-left-color: var(--foreground-color);
+  border-left-color: $foreground-color;
 }
 
 .bs-popover-bottom .arrow::before,
 .bs-popover-auto[x-placement^="bottom"] .arrow::before {
-  border-bottom-color: var(--separator-color);
+  border-bottom-color: $separator-color;
 }
 
 .bs-popover-bottom .arrow::after,
 .bs-popover-auto[x-placement^="bottom"] .arrow::after {
-  border-bottom-color: var(--foreground-color);
+  border-bottom-color: $foreground-color;
 }
 
 .bs-popover-top .arrow::before,
 .bs-popover-auto[x-placement^="top"] .arrow::before {
-  border-top-color: var(--separator-color);
+  border-top-color: $separator-color;
 }
 
 .bs-popover-top .arrow::after,
 .bs-popover-auto[x-placement^="top"] .arrow::after {
-  border-top-color: var(--foreground-color);
+  border-top-color: $foreground-color;
 }
 
 .tooltip .arrow::before,
@@ -5486,13 +5563,13 @@ select.form-control {
 .bs-tooltip-right .arrow::before,
 .bs-tooltip-auto[x-placement^="right"] .arrow::before {
   left: 0;
-  border-right-color: var(--separator-color);
+  border-right-color: $separator-color;
 }
 
 .bs-tooltip-right .arrow::after,
 .bs-tooltip-auto[x-placement^="right"] .arrow::after {
   left: 1px;
-  border-right-color: var(--foreground-color);
+  border-right-color: $foreground-color;
 }
 
 .bs-tooltip-right .arrow::before,
@@ -5505,7 +5582,7 @@ select.form-control {
 .bs-tooltip-top .arrow::before,
 .bs-tooltip-auto[x-placement^="top"] .arrow::before {
   bottom: 0;
-  border-top-color: var(--separator-color);
+  border-top-color: $separator-color;
 }
 
 .bs-tooltip-top .arrow::before,
@@ -5518,7 +5595,7 @@ select.form-control {
 .bs-tooltip-top .arrow::after,
 .bs-tooltip-auto[x-placement^="top"] .arrow::after {
   bottom: 1px;
-  border-top-color: var(--foreground-color);
+  border-top-color: $foreground-color;
 }
 
 .bs-tooltip-top .arrow::before,
@@ -5538,7 +5615,7 @@ select.form-control {
 .bs-tooltip-bottom .arrow::before,
 .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
   top: 0;
-  border-bottom-color: var(--separator-color);
+  border-bottom-color: $separator-color;
 }
 
 .bs-tooltip-bottom .arrow::before,
@@ -5551,7 +5628,7 @@ select.form-control {
 .bs-tooltip-bottom .arrow::after,
 .bs-tooltip-auto[x-placement^="bottom"] .arrow::after {
   top: 1px;
-  border-bottom-color: var(--foreground-color);
+  border-bottom-color: $foreground-color;
 }
 
 .bs-tooltip-left .arrow::before,
@@ -5564,7 +5641,7 @@ select.form-control {
 .bs-tooltip-left .arrow::before,
 .bs-tooltip-auto[x-placement^="left"] .arrow::before {
   right: 0;
-  border-left-color: var(--separator-color);
+  border-left-color: $separator-color;
 }
 
 .bs-tooltip-left .arrow::before,
@@ -5577,7 +5654,7 @@ select.form-control {
 .bs-tooltip-left .arrow::after,
 .bs-tooltip-auto[x-placement^="left"] .arrow::after {
   right: 0;
-  border-left-color: var(--foreground-color);
+  border-left-color: $foreground-color;
 }
 
 .search-sm {
@@ -5619,7 +5696,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 /* 27.Progress */
 .progress {
   height: 3px;
-  background-color: var(--separator-color-light);
+  background-color: $separator-color-light;
 }
 
 .progress-bar {
@@ -5641,7 +5718,7 @@ div.dataTables_wrapper div.dataTables_filter input {
   height: 54px;
 
   svg path:first-of-type {
-    stroke: var(--separator-color);
+    stroke: $separator-color;
   }
 
   svg path:last-of-type {
@@ -5650,8 +5727,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 
   &.progress-bar-banner {
     svg path:first-of-type {
-      stroke: var(--theme-color-1);
-      //stroke: mix(var(--theme-color-1), var(--foreground-color), 70%);
+      stroke: mix(var(--theme-color-1), $foreground-color, 70%);
     }
 
     svg path:last-of-type {
@@ -5718,7 +5794,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 /* 28.Rating */
 .br-theme-bootstrap-stars .br-widget a:after {
-  color: var(--separator-color);
+  color: $separator-color;
 }
 
 .br-theme-bootstrap-stars .br-widget a.br-active:after {
@@ -5833,11 +5909,11 @@ div.dataTables_wrapper div.dataTables_filter input {
   }
 
   .modal-header {
-    border-bottom: 1px solid var(--separator-color);
+    border-bottom: 1px solid $separator-color;
   }
 
   .modal-footer {
-    border-top: 1px solid var(--separator-color);
+    border-top: 1px solid $separator-color;
   }
 
   .close {
@@ -5848,7 +5924,7 @@ div.dataTables_wrapper div.dataTables_filter input {
   .modal-content {
     border: initial;
     border-radius: 0.1rem;
-    background: var(--foreground-color);
+    background: $foreground-color;
   }
 }
 
@@ -6096,11 +6172,11 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 .ql-toolbar.ql-snow {
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .ql-container.ql-snow {
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .html-editor-bubble {
@@ -6108,7 +6184,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 .html-editor-bubble .ql-editor {
-  border: 1px solid var(--separator-color);
+  border: 1px solid $separator-color;
 }
 
 .ql-tooltip {
@@ -6118,12 +6194,12 @@ div.dataTables_wrapper div.dataTables_filter input {
 .ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
 .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
   height: 350px;
-  background: var(--foreground-color);
+  background: $foreground-color;
 }
 
 .ck.ck-button,
 a.ck.ck-button {
-  color: var(--separator-color);
+  color: $separator-color;
 }
 
 .ck.ck-button:not(.ck-disabled):focus,
@@ -6143,23 +6219,23 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 }
 
 .ck.ck-toolbar {
-  border-color: var(--separator-color) !important;
+  border-color: $separator-color !important;
 }
 
 .ck.ck-toolbar__separator {
-  background: var(--separator-color) !important;
+  background: $separator-color !important;
 }
 
 .ck.ck-toolbar {
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .ck.ck-editor__main > .ck-editor__editable {
-  border-color: var(--separator-color) !important;
+  border-color: $separator-color !important;
 }
 
 .ck.ck-editor__main > .ck-editor__editable {
-  background: var(--foreground-color);
+  background: $foreground-color;
 }
 
 .ck.ck-content.ck-editor__editable.ck-rounded-corners {
@@ -6167,11 +6243,11 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 }
 
 .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-focused {
-  border-color: var(--separator-color);
+  border-color: $separator-color;
 }
 
 .ck.ck-toolbar {
-  background: var(--foreground-color) !important;
+  background: $foreground-color !important;
 }
 
 /* 35.Icons */
@@ -6225,7 +6301,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
   z-index: 1030;
   top: 50%;
   right: 0;
-  background: var(--foreground-color);
+  background: $foreground-color;
   @include depth(1);
   transform: translate(280px, -50%);
   padding-top: 10px;
@@ -6238,7 +6314,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
   .theme-button {
     position: absolute;
     left: -32px;
-    background: var(--foreground-color);
+    background: $foreground-color;
     padding: 13px 7px 13px 7px;
     border-radius: 0.2rem;
     color: var(--primary-color);
@@ -6258,7 +6334,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 
     &.active,
     &:hover {
-      background: var(--foreground-color);
+      background: $foreground-color;
     }
   }
 
@@ -6424,7 +6500,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
       .video-js {
         width: 100%;
         height: 100%;
-        background-color: var(--background-color);
+        background-color: $background-color;
 
         .vjs-poster {
           background-size: cover;
@@ -6506,7 +6582,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 
 .select-from-library-button,
 .selected-library-item {
-  border: 1px solid var(--separator-color);
+  border: 1px solid $separator-color;
   height: 110px;
 
   .card {
@@ -6525,7 +6601,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 
 .select-from-library {
   .modal-content {
-    background: var(--background-color) !important;
+    background: $background-color !important;
     height: 100%;
 
     .ps__thumb-y {
@@ -6614,20 +6690,20 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 .context-menu-list {
   box-shadow: initial;
   border-radius: $border-radius;
-  background: var(--input-background);
+  background: $input-background;
   border-color: rgba(var(--primary-color), 0.15);
   padding: 0.5rem 0;
 }
 
 .context-menu-item {
   padding: 0.75rem 1.5rem;
-  background: var(--input-background);
+  background: $input-background;
   color: var(--primary-color);
 
   &.context-menu-hover {
     color: var(--primary-color);
     text-decoration: none;
-    background-color: var(--background-color);
+    background-color: $background-color;
   }
 }
 
@@ -6646,7 +6722,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 
 /* 39.Videojs */
 .video-js .vjs-big-play-button {
-  background: var(--input-background);
+  background: $input-background;
   height: 1.2em;
   border-radius: 0.75em;
   line-height: 1;
@@ -6655,7 +6731,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
   transform: translate(-50%, -50%);
   font-size: 3.5em;
   width: 2.5em;
-  border: 0.06666em solid var(--input-background);
+  border: 0.06666em solid $input-background;
 
   .vjs-icon-placeholder {
     color: var(--theme-color-1);
@@ -6674,8 +6750,8 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {
-  background-color: darkness(var(--input-background), 5%);
-  border-color: darkness(var(--input-background), 5%);
+  background-color: darken($input-background, 5%);
+  border-color: darken($input-background, 5%);
 }
 
 .vjs-control {
@@ -6692,14 +6768,14 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
   .vjs-remaining-time,
   .vjs-volume-panel {
     margin-right: 0.5em;
-    background: var(--input-background);
+    background: $input-background;
     color: var(--theme-color-1);
     border-radius: 15px;
     @include depth(2);
   }
 
   .vjs-progress-control.vjs-control {
-    background: var(--input-background);
+    background: $input-background;
     border-radius: 15px;
     margin-right: 0.5em;
     @include depth(2);
@@ -6731,7 +6807,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
   .vjs-slider {
     text-shadow: initial !important;
     outline: initial !important;
-    background-color: darkness(var(--separator-color-light), 10%);
+    background-color: darken($separator-color-light, 10%);
   }
 
   .vjs-play-progress {
@@ -6793,7 +6869,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 .video-js.side-bar-video {
   width: 100%;
   height: 280px;
-  background-color: var(--background-color);
+  background-color: $background-color;
   overflow: hidden;
 
   video {
@@ -6808,7 +6884,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 .video-js.video-content {
   width: 100%;
   height: 400px;
-  background-color: var(--background-color);
+  background-color: $background-color;
   overflow: hidden;
   max-height: unset;
 
@@ -6902,15 +6978,15 @@ i.large-icon {
 
 .table th,
 .table td {
-  border-color: var(--separator-color-light) !important;
+  border-color: $separator-color-light !important;
 }
 
 .table .thead-light th {
-  background-color: var(--separator-color-light) !important;
+  background-color: $separator-color-light !important;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: var(--separator-color-light) !important;
+  background-color: $separator-color-light !important;
 }
 
 .feature-row {
@@ -6972,7 +7048,7 @@ i.large-icon {
 
 .social-profile-img {
   height: auto;
-  border: 3px solid var(--foreground-color);
+  border: 3px solid $foreground-color;
   position: absolute;
   left: 50%;
   z-index: 1;
@@ -7146,7 +7222,7 @@ i.large-icon {
   width: 6px;
   height: 6px;
   border-radius: 10px;
-  background: var(--separator-color);
+  background: $separator-color;
   outline: initial !important;
   border: initial;
   margin: 0 3px;
@@ -7155,7 +7231,7 @@ i.large-icon {
   box-shadow: initial;
 
   &.glide__bullet:hover, &.glide__bullet:focus {
-    background: var(--separator-color);
+    background: $separator-color;
     border: initial;
   }
 
@@ -7405,7 +7481,7 @@ i.large-icon {
       }
 
       td {
-        background: var(--foreground-color);
+        background: $foreground-color;
         &:first-child {
           border-top-left-radius: $border-radius-rounded;
           border-bottom-left-radius: $border-radius-rounded;

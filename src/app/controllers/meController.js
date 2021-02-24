@@ -87,7 +87,7 @@ class meController {
       {
         mangas.map(manga => {
           var time = TimeDifferent(manga.updatedAt)
-          //console.log(time)
+          // console.log(time)
           manga["mangaUpdateTime"] = time;
         })
         //console.log(mangas)

@@ -10,10 +10,20 @@ var self = module.exports = {
     uploadSingle: (file, folderPath) => {
         return new Promise(resolve => {
             cloudinary.uploader.upload(file, {
+                // responsive_breakpoints: [{
+                //     create_derived: false,
+                //     bytes_step: 20000,
+                //     min_width: 200,
+                //     max_width: 1000,
+                //     //max_images: 20
+                //     }], 
+                //     quality: "auto",
+                //     fetch_format: "auto",
+                //     crop: "scale",
                     folder: 'home' + '/' + folderPath + '/' + 'thumbnail'
                 })
                 .then(result => {  
-                    //console.log(result) 
+                    console.log(result) 
                     const fs = require('fs')
                         fs.unlinkSync(file)
                         resolve({
@@ -31,11 +41,22 @@ var self = module.exports = {
     },
     uploadMultiple: (file, folderPath) => {
         return new Promise(resolve => {
-            cloudinary.uploader.upload(file, {            
-                    folder: 'home' + '/' + folderPath
+            cloudinary.uploader.upload(file, {       
+                // responsive_breakpoints: [{
+                //     create_derived: false,
+                //     bytes_step: 20000,
+                //     min_width: 200,
+                //     max_width: 1000,
+                //     //max_images: 20
+                //     }], 
+                //     quality: "auto",
+                //     fetch_format: "auto",
+                //     crop: "scale",
+                    folder: 'home' + '/' + folderPath     
                 })
                 .then(result => {  
                     console.log(result) 
+                    // console.log(result.responsive_breakpoints) 
                         // Xóa image lưu trong ổ cứng: src/uploadResults
                         const fs = require('fs')
                         fs.unlinkSync(file)

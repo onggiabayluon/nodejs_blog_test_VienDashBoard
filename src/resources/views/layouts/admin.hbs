@@ -29,7 +29,7 @@
     {{!-- CSS --}}
     {{!-- <link rel="stylesheet" href="/css/app.css">  --}}
     <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/dore.light.purple.css" />
+    <link rel="stylesheet" href="/css/dore.light.purple.2.css" />
     {{!-- <link rel="stylesheet" href="/css/dore.dark.blue.min.css" /> --}}
     
 </head>
@@ -61,47 +61,5 @@
     {{!-- <script src="/js/scripts.js"></script> --}}
     <script src="/js/dore.script.js"></script>
     <script src="/js/scripts.single.theme.js"></script>
-    {{!-- <script src="/js/scripts.js"></script> --}}
-    {{!-- <script>
-        var head = document.getElementsByTagName("head")[0];
-        var findlink = $(head).find('[href$="/css/dore.light.purple.min.css"]');
-        var hreflink = $(findlink).attr("href")
-        console.log(hreflink)
-        var link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.type = "text/css";
-        link.href = hreflink;
-       console.log(link)
-         
-    </script> --}}
-    <script>
-        // DOM Elements
-        const BtnSwitch = $('#switchDark')
-        console.log(BtnSwitch)
-        const darkButton = document.getElementById('dark');
-        const lightButton = document.getElementById('light');
-        const solarButton = document.getElementById('solar');
-        const body = document.body;
 
-
-        // Apply the cached theme on reload
-
-        const theme = localStorage.getItem('theme');
-        const isSolar = localStorage.getItem('isSolar');
-
-        if (theme) {
-            body.classList.add(theme);
-            isSolar && body.classList.add('solar');
-        }
-
-        // Button Event Handlers
-
-        BtnSwitch.on('click', () => {
-            $( ":root" ).toggleClass('dark')
-            console.log('hello')
-        })
-            
-
-        
-    </script>
 </body>
