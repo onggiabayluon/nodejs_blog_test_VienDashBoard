@@ -63,10 +63,10 @@
   --secondary-color-h: 0;
   --secondary-color-s: 0%;
   --secondary-color-l: 56%;
-  --muted-color: hsl(0, 0%, 56%);
+  --muted-color: hsl(0, 0%, 20%);
   --muted-color-h: 0;
   --muted-color-s: 0%;
-  --muted-color-l: 56%;
+  --muted-color-l: 20%;
   --gradient-color-1: hsl(306, 43%, 46%);
   --gradient-color-1-h: 306;
   --gradient-color-1-s: 43%;
@@ -161,10 +161,10 @@
   --secondary-color-h: 0;
   --secondary-color-s: 0%;
   --secondary-color-l: 46%;
-  --muted-color: hsl(0, 0%, 35%);
+  --muted-color: hsl(0, 0%, 71%);
   --muted-color-h: 0;
   --muted-color-s: 0%;
-  --muted-color-l: 35%;
+  --muted-color-l: 71%;
   --gradient-color-1: hsl(306, 41%, 25%);
   --gradient-color-1-h: 306;
   --gradient-color-1-s: 41%;
@@ -5697,8 +5697,8 @@ i.large-icon {
 .tooltipIcon:hover .tooltiptext {
   visibility: visible; }
 
-.social-menu a i {
-  color: #000000;
+.social-menu button i {
+  color: var(--theme-color-1);
   font-size: 1rem;
   line-height: 50px;
   transition: .5s;
@@ -5721,27 +5721,30 @@ i.large-icon {
     transition: 0.3s;
     box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5); }
 
-.social-menu a {
+.social-menu button {
+  padding: 0;
+  margin: 0;
+  border: 0;
   position: relative;
   display: block;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--background-color);
   text-align: center;
   transition: 0.5s;
   transform: translate(0, 0px);
   box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.5); }
-  .social-menu a:hover {
+  .social-menu button:hover {
     transform: rotate(0deg) skew(0deg) translate(0, -5px); }
 
-.social-menu a:nth-child(1):hover {
+.social-menu button:nth-child(1):hover {
   background-color: #28a745; }
 
-.social-menu a:nth-child(2):hover {
+.social-menu button:nth-child(2):hover {
   background-color: #17a2b8; }
 
-.social-menu a:nth-child(3):hover {
+.social-menu button:nth-child(3):hover {
   background-color: #dc3545; }
 
 .delete-icon-red:hover {
@@ -5773,7 +5776,7 @@ i.large-icon {
 
 .circle-loader {
   margin-bottom: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(var(--secondary-color), 0.7);
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -5829,3 +5832,6 @@ i.large-icon {
     height: 50%;
     width: 25%;
     opacity: 1; } }
+
+.display-text {
+  color: var(--primary-color); }

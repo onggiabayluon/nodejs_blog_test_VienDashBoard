@@ -21,7 +21,7 @@
    
     @include defineColorHSL(--primary-color, 0, 0%, 23%);
     @include defineColorHSL(--secondary-color, 0, 0%, 56%);
-    @include defineColorHSL(--muted-color, 0, 0%, 56%);
+    @include defineColorHSL(--muted-color, 0, 0%, 20%);
 
     @include defineColorHSL(--gradient-color-1, 306, 43%, 46%);
     @include defineColorHSL(--gradient-color-2, 280, 56%, 20%);
@@ -54,7 +54,7 @@
   
     @include defineColorHSL(--primary-color, 0, 0%, 59%);
     @include defineColorHSL(--secondary-color, 0, 0%, 46%);
-    @include defineColorHSL(--muted-color, 0, 0%, 35%);
+    @include defineColorHSL(--muted-color, 0, 0%, 71%);
 
     @include defineColorHSL(--gradient-color-1, 306, 41%, 25%);
     @include defineColorHSL(--gradient-color-2, 306, 41%, 19%);

@@ -17,9 +17,8 @@ var self = module.exports = {
                 //     max_width: 1000,
                 //     //max_images: 20
                 //     }], 
-                //     quality: "auto",
-                //     fetch_format: "auto",
-                //     crop: "scale",
+                    quality: "auto",
+                    crop: "scale",
                     folder: 'home' + '/' + folderPath + '/' + 'thumbnail'
                 })
                 .then(result => {  
@@ -49,9 +48,8 @@ var self = module.exports = {
                 //     max_width: 1000,
                 //     //max_images: 20
                 //     }], 
-                //     quality: "auto",
-                //     fetch_format: "auto",
-                //     crop: "scale",
+                    quality: "auto",
+                    crop: "scale",
                     folder: 'home' + '/' + folderPath     
                 })
                 .then(result => {  
