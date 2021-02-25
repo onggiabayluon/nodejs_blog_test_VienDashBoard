@@ -5698,7 +5698,7 @@ i.large-icon {
   visibility: visible; }
 
 .social-menu button i {
-  color: var(--theme-color-1);
+  color: var(--theme-color-3);
   font-size: 1rem;
   line-height: 50px;
   transition: .5s;
