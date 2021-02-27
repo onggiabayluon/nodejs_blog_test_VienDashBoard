@@ -4,7 +4,7 @@
 
 
 
-const Course = require('../models/Course');
+const Course = require('../models/Comic');
 
 //cái dấu { } này để import từng phần tử bên trong
 const { multiMongooseToObject } =  require('../../util/mongoose');

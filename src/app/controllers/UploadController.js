@@ -1,4 +1,5 @@
-const Course    = require('../models/Course');
+const Comic    = require('../models/Comic');
+const Chapter    = require('../models/Chapter');
 const shortid   = require('shortid');
 const multipleUploadMiddleware = require("../../config/middleware/multipleUploadMiddleware");
 const singleUploadMiddleware = require("../../config/middleware/singleUploadMiddleware");
@@ -43,20 +44,21 @@ class UploadController {
             // Promise.all get imgas
             Promise.all(res_promises)
                 .then(async(arrImg) => {
-                    const course = new Course(req.body);
-                    course.chapter = 'chapter-' + chapter
-                    course.title = 'chapter of ' + req.params.slug
-                    course.slug = req.params.slug + '-' + shortid();
-                    course.chaptername = req.params.slug
+                    const comicChapter = new Chapter(req.body);
+                    comicChapter.chapter = 'chapter-' + req.body.chapter
+                    comicChapter.title = 'chapter of ' + req.params.slug
+                    comicChapter.chapterSlug = req.params.slug + '-' + shortid();
+                    comicChapter.comicSlug = req.params.slug
 
-                    //course.chapter = req.body.chapter.removeVnmese......
+                    //chapter.chapter = req.body.chapter.removeVnmese......
 
-                    console.log('title: ' +  course.title);
-                    console.log('chaptername: ' +  course.chaptername);
+                    console.log('title: ' +  comicChapter.title);
+                    console.log('comicSlug: ' +  comicChapter.comicSlug);
                     console.log('chapter: ' + req.body.chapter);
 
                     let Img = arrImg.map(img => { 
-                        course.image.push({
+                        comicChapter.image.push({
+                            name: img.file_name,
                             url: img.url,
                             publicId: img.public_id,
                         });
@@ -64,7 +66,7 @@ class UploadController {
                         console.log('url: ' + img.url);
                         console.log('publicId: ' + img.public_id);
                     })
-                    course.save();
+                    comicChapter.save();
                     // arrImg chính là array mà chúng ta đã upload 
                     // các bạn có thể sử dụng arrImg để save vào database, hay hơn thì sử dụng mongodb
                     // console.log(arrImg)
@@ -82,7 +84,7 @@ class UploadController {
 
             // Bắt luôn lỗi vượt quá số lượng file cho phép tải lên trong 1 lần
             if (error.code === "LIMIT_UNEXPECTED_FILE") {
-                return res.send(`Upload không quá 50 files.`);
+                return res.send(`Upload không quá 200 files.`);
             }
 
             return res.send(`Error when trying upload many files: ${error}}`);
@@ -109,23 +111,23 @@ class UploadController {
                 cloudinary.uploadSingle(file.path,databaseFolderPath)
                 .then(img => {
                    // console.log(img) // img sau khi up len cloudinary
-                    Course.findOne({slug: req.params.slug})
-                    .then(course => {
-                       // console.log(course) // check course
-                        if (course.thumbnail.length == 0) {
+                    Comic.findOne({slug: req.params.slug})
+                    .then(comic => {
+                       // console.log(Comic) // check Comic
+                        if (comic.thumbnail.length == 0) {
                             console.log('Thực hiện đăng thumbnail: ')
                             console.log('1. Đưa link url vào mongodb')
-                            course.thumbnail.push({
+                            comic.thumbnail.push({
                                 url: img.url,
                                 publicId: img.public_id,
                             });
-                            course.save();
+                            comic.save();
                         }
                        else {
                             console.log('Thực hiện chỉnh sửa thumbnail: ')
-                            Course.findOne({slug: req.params.slug})
-                            .then(course => {
-                                course.thumbnail.map(thumbnail => {
+                            Comic.findOne({slug: req.params.slug})
+                            .then(comic => {
+                                comic.thumbnail.map(thumbnail => {
                                 //console.log(thumbnail.publicId)
                                 cloudinary.deleteMultiple(thumbnail.publicId)
                                     .then(result => {
@@ -139,9 +141,10 @@ class UploadController {
                                 });
                             
                            
-                            Course.updateOne({ slug: req.params.slug }, {
+                            Comic.updateOne({ slug: req.params.slug }, {
                                 $set: {
                                     thumbnail: {
+                                        name: img.file_name,
                                         url: img.url,
                                         publicId: img.public_id,
                                     }
@@ -169,7 +172,7 @@ class UploadController {
 
             // Bắt luôn lỗi vượt quá số lượng file cho phép tải lên trong 1 lần
             if (error.code === "LIMIT_UNEXPECTED_FILE") {
-                return res.send(`Upload không quá 50 files.`);
+                return res.send(`Upload không quá 200 files.`);
             }
 
             return res.send(`Error when trying upload many files: ${error}}`);

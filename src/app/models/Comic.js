@@ -10,14 +10,14 @@ const opts = {
   // set lại time zone sang asia
   timestamps: { currentTime: () => moment.tz(Date.now(), "Asia/Bangkok") },
 };
-const Course = new Schema({
+const Comic = new Schema({
   title: { type: String },
-  chaptername: { type: String },
-  chapter: { type: String, unique: true },
+  // chaptername: { type: String },
+  // chapter: { type: String, unique: true },
   description: { type: String },
   videoId: { type: String },
   slug: { type: String },
-  mangaUpdateTime: { type: String },
+  comicUpdateTime: { type: String },
   thumbnail: [
     {
       name: String,
@@ -25,22 +25,25 @@ const Course = new Schema({
       publicId: { type: String },
     }
   ],
-  image: [
-    {
-      name: String,
-      url: String,
-      publicId: { type: String },
-    }
-  ],
+  // image: [
+  //   {
+  //     name: String,
+  //     url: String,
+  //     publicId: { type: String },
+  //   }
+  // ],
 }, opts);
+
+
 
   // Add plugin
   mongoose.plugin(slug);
-  Course.plugin(mongooseDelete, { 
+  Comic.plugin(mongooseDelete, { 
     overrideMethods: 'all',
     deletedAt : true  
   });
 
 
   //               mongoose.model('ModelName', mySchema);
-  module.exports = mongoose.model('Course', Course);
+  module.exports = mongoose.model('Comic', Comic);
+

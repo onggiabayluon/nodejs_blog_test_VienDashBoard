@@ -26,6 +26,7 @@ var self = module.exports = {
                     const fs = require('fs')
                         fs.unlinkSync(file)
                         resolve({
+                            file_name: result.original_filename,
                             url: result.secure_url,
                             public_id: result.public_id,
                             thumb1: self.reSizeImage(result.public_id, 200, 200),
@@ -59,6 +60,7 @@ var self = module.exports = {
                         const fs = require('fs')
                         fs.unlinkSync(file)
                         resolve({
+                            file_name: result.original_filename,
                             url: result.secure_url,
                             public_id: result.public_id,
                             thumb1: self.reSizeImage(result.public_id, 200, 200),

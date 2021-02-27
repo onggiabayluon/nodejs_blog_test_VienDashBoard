@@ -8,7 +8,7 @@
 
 <body id="app-container" class="menu-default show-spinner">
     
-    <form name="container-form" method="POST" action="/manga/handle-form-action" 
+    <form name="container-form" method="POST" action="/me/stored/handle-form-action-for-chapters" 
     class="mt-4">
     <main>
         <div class="container-fluid disable-text-selection">
@@ -165,13 +165,13 @@
                                     <p class="list-item-heading mb-0 truncate">{{replaceHyphenIntoSpace this.chapter}}</p>
                                 </a>
                                 
-                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">{{this.mangaUpdateTime}}</p>
+                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">{{this.chapterUpdateTime}}</p>
   
                                  <div class="w-20 w-sm-100 d-flex social-menu myPadding-top-sm" style="justify-content: space-evenly;">
             
                                       <a href="#" class="tooltipIcon delete-icon-red" style="align-items: center;">
                                         <span class="tooltiptext" > Xóa </span>       
-                                        <div class="icon-container" data-toggle="modal" data-id="{{this.slug}}" data-target="#delete-course-modal">
+                                        <div class="icon-container" data-toggle="modal" data-id="{{this.chapterSlug}}" data-target="#delete-course-modal">
                                             <i class="simple-icon-trash" style="z-index: -1;"></i>
                                         </div>
                                     </a>
@@ -185,7 +185,7 @@
                             {{!-- checkbox --}}
                             <label class="custom-control custom-checkbox mb-1 align-self-center pr-4">
                                 <input type="checkbox" class="custom-control-input" name="chapterSlug[]" 
-                                value="{{this.slug}}">
+                                value="{{this.chapterSlug}}">
                                 <span class="custom-control-label" >&nbsp;</span>
                             </label>
                         </div>
@@ -280,7 +280,7 @@
                 chapterSlug = button.data('id');
             });
              btnDeleteCourse.onclick = function() {
-                hiddenForm.action ='/manga/' + chapterSlug + '?_method=DELETE';
+                hiddenForm.action ='/me/stored/destroyChapter/' + chapterSlug + '?_method=DELETE';
                 hiddenForm.submit();
             };  
 

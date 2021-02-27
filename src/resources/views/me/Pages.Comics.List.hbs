@@ -8,7 +8,7 @@
 
 <body id="app-container" class="menu-default show-spinner">
     
-    <form name="container-form" method="POST" action="/manga/handle-form-action" 
+    <form name="container-form" method="POST" action="/me/stored/handle-form-action-for-comics" 
     class="mt-4">
     <main>
         <div class="container-fluid disable-text-selection">
@@ -134,7 +134,7 @@
                 </div> --}}
 
                 <div class="col-12 list" data-check-all="checkAll">
-                {{#each mangas}}
+                {{#each comics}}
                     
                     <div class="card d-flex flex-row mb-3">
                         <a class="d-flex" href="/me/stored/comics/{{this.slug}}/edit" aria-label="{{this.slug}}">
@@ -142,7 +142,7 @@
                             <div data-bg="{{this.url}}"
                                 class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style"></div>
                             {{else}}
-                             <img src="/img/goose-  -thumb.jpg" alt="Chưa có thumbnail"
+                             <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"
                                 class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style" />
                             {{/each}}
                         </a>
@@ -153,14 +153,14 @@
                                     <p class="list-item-heading mb-0 truncate">{{this.title}}</p>
                                 </a>
                                 
-                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">{{this.mangaUpdateTime}}</p>
+                                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">{{this.comicUpdateTime}}</p>
                                 
                                 {{!-- <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">Cupcakes</p>
                                 <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">13.04.2018</p> --}}
   
                                  <div class="w-20 w-sm-100 d-flex social-menu myPadding-top-sm" style="justify-content: space-evenly;">
                                    
-                                    <button aria-label="Copy ID" type="button" onclick="CompleteState('{{this._id}}'); copyToClipboard('{{this._id}}')"
+                                    <a aria-label="Copy ID" type="button" onclick="CompleteState('{{this._id}}'); copyToClipboard('{{this._id}}')"
                                      class="tooltipIcon copy-Btn" style="align-items: center;" >
                                         <div id="circle-loader_{{this._id}}" class="circle-loader"style="cursor: pointer;">
                                             <div id="checkmark_{{this._id}}" class="checkmark draw"></div>
@@ -170,19 +170,19 @@
                                         <div class="icon-container">
                                             <i class="iconsminds-files" style="z-index: -1;"></i>
                                         </div>
-                                    </button>
-                                     <button aria-label="Chapter List" type="button" href="/me/stored/comics/{{this.slug}}/chapter-list" class="tooltipIcon">
+                                    </a>
+                                     <a aria-label="Chapter List" type="button" href="/me/stored/comics/{{this.slug}}/chapter-list" class="tooltipIcon">
                                         <span class="tooltiptext"> Chapter List </span>
                                         <div class="icon-container">
                                             <i class="simple-icon-layers" style="z-index: -1;"></i>
                                         </div>   
-                                    </button>
-                                      <button aria-label="Xóa" type="button" href="#" class="tooltipIcon" style="align-items: center;">
+                                    </a>
+                                      <a aria-label="Xóa" type="button" href="#" class="tooltipIcon" style="align-items: center;">
                                         <span class="tooltiptext"> Xóa </span>       
                                         <div class="icon-container" data-toggle="modal" data-id="{{this.slug}}" data-target="#delete-course-modal">
                                             <i class="simple-icon-trash" style="z-index: -1;"></i>
                                         </div>
-                                    </button>
+                                    </a>
                                 </div>
                                
                                 {{!-- <div class="w-15 w-sm-100">
@@ -191,7 +191,7 @@
                             </div>
                             {{!-- checkbox --}}
                             <label class="custom-control custom-checkbox mb-1 align-self-center pr-4" aria-label="checkbox">
-                                <input type="checkbox" class="custom-control-input" name="chapterSlug[]" 
+                                <input type="checkbox" class="custom-control-input" name="comicSlug[]" 
                                 value="{{this.slug}}">
                                 <span class="custom-control-label" >&nbsp;</span>
                             </label>
@@ -288,18 +288,18 @@
             })
         })()
         document.addEventListener('DOMContentLoaded', function() {
-            var chapterSlug;
+            var comicSlug;
             var hiddenForm = document.forms['hidden-form'];
             var btnDeleteCourse = document.getElementById('btn-delete-course');  
 
             //dựa vào show modal rồi lưu slug
             $('#delete-course-modal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget); 
-                //bấm vào button lưu id vào chapterSlug từ button-data bên trên
-                chapterSlug = button.data('id');
+                //bấm vào button lưu id vào comicSlug từ button-data bên trên
+                comicSlug = button.data('id');
             });
              btnDeleteCourse.onclick = function() {
-                hiddenForm.action ='/manga/' + chapterSlug + '?_method=DELETE';
+                hiddenForm.action ='/me/stored/destroyComic/' + comicSlug + '?_method=DELETE';
                 hiddenForm.submit();
             };  
 

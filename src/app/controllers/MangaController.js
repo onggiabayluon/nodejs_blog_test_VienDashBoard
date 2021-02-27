@@ -1,21 +1,21 @@
-const Course  = require('../models/Course');
+const Comic  = require('../models/Comic');
 const shortid = require('shortid');
 const cloudinary = require('../../config/middleware/ModelCloudinary')
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
 const   removeVietnameseTones                           = require('../../config/middleware/VnameseToEng');
 class MangaController {
 
-  // [GET] / courses / :slug
+  // [GET] / Comics / :slug
   showMangaDetails(req, res, next) {
-    Course.find({slug: req.params.slug})
+    Comic.find({slug: req.params.slug})
     .select('title slug createdAt updatedAt description thumbnail chaptername chapter ')
     .then (manga => {
       if(manga) {
-        Course.find({chaptername: req.params.slug})
+        Comic.find({chaptername: req.params.slug})
         .select('title slug createdAt updatedAt description thumbnail chaptername chapter')
         .then(chapters => {  
           if (chapters) {
-            res.status(200).render('courses/showMangaDetails', { 
+            res.status(200).render('Comics/showMangaDetails', { 
               chapters: multiMongooseToObject(chapters),
               manga: multiMongooseToObject(manga)
             })
@@ -41,16 +41,16 @@ class MangaController {
     });
   }
 
-   // [GET] / courses / :slug / :chapter-x
+   // [GET] / Comics / :slug / :chapter-x
   showChapterDetails(req, res, next) {
-    //req.params.slug VD: courses/abc 
+    //req.params.slug VD: Comics/abc 
     //findOne: tìm đến 1 field trong mongodb ở đây là field slug
-    //  courses/nodejs
-    Course.findOne({ $and: [ { chaptername: req.params.slug },{ chapter: req.params.chapter }]})
-      .then(course => {
-        //res.json(course)
-        if (course) {
-        res.status(200).render('courses/showChapterDetails', { course: singleMongooseToObject(course) })
+    //  Comics/nodejs
+    Comic.findOne({ $and: [ { chaptername: req.params.slug },{ chapter: req.params.chapter }]})
+      .then(Comic => {
+        //res.json(Comic)
+        if (Comic) {
+        res.status(200).render('Comics/showChapterDetails', { Comic: singleMongooseToObject(Comic) })
       
         } else {
           res
@@ -67,36 +67,36 @@ class MangaController {
   }
 
 
-  // [GET] / courses / create || render trang đăng khóa học
+  // [GET] / Comics / create || render trang đăng khóa học
   renderCreate(req, res, next) {
-    res.status(200).render('courses/create');
+    res.status(200).render('Comics/create');
   }
 
-   // [GET] / courses / upload || render trang upload
+   // [GET] / Comics / upload || render trang upload
    renderUpload(req, res, next) {
-    res.status(200).render('courses/upload');
+    res.status(200).render('Comics/upload');
   }
 
-  // [POST] / courses / createTruyen || post dữ liệu lên stored:đăng khóa học
-  // post dữ liệu lên mongodb, ở me / stored / courses thì render ra 
+  // [POST] / Comics / createTruyen || post dữ liệu lên stored:đăng khóa học
+  // post dữ liệu lên mongodb, ở me / stored / Comics thì render ra 
   createTruyen(req, res, next) {
     //req.body: là tài nguyên form người dùng nhập vào
     //lấy thumbnail ảnh qua video id youtube
 
     //req.body.thumbnail = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    //gán tài nguyên khóa học đơn này vào biến course mới rồi save lại
-    //const course = new Course(req.body);
+    //gán tài nguyên khóa học đơn này vào biến Comic mới rồi save lại
+    //const Comic = new Comic(req.body);
     //Chuyển title[tiếng việt] sang slug 
     var title = req.body.title;
     var slug = removeVietnameseTones(title)
     //tra cái slug này xem có cái page nào k
-    Course.findOne({ slug: slug }, function(err, page) {
+    Comic.findOne({ slug: slug }, function(err, page) {
       if(page) {
         // TH nếu slug ĐÃ có
         console.log('slug existed, add shortId to create new slug');
-        const course = new Course(req.body);
-        course.slug = slug + '-' + shortid.generate();
-        course.save()
+        const Comic = new Comic(req.body);
+        Comic.slug = slug + '-' + shortid.generate();
+        Comic.save()
         .then(() => {
           res.status(201).redirect('/me/stored/manga');
         })
@@ -109,10 +109,10 @@ class MangaController {
       }
       else {
         // TH nếu slug CHƯA có
-        const course = new Course(req.body);
-        course.slug = slug;
+        const Comic = new Comic(req.body);
+        Comic.slug = slug;
         //save xong rồi redirect qua trang chủ
-        course.save()
+        Comic.save()
         .then(() => {
           res.status(201).redirect('/me/stored/manga');
         })
@@ -127,16 +127,16 @@ class MangaController {
   };
 
   
-   // [GET] / courses / :slug / uploadChapter
+   // [GET] / Comics / :slug / uploadChapter
    //{$or: [{"chaptername": req.params.slug}, {"slug": req.params.slug}]
    uploadChapter(req, res, next) {
-     Promise.all([Course.find({ $or: [{ "chaptername": req.params.slug }, { "slug": req.params.slug }] })
-       , Course.countDocuments({ chapter: { $exists: true } })])
+     Promise.all([Comic.find({ $or: [{ "chaptername": req.params.slug }, { "slug": req.params.slug }] })
+       , Comic.countDocuments({ chapter: { $exists: true } })])
        //.select('title slug createdAt updatedAt description thumbnail chaptername chapter')
        .then(([chapters, countedChapter]) => {
-         //res.json( courses)
+         //res.json( Comics)
          if (chapters) {
-           res.status(200).render('courses/uploadChapter', {
+           res.status(200).render('Comics/uploadChapter', {
              countedChapter,
              chapters: multiMongooseToObject(chapters)
            })
@@ -154,11 +154,11 @@ class MangaController {
        });
    }
 
-   // [GET] / courses / :slug / edit
+   // [GET] / Comics / :slug / edit
   edit(req, res, next) {
-    //lấy dữ liệu để vào edit (Course này là biến trong model)
-    Course.findOne({ slug: req.params.slug })
-      .then(manga => res.status(200).render('courses/editTruyenTranh', {
+    //lấy dữ liệu để vào edit (Comic này là biến trong model)
+    Comic.findOne({ slug: req.params.slug })
+      .then(manga => res.status(200).render('Comics/editTruyenTranh', {
         manga: singleMongooseToObject(manga)
       }))
       .catch(err => {
@@ -171,19 +171,19 @@ class MangaController {
 
   //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
   //sẽ bị chuyển thành [GET] nên h phải dùng middleware setup bên file index.js
-  // [PUT] / courses / :id 
+  // [PUT] / Comics / :id 
   update(req, res, next) {
     // //update thumbnail
     // req.body.thumbnail = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    //update lấy course id, chỉnh sửa reg.body
+    //update lấy Comic id, chỉnh sửa reg.body
     // tìm tất cả chapter truyện lưu vào biến để lát thay đổi hêt các chaptername
     var newtitle = req.body.title; 
     var oldSlug = req.params.slug;
     var newSlug = removeVietnameseTones(newtitle) 
-    Course.find({ chaptername: req.params.slug })
+    Comic.find({ chaptername: req.params.slug })
     .select("chaptername chapter")
     .then(
-      Course.findOne({ slug: req.params.slug }, function(err, page) {
+      Comic.findOne({ slug: req.params.slug }, function(err, page) {
         if (newtitle !== page.title) {
 
           // TH1: slug hiện tại:khoa-hoc-dinh-cap, muốn chỉnh tên lại: khoa-hoc-dinh, TH này thay tên slug cũ = slug mới
@@ -192,19 +192,19 @@ class MangaController {
           // check slug mới có trùng slug mongodb thì add shortId vào slug mới
           // newSlug = khoa-hoc-dinh-cao || page.slug = khoa-hoc-dinh
   
-          Course.findOne({ slug: newSlug }, function(err, slugcheck) {
+          Comic.findOne({ slug: newSlug }, function(err, slugcheck) {
             // tra cái slug mới xem có slugcheck nào có chưa 
             // nếu slug mới mà có sử dụng r` thì slug cũ = slug mới + shortId
             if (slugcheck) {
               // res.json(slugcheck)
               // đổi slug cũ sang slug mới 
               req.body.slug = newSlug + '-' + shortid.generate();
-              Course.updateMany({ chaptername: oldSlug }, {chaptername: req.body.slug})
+              Comic.updateMany({ chaptername: oldSlug }, {chaptername: req.body.slug})
               .select("chaptername")
               .then(result => {
                   console.log(result)
               })
-              Course.updateOne({ slug: req.params.slug }, req.body)
+              Comic.updateOne({ slug: req.params.slug }, req.body)
                 .then(() => {
                   res.status(200).redirect('/me/stored/manga');
                 })
@@ -217,12 +217,12 @@ class MangaController {
             } else {
               // nếu slug mới chưa có sử dụng thì slug cũ = slug mới
               req.body.slug = newSlug;
-              Course.updateMany({ chaptername: oldSlug }, {chaptername: newSlug})
+              Comic.updateMany({ chaptername: oldSlug }, {chaptername: newSlug})
               .select("chaptername")
               .then(result => {
                   console.log(result)
               })
-              Course.updateOne({ slug: req.params.slug }, req.body)
+              Comic.updateOne({ slug: req.params.slug }, req.body)
                 .then(() => {
                   res.status(200).redirect('/me/stored/manga');
                 })
@@ -236,7 +236,7 @@ class MangaController {
           });
         } else {
           // Nếu title mới giống title cũ thì update bình thường, không update slug
-          Course.updateOne({ slug: req.params.slug }, req.body)
+          Comic.updateOne({ slug: req.params.slug }, req.body)
           .then(() => {
             res.status(200).redirect('/me/stored/manga');
           })
@@ -257,11 +257,11 @@ class MangaController {
     });
   }
 
-  // [PATCH] / courses / :id 
+  // [PATCH] / Comics / :id 
   // (phương thức HOẠT ĐỘNG là khi bấm nút khôi phục hãy submit form 
-  // với route:[PATCH] / courses / :id)
+  // với route:[PATCH] / Comics / :id)
   restore(req, res, next) {
-    Course.restore({ slug: req.params.slug })
+    Comic.restore({ slug: req.params.slug })
       .then(() => {
         res.status(200).redirect('back');
       })
@@ -273,10 +273,10 @@ class MangaController {
       });
   }
 
-  // [DELETE] / courses / :slug 
+  // [DELETE] / Comics / :slug 
   async destroy(req, res, next) {
     // dùng delete của plugin sofl delete
-    await Course.findOne({ slug: req.params.slug }, function (err, page) {
+    await Comic.findOne({ slug: req.params.slug }, function (err, page) {
       // Xem page có chưa chaptername ko: 
       // - nếu có nghĩa là delete chapter: delete thêm cả ảnh trên databse
       //res.json(page.chaptername)
@@ -296,7 +296,7 @@ class MangaController {
                 console.error('> Error>', error);
               })
 
-            Course.deleteOne({ slug: req.params.slug }) //slug của chapters
+            Comic.deleteOne({ slug: req.params.slug }) //slug của chapters
               .then(() => {
                 console.log("-- Xóa images trên mongodb: ")
                 res.status(200).redirect('back');
@@ -337,7 +337,7 @@ class MangaController {
             }
            
             console.log("--2 Tiến hành Xóa images trên cloudinary: ")
-            Course.find({ chaptername: req.params.slug })
+            Comic.find({ chaptername: req.params.slug })
              .then(chapters => {
               // console.log(chapters)
               //  console.log(chapters[0].image)
@@ -376,7 +376,7 @@ class MangaController {
             // do something async
             /* -- Third task -- */
             console.log("--3 Tiến hành Xóa chapters trên mongodb: ")
-            Course.deleteMany({ chaptername: req.params.slug })
+            Comic.deleteMany({ chaptername: req.params.slug })
               .then((result) => {
                 resolve(result);
                 res.status(200);
@@ -395,7 +395,7 @@ class MangaController {
             // do something async
             /* -- Fourth task -- */
             console.log("--4 Tiến hành Xóa manga trên mongodb: ")
-            Course.deleteOne({ slug: req.params.slug })
+            Comic.deleteOne({ slug: req.params.slug })
               .then((result) => {
                 resolve(result);
                 res.status(200).redirect('back');
@@ -416,10 +416,10 @@ class MangaController {
     });
   }
 
-  // [DELETE] / courses / /force /:slug 
+  // [DELETE] / Comics / /force /:slug 
   forceDestroy(req, res, next) {
     // - nếu không nghĩa là force delete truyen: delete binh thường
-    Course.deleteOne({ slug: req.params.slug })
+    Comic.deleteOne({ slug: req.params.slug })
       .then(() => {
         res.status(200).redirect('back');
       })
@@ -439,7 +439,7 @@ class MangaController {
         var chapterSlugs = req.body.chapterSlug;
        await chapterSlugs.map(chapterslug => {
           //console.log(chapterslug) //test-qP64bRH31 //test-d00cQa9fo
-          Course.findOne({ slug: chapterslug }, function (err, currentChapter) {
+          Comic.findOne({ slug: chapterslug }, function (err, currentChapter) {
             currentChapter.image.map(chapterImage => {
               cloudinary.deleteMultiple(chapterImage.publicId)
               .then(result => {
@@ -453,7 +453,7 @@ class MangaController {
           }); 
         })
            //reg.body.chapterSlug là mảng[ ]
-          Course.deleteMany({ slug: { $in: req.body.chapterSlug } })
+          Comic.deleteMany({ slug: { $in: req.body.chapterSlug } })
           .then(() => {
             res.status(200).redirect('back');
           })

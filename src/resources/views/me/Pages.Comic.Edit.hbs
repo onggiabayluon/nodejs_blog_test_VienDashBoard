@@ -24,7 +24,7 @@
                             <li class="breadcrumb-item">
                                 <a href="/me/stored/comics/comic-list">All Comics</a>
                             </li>
-                            {{#each manga}}
+                            {{#each comic}}
                             <li class="breadcrumb-item active" aria-current="page">
                                {{this.title}}
                             </li>
@@ -38,7 +38,7 @@
                         <div class="col-12 col-md-12 col-xl-4 col-left">
                             <div class="card pb-3 mb-4 w-lg-100">
                                  <div class="card-img-top p-xl-3 p-5">
-                                    {{#each manga}}
+                                    {{#each comic}}
                                         {{#each this.thumbnail}}
                                             <img src="{{this.url}}"alt="img" width="100%" height="auto">
                                             {{else}}
