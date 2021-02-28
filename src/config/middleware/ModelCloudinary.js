@@ -18,7 +18,6 @@ var self = module.exports = {
                 //     //max_images: 20
                 //     }], 
                     quality: "auto",
-                    crop: "scale",
                     folder: 'home' + '/' + folderPath + '/' + 'thumbnail'
                 })
                 .then(result => {  
@@ -50,7 +49,6 @@ var self = module.exports = {
                 //     //max_images: 20
                 //     }], 
                     quality: "auto",
-                    crop: "scale",
                     folder: 'home' + '/' + folderPath     
                 })
                 .then(result => {  

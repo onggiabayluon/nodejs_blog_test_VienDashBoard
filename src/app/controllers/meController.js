@@ -7,6 +7,20 @@ const removeVietnameseTones  = require('../../config/middleware/VnameseToEng');
 const TimeDifferent = require('../../config/middleware/TimeDifferent')
 class meController {
 
+
+  showChapter(req,res,next) {
+    Chapter.find({ chapter: req.params.chapter })
+    .then(chapter => {
+      // return res.json(chapter)
+      res.render('me/showChapter.hbs',
+          {
+            layout: 'main',
+            chapter: multiMongooseToObject(chapter),
+          })
+    }) 
+        
+      .catch(next);
+  }
   /*
   1. Render Admin Home
   */

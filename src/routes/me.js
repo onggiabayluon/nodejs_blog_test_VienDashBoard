@@ -18,6 +18,8 @@ router.put('/stored/comics/:slug', meController.update);
 // [GET] / me / stored / comics / comic-list
 router.get('/stored/comics/comic-list', meController.getComicList);
 // [GET] / me / stored / comics / :slug / chapter-list
+router.get('/stored/comics/:slug/chapter-list/:chapter', meController.showChapter);
+
 router.get('/stored/comics/:slug/chapter-list', meController.getChapterList);
 // [GET] / me / stored / comics / :slug / create-chapter
 router.get('/stored/comics/:slug/create-chapter', meController.renderCreateChapter);

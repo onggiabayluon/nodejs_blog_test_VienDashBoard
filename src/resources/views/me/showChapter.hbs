@@ -1,0 +1,57 @@
+<style>
+    img {
+        width: 100%;
+        height: 1000px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+    }
+</style>
+{{#each chapter}}
+    {{#each image}}
+    <h1> {{this.name}} </h1>
+    <img data-bg="{{this.url}}"
+    class="responsive border-0 card-img-left">
+    </img>
+    {{/each}}
+{{/each}}
+
+<script>
+   
+
+    /*-- Lazy loader Image --*/
+
+    const targets = document.querySelectorAll('img');
+    const imgOptions = {
+        threshhold: 1, // 1 là toàn bộ bức ành
+        rootMargin: "300px",
+    }
+    const lazyLoad = target => {
+            const io = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    //console.log('😍');
+                    if (entry.isIntersecting) {
+                        const clourdinary_name = 'dwajvm53v';
+                        const baseUrl = `https://res.cloudinary.com/${clourdinary_name}/image/fetch`
+
+                        const img = entry.target; // Current Image
+                        const src = img.getAttribute('data-bg');
+                        {
+                            const { clientWidth, clientHeight } = img
+                            const pixelRatio = window.devicePixelRatio || 1.0
+                            const imageParams = `w_${100 * Math.round(clientWidth * pixelRatio / 100)},h_${100 * Math.round(clientHeight * pixelRatio / 100)},q_auto,c_fill,f_auto`
+                            //,g_auto nhận diện tiêu điểm ảnh
+                            const url = `${baseUrl}/${imageParams}/${img.dataset.bg}`
+                            img.style.backgroundImage = `url('${url}')`
+                        }   
+                        observer.disconnect();
+                    }
+                });
+            }, imgOptions);
+
+            io.observe(target)
+        };
+
+        targets.forEach(lazyLoad);
+    /*-- End Lazy loader Image --*/
+</script>

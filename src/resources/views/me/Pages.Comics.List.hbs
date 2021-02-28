@@ -139,8 +139,8 @@
                     <div class="card d-flex flex-row mb-3">
                         <a class="d-flex" href="/me/stored/comics/{{this.slug}}/edit" aria-label="{{this.slug}}">
                             {{#each thumbnail}}
-                            <div data-bg="{{this.url}}"
-                                class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style"></div>
+                            <img data-bg="{{this.url}}"
+                                class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style"></img>
                             {{else}}
                              <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"
                                 class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style" />
@@ -274,6 +274,7 @@
 </form>
 
 <script>
+    /*--  Optimize Image --*/
         (() => {
             var clourdinary_name = 'dwajvm53v';
             const baseUrl = `https://res.cloudinary.com/${clourdinary_name}/image/fetch`
@@ -286,7 +287,14 @@
                 const url = `${baseUrl}/${imageParams}/${image.dataset.bg}`
                 image.style.backgroundImage = `url('${url}')`
             })
-        })()
+        })() /*--  End Optimize Image --*/
+
+    /*-- Lazy loader Image --*/
+
+    const targets = document.querySelectorAll('div [data-bg]');
+    console.log(targets)
+
+    /*-- End Lazy loader Image --*/
         document.addEventListener('DOMContentLoaded', function() {
             var comicSlug;
             var hiddenForm = document.forms['hidden-form'];
