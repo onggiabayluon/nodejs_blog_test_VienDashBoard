@@ -4,8 +4,9 @@
 
 
 
-const Course = require('../models/Comic');
-
+const Comic     = require('../models/Comic');
+const Chapter   = require('../models/Chapter');
+const TimeDifferent = require('../../config/middleware/TimeDifferent')
 //cái dấu { } này để import từng phần tử bên trong
 const { multiMongooseToObject } =  require('../../util/mongoose');
 
@@ -17,16 +18,7 @@ class SiteController {
         //2.
         //test
         
-        // Course.findOne({title: 'test time zone'}
-        // , function (err, page) {
-           
-        //         const covert_IODdate_ddmmyy = require('../../config/middleware/TimeDifferent')
-        //          //var created = page.createdAt; 
-        //          //var updated = page.updatedAt;
-        //         //console.log(updated - created)
-        //          console.log(page.updatedAt)
-        //          console.log(covert_IODdate_ddmmyy(page.updatedAt))
-        //     })
+        
         
         // const getDocument = async () => {
         //     try {
@@ -47,8 +39,16 @@ class SiteController {
         //     }
         // }
         // getDocument();
-
-        Course.find({ chaptername: { $not: { $exists: true } } })
+        // Comic.updateOne({ slug: 'test-truyen' }, {titleForSearch: 'test'}, {'$set':{titleForSearch: 'testset'}})
+        // .then(result => {console.log(result)
+        // }
+        // Comic.findOne({title: 'test truyện'})
+        // .then(page => {
+            
+        //     console.log(page)
+        // })
+        
+        Comic.find({ chaptername: { $not: { $exists: true } } })
         .select('title description thumbnail slug')
         
         //3. 
@@ -64,8 +64,38 @@ class SiteController {
     }
     
     // [GET] / search
-    search(req, res) {
-        res.render('search');
+    search(req, res, next) {
+        let hint = "";
+        let response = "";
+        let searchQ = req.body.data.toLowerCase()
+        
+        if (searchQ.length > 0) {
+            // titleForSearch là cho search không dấu
+            Comic.find({ $or: [{ titleForSearch: { $regex: searchQ, $options: "i" } }, { title: { $regex: searchQ, $options: "i" }}] })
+            .then(results => {
+                results.map(comic => {
+                    var time = TimeDifferent(comic.updatedAt)
+                    comic["comicUpdateTime"] = time;
+                  })
+                res.render('me/page.hbs', { 
+                    layout: 'page',
+                    comics: multiMongooseToObject(results)
+                 });
+            });
+        } else {
+            Comic.find({ title: { $regex: searchQ, $options: "i" } })
+            .then(results => {
+                results.map(comic => {
+                    var time = TimeDifferent(comic.updatedAt)
+                    comic["comicUpdateTime"] = time;
+                  })
+                res.render('me/page.hbs', { 
+                    layout: 'page',
+                    comics: multiMongooseToObject(results)
+                 });
+            })
+        }
+        console.log("data from server: " + searchQ);
     }
 }
 

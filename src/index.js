@@ -1,8 +1,10 @@
 //
-const path      = require('path');
-const express   = require('express');
-const morgan    = require('morgan');
-const compression = require('compression')
+const path          = require('path');
+const express       = require('express');
+const morgan        = require('morgan');
+const compression   = require('compression');
+const session       = require('express-session');
+const flash         = require('connect-flash')
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
@@ -12,11 +14,25 @@ const route = require('./routes');
 const db    = require('./config/db');
 
 
-//  connect to DB
+// connect to DB
 db.connect();
 
 const app   = express();
 const port  = 3000;
+
+// Flash setup
+app.use(session({
+    secret: 'secret',
+    cookie: { maxAge: 10000 },
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success_message = req.flash('success-message')
+    res.locals.error_message = req.flash('error-message')
+    next();
+})
 
 // Compression
 app.use(compression({

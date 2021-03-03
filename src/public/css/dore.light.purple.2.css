@@ -716,7 +716,7 @@ button {
     padding-left: initial;
     min-height: initial;
     vertical-align: top;
-    margin-top: 0; }
+    margin-top: -2px; }
   .check-button span {
     line-height: unset; }
 
@@ -5668,10 +5668,9 @@ i.large-icon {
 
 .my-thumb-style {
   background-size: cover;
-  min-height: 100%;
+  min-height: 120px;
   min-width: 120px;
   max-width: 120px;
-  max-height: 120px;
   height: auto !important; }
 
 /* Tooltip container */
@@ -5835,3 +5834,23 @@ i.large-icon {
 
 .display-text {
   color: var(--primary-color); }
+
+.custom_background_colorless {
+  background-color: var(--background-color);
+  box-shadow: unset; }
+
+.my_custom_table {
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+  margin-top: -2rem; }
+
+.custom_align td {
+  vertical-align: middle; }
+  .table th, .table td {
+    padding: 0;
+  }
+  @media screen and (max-width: 700px){
+    .table th, .table td {
+      padding: 0.5rem;
+    } 
+  }

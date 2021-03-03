@@ -1,0 +1,67 @@
+<div class="resultOfSearch">
+    {{#each comics}}
+    <div class=" card d-flex flex-row mb-3">
+        <a class="d-flex" href="/me/stored/comics/{{this.slug}}/edit" aria-label="{{this.slug}}">
+            {{#each thumbnail}}
+            <img data-bg="{{this.url}}" class="shadow-img list-thumbnail responsive border-0  my-thumb-style"
+                alt="image">
+            {{else}}
+            <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"
+                class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style" />
+            {{/each}}
+        </a>
+        <div class="pl-2 d-flex flex-grow-1 min-width-zero">
+            <div
+                class="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                <a href="/me/stored/comics/{{this.slug}}/edit" class="w-40 w-sm-100">
+                    <p class="list-item-heading mb-0 truncate">{{this.title}}</p>
+                </a>
+
+                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">{{this.comicUpdateTime}}</p>
+
+                {{!-- <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">Cupcakes</p>
+                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">13.04.2018</p> --}}
+
+                <div class="w-20 w-sm-100 d-flex social-menu myPadding-top-sm" style="justify-content: space-evenly;">
+
+                    <a aria-label="Copy ID" type="button"
+                        onclick="CompleteState('{{this._id}}'); copyToClipboard('{{this._id}}')"
+                        class="tooltipIcon copy-Btn" style="align-items: center;">
+                        <div id="circle-loader_{{this._id}}" class="circle-loader" style="cursor: pointer;">
+                            <div id="checkmark_{{this._id}}" class="checkmark draw"></div>
+                        </div>
+                        <span id="{{this._id}}" class="tooltiptext" value="{{this._id}}">
+                            Copy ID</span>
+                        <div class="icon-container">
+                            <i class="iconsminds-files" style="z-index: -1;"></i>
+                        </div>
+                    </a>
+                    <a aria-label="Chapter List" type="button" href="/me/stored/comics/{{this.slug}}/chapter-list"
+                        class="tooltipIcon">
+                        <span class="tooltiptext"> Chapter List </span>
+                        <div class="icon-container">
+                            <i class="simple-icon-layers" style="z-index: -1;"></i>
+                        </div>
+                    </a>
+                    <a aria-label="Xóa" type="button" href="#" class="tooltipIcon" style="align-items: center;">
+                        <span class="tooltiptext"> Xóa </span>
+                        <div class="icon-container" data-toggle="modal" data-id="{{this.slug}}"
+                            data-target="#delete-course-modal">
+                            <i class="simple-icon-trash" style="z-index: -1;"></i>
+                        </div>
+                    </a>
+                </div>
+
+                {{!-- <div class="w-15 w-sm-100">
+                    <span class="badge badge-pill badge-primary">PROCESSED</span>
+                </div> --}}
+            </div>
+            {{!-- checkbox --}}
+            <label class="custom-control custom-checkbox mb-1 align-self-center pr-4" aria-label="checkbox">
+                <input type="checkbox" class="custom-control-input" name="comicSlug[]" value="{{this.slug}}">
+                <span class="custom-control-label">&nbsp;</span>
+            </label>
+        </div>
+    </div>
+    {{/each}}
+</div>
