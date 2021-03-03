@@ -77,6 +77,7 @@ app.engine(
         extname: '.hbs',
           //Hàm tự thêm vào nhờ express handlebars
           helpers: {
+            minus: (a,b) => a - b,
             mySum: (a, b) =>  a + b,
             limit: (arr, limit) => {
                 if (!Array.isArray(arr)) { return []; }
@@ -86,6 +87,38 @@ app.engine(
                 str = str.toString().replace(/-/g, ' ');
                 return  str;// replace '-' -> space 
                
+            },
+            ifCond: (a,operator,b,options) => {
+                switch (operator) {
+                    case '==':
+                        return (a == b) ? options.fn(this) : options.inverse(this);
+                    case '===':
+                        return (a === b) ? options.fn(this) : options.inverse(this);
+                    case '!=':
+                        return (a != b) ? options.fn(this) : options.inverse(this);
+                    case '!==':
+                        return (a !== b) ? options.fn(this) : options.inverse(this);
+                    case '<':
+                        return (a < b) ? options.fn(this) : options.inverse(this);
+                    case '<=':
+                        return (a <= b) ? options.fn(this) : options.inverse(this);
+                    case '>':
+                        return (a > b) ? options.fn(this) : options.inverse(this);
+                    case '>=':
+                        return (a >= b) ? options.fn(this) : options.inverse(this);
+                    case '&&':
+                        return (a && b) ? options.fn(this) : options.inverse(this);
+                    case '||':
+                        return (a || b) ? options.fn(this) : options.inverse(this);
+                    default:
+                        return options.inverse(this);
+                }
+            },
+            times: (n, block) => {
+                var accum = '';
+                for(var i = 1; i <= n; ++i)
+                    accum += block.fn(i);
+                return accum;
             },
         }
     }).engine,

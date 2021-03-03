@@ -42,31 +42,42 @@ class meController {
   }
 
   /*
-  2. Render All comic list
+  2. Render comic list
   */
   // [GET] / me / stored / comics / comic-list
   getComicList(req, res, next) {
-
-    Promise.all([Comic.find( { title: { $exists: true } } ), Comic.countDocumentsDeleted()]
-    )
-
-      .then(([comics, deletedCount]) => 
-      {
+    let page = +req.query.page || 1;
+    let PageSize = 2;
+    let skipCourse = (page - 1) * PageSize;
+    let nextPage = +req.query.page + 1 || 2;
+    let prevPage = +req.query.page - 1;
+    let prevPage2 = +req.query.page - 2;
+    Comic.find({})
+    .skip(skipCourse)
+    .limit(PageSize)
+    .exec((err, comics) => {
+      if (err) return next(err);
+      Comic.countDocuments((err, count) => {
+        if (err) return next(err);
         comics.map(comic => {
           var time = TimeDifferent(comic.updatedAt)
           // console.log(time)
           comic["comicUpdateTime"] = time;
         })
-        // console.log(comics)
-        res.render('me/Pages.Comics.List.hbs',
-        {
-          layout: 'admin',
-          deletedCount,
-          comics: multiMongooseToObject(comics),
+          res.render('me/Pages.Comics.List.hbs',
+          {
+            layout: 'admin',
+            current: page,
+            nextPage,
+            prevPage,
+            prevPage2,
+            pages: Math.ceil(count / PageSize),
+            comics: multiMongooseToObject(comics),
+          })
         })
       })
-      .catch(next);
   }
+  
 
   /*
   2.2 Render ChapterList
