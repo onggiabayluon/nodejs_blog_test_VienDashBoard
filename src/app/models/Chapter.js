@@ -11,7 +11,7 @@ const opts = {
 const Chapter = new Schema({
     title: { type: String },
     comicSlug: { type: String },
-    chapter: { type: String, unique: true },
+    chapter: { type: String, unique: false },
     description: { type: String },
     chapterSlug: { type: String },
     chapterUpdateTime: { type: String },
@@ -19,7 +19,6 @@ const Chapter = new Schema({
       {
         name: String,
         url: String,
-        publicId: { type: String },
       }
     ],
   }, opts);

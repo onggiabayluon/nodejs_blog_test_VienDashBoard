@@ -2,7 +2,8 @@
 
 Table of Contents
 
-01. Single Theme Initializer
+01. Theme Switcher
+02. Active PAGE
 */
 
 /* 01. Single Theme Initializer */
@@ -17,6 +18,7 @@ Table of Contents
   var theme = localStorage.getItem('theme');
   console.log(theme)
 
+  // 01. Theme Switcher
   if (theme == null) {
     localStorage.setItem('theme', 'light');
     var theme = localStorage.getItem('theme');
@@ -73,4 +75,18 @@ Table of Contents
   $("html").attr("dir", direction);
   $("body").addClass(radius);
   $("body").dore();
+
+  // 02. Active PAGE
+  var home = $('#home')
+  var pages = $('#pages')
+  var user = $('#user')
+  var setting = $('#setting')
+  var currentPathname = window.location.pathname;
+  var checkpages = currentPathname.includes("/me/stored/comics");
+
+  if (checkpages) {
+    pages.addClass('active')
+  } else {
+    home.addClass('active')
+  }
 })(jQuery);

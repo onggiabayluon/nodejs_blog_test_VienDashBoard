@@ -507,6 +507,32 @@ p {
   color: var(--theme-color-2);
 }
 
+.view-icon {
+  & .view-icon-svg {
+  fill: var(--secondary-color);
+  }
+  &:hover,
+    &.active {
+      .view-icon-svg {
+        fill: var(--theme-color-1);
+      }
+    }
+ }
+ .svg_box svg{
+  width: 20px;
+  height: 25px 
+}
+.svg_box_2 {
+  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.svg_box_2 svg{
+  width: 20px;
+  height: 20px;
+}
 #displayOptions {
   a {
     cursor: pointer;
@@ -2058,6 +2084,11 @@ button {
 
     ul {
       margin-bottom: initial;
+
+      .active a svg{
+        fill: var(--theme-color-1); 
+      }
+
       li {
         position: relative;
 
@@ -2081,9 +2112,16 @@ button {
           transition: color $menu-collapse-time;
           transition: background $menu-collapse-time;
 
+          svg {
+            fill: var(--primary-color); 
+          }
+
           &:hover,
           &:focus {
             color: var(--theme-color-1);
+            & svg {
+              fill: var(--theme-color-1);
+              }
           }
         }
 
@@ -7468,10 +7506,14 @@ i.large-icon {
   margin: 0;
   }
 .icon-container {
+  position: relative;
   width: 2.5rem;
   height: 2.5rem;
-  &:hover i{
-    color: var(--light-btn-background);
+  svg {
+    fill: var(--theme-color-3);
+  }
+  &:hover svg{
+    fill: var(--light-btn-background);
   }
 }
 .shadow-img {

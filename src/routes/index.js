@@ -28,7 +28,7 @@ function route(app) {
         res.json({
             error: {
                 message: error.message,
-                status: error.status,
+                status: error.status || 500,
             }
         });
     });

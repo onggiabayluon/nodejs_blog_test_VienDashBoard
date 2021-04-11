@@ -18,8 +18,7 @@ class SiteController {
         //2.
         //test
         
-        
-        
+    
         // const getDocument = async () => {
         //     try {
         //         //const coursetest = new Course({ title: 'test' });

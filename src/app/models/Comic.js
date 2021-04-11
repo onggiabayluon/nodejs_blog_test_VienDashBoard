@@ -26,13 +26,6 @@ const Comic = new Schema({
       publicId: { type: String },
     }
   ],
-  // image: [
-  //   {
-  //     name: String,
-  //     url: String,
-  //     publicId: { type: String },
-  //   }
-  // ],
 }, opts);
 
 

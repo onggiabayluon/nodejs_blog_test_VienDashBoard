@@ -1,16 +1,17 @@
 const Comic       = require('../models/Comic');
-const Chapter     = require('../models/Chapter')
+const Chapter     = require('../models/Chapter');
 const shortid     = require('shortid');
 const cloudinary  = require('../../config/middleware/ModelCloudinary')
 const trimEng     = require('../../config/middleware/trimEng')
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
 const removeVietnameseTones  = require('../../config/middleware/VnameseToEng');
 const TimeDifferent = require('../../config/middleware/TimeDifferent')
+const dbHelper    = require('./dbHelper')
 class meController {
 
 
   showChapter(req, res, next) {
-    Chapter.find({ chapter: req.params.chapter })
+    Chapter.find({ comicSlug: req.params.slug, chapter: req.params.chapter })
       .then(chapter => {
         // return res.json(chapter)
         res.render('me/showChapter.hbs',
@@ -21,10 +22,26 @@ class meController {
       })
       .catch(next);
   }
-  /*
-  1. Render Admin Home
-  */
-  // [GET] / me / stored / comics
+
+  /***** Comic Controller *****
+  0. default page
+  1. Render comic list
+  2. Render Create comics Page
+  3. Create comics
+  4. Render Edit Page
+  5. Update comic
+  6. Destroy comic
+  7. Handle Form Action Comic
+  ***** Comic Controller *****/
+
+  /***** Chapter Controller *****
+  8.  Get ChapterList
+  9.  Render create Chapter
+  10. destroy Chapter
+  11. Handle Form Action Chapter
+  ***** Chapter Controller *****/
+ 
+  // 0. default: [GET] / me / stored / comics
   storedComics(req, res, next) {
 
     Promise.all([Comic.find({ $and: [{ title: { $exists: true } }, { chaptername: { $not: { $exists: true } } }] }), Comic.countDocumentsDeleted()]
@@ -41,250 +58,48 @@ class meController {
       .catch(next);
   }
 
-  /*
-  2. Render comic list
-  */
-  // [GET] / me / stored / comics / comic-list
+  
+  // 1. Render comic list: [GET] / me / stored / comics / comic-list
+
   getComicList(req, res, next) {
-    let page = +req.query.page || 1;
-    let PageSize = 2;
-    let skipCourse = (page - 1) * PageSize;
-    let nextPage = +req.query.page + 1 || 2;
-    let prevPage = +req.query.page - 1;
-    let prevPage2 = +req.query.page - 2;
-    Comic.find({})
-    .skip(skipCourse)
-    .limit(PageSize)
-    .exec((err, comics) => {
-      if (err) return next(err);
-      Comic.countDocuments((err, count) => {
-        if (err) return next(err);
-        comics.map(comic => {
-          var time = TimeDifferent(comic.updatedAt)
-          // console.log(time)
-          comic["comicUpdateTime"] = time;
-        })
-          res.render('me/Pages.Comics.List.hbs',
-          {
-            layout: 'admin',
-            current: page,
-            nextPage,
-            prevPage,
-            prevPage2,
-            pages: Math.ceil(count / PageSize),
-            comics: multiMongooseToObject(comics),
-          })
-        })
+    var comicList = new Object()
+    comicList = Comic.find({})  
+    
+    if(req.query.hasOwnProperty('_sort')) {
+      comicList = comicList.sort({
+        [req.query.column]: [req.query.type]
       })
+
+    }
+
+    dbHelper.GetComicList_Pagination_Helper(comicList, req, res, null)
+    
   }
   
-
-  /*
-  2.2 Render ChapterList
-  */
-  // [GET] / me / stored / comics / :slug / chapter-list
-  getChapterList(req, res, next) {
-    Chapter.find({ comicSlug: req.params.slug })
-      .select('title chapterSlug createdAt updatedAt description thumbnail comicSlug chapter')
-      .then((chapters) => {
-        if (chapters) {
-            //console.log(Object.keys(chapters).length === 0);// true
-            var linkComics = req.params.slug;  
-            chapters.map(chapter => {
-            var time = TimeDifferent(chapter.updatedAt)
-            chapter["chapterUpdateTime"] = time;
-          })
-          res.status(200).render('me/Pages.Comics.ChapterList.hbs', {
-            layout: 'admin',
-            linkComics,
-            chapters: multiMongooseToObject(chapters)
-          })
-        }
-      })
-      .catch(next);
-  }
-
-   /*
-  2.3 Render create Chapter
-  */
-  // [GET] / me / stored / comics / :slug / create-chapter
-  renderCreateChapter(req, res, next) {
-    var linkComics = req.params.slug;
-    res.status(200).render('me/Pages.Chapter.Create.hbs', {
-      layout: 'admin',
-      linkComics,
-    })
-  }
-
-  /*
-  3. Render Create comics
-  */
-  // [GET] / me / stored / comics / create
+  // 2. Render Create comics Page: [GET] / me / stored / comics / create
   renderCreate(req, res, next) {
     res.status(200).render('me/Pages.Comic.Create.hbs',
       {
         layout: 'admin',
       });
   }
-  // [Post] / me / stored / comics / create [create comic]
+
+  // 3. Create comics: [Post] / me / stored / comics / create [create comic]
   createComic(req, res, next) {
-    //Chuyển title[tiếng việt] sang slug 
-    if (req.body.title == '') {
-      res.status(404).redirect('back')
-      return req.flash('error-message', 'Bạn chưa nhập đủ thông tin truyện');
-    }
-    var title = req.body.title;
-    var slug = removeVietnameseTones(title)
-  
-    Comic.findOne({ slug: slug })
-    .then(comicExisted => {
-      if (comicExisted) {
-        // TH nếu slug ĐÃ có
-        console.log('slug existed, add shortId to create new slug');
-        const comic = new Comic(req.body);
-        comic.slug = slug + '-' + shortid.generate();
-        comic.titleForSearch = trimEng(comic.title)
-        comic.save()
-          .then(() => {
-            req.flash('success-message', 'Tạo truyện thành công')
-            res.status(404).redirect('back')
-            //res.status(201).redirect('/me/stored/comics/comic-list');
-          })
-          .catch(err => {
-            req.flash('error-message', err)
-            res.status(500).redirect('back')
-          });
-      }
-      else {
-        // TH nếu slug CHƯA có
-        const comic = new Comic(req.body);
-        comic.slug = slug;
-        comic.titleForSearch = trimEng(comic.title)
-        comic.save()
-          .then(() => {
-            res
-            .status(201)
-            .redirect('/me/stored/comics/comic-list');
-          })
-          .catch(next);
-      }
-    })
-    .catch(next)
-      
-      
+    dbHelper.CreateComic_Helper(req, res, next, null)
   };
 
-  /*
-  4. Render Edit Page
-  */
-
-  // [GET] / me / stored /comics /:slug / edit
+  // 4. Render Edit Page: [GET] / me / stored /comics /:slug / edit
   renderComicEdit(req, res, next) {
-    Comic.find({ slug: req.params.slug })
-      .select('title slug createdAt updatedAt description thumbnail')
-      .then(comicExisted => {
-        if (comicExisted) {
-          Chapter.find({ comicSlug: req.params.slug })
-            .select('title slug createdAt updatedAt description comicSlug chapter')
-            .then(chapters => {
-              if (chapters) {
-                res.status(200).render('me/Pages.Comic.edit.hbs', {
-                  layout: 'admin',
-                  chapters: multiMongooseToObject(chapters),
-                  comic: multiMongooseToObject(comicExisted)
-                })
-              } else {
-                res
-                  .status(404)
-                  .json({ message: "No valid entry found for provided ID" });
-              }
-            })
-            .catch(err => {
-              console.log(err);
-              res.status(500).json({
-                error: err
-              });
-            });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+    dbHelper.RenderComicEdit_Helper(req, res, next, null)
   }
-  // [GET] / me / stored / comics / :slug -> update
+  // 5. Update comic: [GET] / me / stored / comics / :slug -> update
   update(req, res, next) {
-    
-    // //update thumbnail
-    // req.body.thumbnail = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    //update lấy Comic id, chỉnh sửa reg.body
-    // tìm tất cả chapter truyện lưu vào biến để lát thay đổi hêt các chaptername
-    var newtitle = req.body.title;
-    var oldSlug = req.params.slug;
-    var newSlug = removeVietnameseTones(newtitle)
-
-    var titleforsearch = {titleForSearch: trimEng(newtitle)}
-    var jsonFile = req.body
-    var finalReqBody = Object.assign({}, jsonFile, titleforsearch);
-
-        Comic.findOne({ slug: req.params.slug })
-        .then(page => {
-          if (newtitle !== page.title) {
-            Comic.findOne({ slug: newSlug })
-            .then(slugExisted => {
-              // tra cái slug mới xem có slugcheck nào có chưa 
-              // nếu slug mới mà có sử dụng r` thì slug cũ = slug mới + shortId
-              if (slugExisted) {
-
-                // đổi slug cũ sang slug mới 
-                req.body.slug = newSlug + '-' + shortid.generate();
-
-                Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: req.body.slug })
-                  .select("comicSlug")
-                  .then(result => { console.log(result) })
-                  .catch(next)
-                
-                  
-                Comic.updateOne({ slug: req.params.slug }, finalReqBody)
-                  .then(() => {
-                    res
-                    .status(200)
-                    .redirect('/me/stored/comics/comic-list');
-                  })
-                  .catch(next)
-
-              } else {
-                // nếu slug mới chưa có sử dụng thì slug cũ = slug mới
-                req.body.slug = newSlug;
-                Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: newSlug })
-                  .select("comicSlug")
-                  .then(result => { console.log(result) })
-                Comic.updateOne({ slug: req.params.slug }, finalReqBody)
-                  .then(() => {
-                    res
-                    .status(200)
-                    .redirect('/me/stored/comics/comic-list');
-                  })
-                  .catch(next)
-              }
-            })
-          } else {
-            // Nếu title mới giống title cũ thì update bình thường, không update slug
-            Comic.updateOne({ slug: req.params.slug }, finalReqBody)
-              .then(() => {
-                res
-                .status(200)
-                .redirect('/me/stored/comics/comic-list');
-              })
-              .catch(next)
-          }
-        })
-        .catch(next)
+    dbHelper.UpdateComic_Helper(req, res, next, null)
           
   }
 
+  // 6. Destroy comic
   async destroyComic(req, res, next) {
 
     function getPromise1_2() {
@@ -374,32 +189,7 @@ class meController {
     }).then((args) => console.log(args)); // result from 2 and 3
   } 
   
-
-  async destroyChapter(req, res, next) {
-    await Chapter.findOne({ chapterSlug: req.params.slug }, function (err, chapter) {
-      // return res.json(chapter)
-      console.log("vào if 1")
-      chapter.image.map(image => {
-        let imagePublicId = image.publicId
-        console.log("-- Xóa images trên cloudinary: ")
-        cloudinary.deleteMultiple(imagePublicId)
-          .then(result => {
-            console.log(result)
-          })
-          .catch(next)
-        });
-        Chapter.deleteOne({ chapterSlug: req.params.slug }) //slug của chapters
-          .then(() => {
-            console.log("-- Xóa images trên mongodb: ")
-            res.status(200).redirect('back');
-          })
-          .catch(next)
-      }) // end map image
-   
-  }
-
-  
-  // [POST] / me / stored / handle-form-action-for-comic
+  // 7. Handle Form Action Comic: [POST] / me / stored / handle-form-action-for-comic
   async handleFormActionForComics(req, res, next) {
     //res.json(req.body)
     // var comicSlugs = req.body.comicSlug;
@@ -476,7 +266,63 @@ class meController {
     }
   }
 
-  // /[POST] / me / stored / handle-form-action-for-comics
+
+  // 8. Get ChapterList: [GET] / me / stored / comics / :slug / chapter-list
+  getChapterList(req, res, next) {
+    Chapter.find({ comicSlug: req.params.slug })
+      .select('title chapterSlug createdAt updatedAt description thumbnail comicSlug chapter')
+      .then((chapters) => {
+        if (chapters) {
+            //console.log(Object.keys(chapters).length === 0);// true
+            var linkComics = req.params.slug;  
+            chapters.map(chapter => {
+            var time = TimeDifferent(chapter.updatedAt)
+            chapter["chapterUpdateTime"] = time;
+          })
+          res.status(200).render('me/Pages.Comics.ChapterList.hbs', {
+            layout: 'admin',
+            linkComics,
+            chapters: multiMongooseToObject(chapters)
+          })
+        }
+      })
+      .catch(next);
+  }
+
+  // 9. Render create Chapter: [GET] / me / stored / comics / :slug / create-chapter
+  renderCreateChapter(req, res, next) {
+    var linkComics = req.params.slug;
+    res.status(200).render('me/Pages.Chapter.Create.hbs', {
+      layout: 'admin',
+      linkComics,
+    })
+  }
+
+  // 10. destroy Chapter
+  async destroyChapter(req, res, next) {
+    await Chapter.findOne({ chapterSlug: req.params.slug }, function (err, chapter) {
+      // return res.json(chapter)
+      console.log("vào if 1")
+      chapter.image.map(image => {
+        let imagePublicId = image.publicId
+        console.log("-- Xóa images trên cloudinary: ")
+        cloudinary.deleteMultiple(imagePublicId)
+          .then(result => {
+            console.log(result)
+          })
+          .catch(next)
+        });
+        Chapter.deleteOne({ chapterSlug: req.params.slug }) //slug của chapters
+          .then(() => {
+            console.log("-- Xóa images trên mongodb: ")
+            res.status(200).redirect('back');
+          })
+          .catch(next)
+      }) // end map image
+   
+  }
+
+  // 11. Handle Form Action Chapter: [POST] / me / stored / handle-form-action-for-comic
   async handleFormActionForChapters(req, res, next) {
     //res.json(req.body)
     // var chapterSlugs = req.body.chapterSlug;

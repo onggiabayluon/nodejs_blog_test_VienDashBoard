@@ -1,9 +1,9 @@
 var cloudinary = require('cloudinary').v2;
 //lấy trong https://cloudinary.com/console/welcome
 cloudinary.config({
-    cloud_name: 'dwajvm53v',
-    api_key: '485633522843934',
-    api_secret: 'gZYmgO8732Xzcms1AJeU1_ReCGU'
+    cloud_name: process.env.Cloudinary_cloud_name,
+    api_key: process.env.Cloudinary_api_key,
+    api_secret: process.env.Cloudinary_api_secret
 });
 
 var self = module.exports = {

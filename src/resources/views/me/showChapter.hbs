@@ -1,60 +1,46 @@
 <style>
-   
- .placeholder {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url('http://localhost:3000/img/test.svg');
-}
-.intrinsic {
+ .pagewrapper {
+    position: relative;
+    /*background: url('http://localhost:8080/img/test.svg') center center no-repeat;*/
+    text-align: center;
+ } 
+ .intrinsic-item2 {
+    min-height: 35px;
+    color: #fff;
+    border-color: #000;
+    border-image: initial;
+    border-style: none;
+    border-width: medium;
+    height: auto;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    width: auto;
+    z-index: 999;
+    position: relative;
+ }
 
-  display: block;
-  position: relative;
-  height: 0;
-  width: 100%;
-  
-}
-  .intrinsic.intrinsic--square {
-    padding-top: 100%;
-  }
-
-  .intrinsic-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-   
-    height: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
 
 </style>
+
 {{#each chapter}}
     {{#each image}}
-
-    <picture class="placeholder intrinsic intrinsic--square">
-       
-        <div data-bg="{{this.url}}" 
-        class="intrinsic-item responsive border-0 card-img-left"></div>
-    
-    </picture>
-    
-
+    <div class="pagewrapper">
+        <img class="intrinsic-item2" src="http://localhost:8080/img/test.svg" data-bg="{{this.url}}" alt="img">
+    </div>
     {{/each}}
 {{/each}}
 
 <script>
    
-
     /*-- Lazy loader Image --*/
-
-    const targets = document.querySelectorAll('.intrinsic-item');
+    const targets = document.querySelectorAll('.intrinsic-item2');
     const imgOptions = {
         threshhold: 1, // 1 là toàn bộ bức ành
-        rootMargin: "300px",
+        rootMargin: "1200px",
     }
-    const clourdinary_name = 'dwajvm53v';
-    const baseUrl = `https://res.cloudinary.com/${clourdinary_name}/image/fetch`
+    const baseUrl = `https://d2qz00trz4l64d.cloudfront.net`
     var flag = 0;
     var finalSize = 0
     function querry(clientWidth) {
@@ -97,17 +83,19 @@
                         {
                            
                             const { clientWidth, clientHeight } = img
+                        console.log(clientWidth)
                             const pixelRatio = window.devicePixelRatio || 1.0
                             function setFinalSize() {
                                 finalSize = finalSize + querry(clientWidth)
                             };
                             setFinalSize();
                             console.log(pixelRatio)
-                            const imageParams = `w_${finalSize},h_${finalSize},q_auto,c_fill,f_auto`
+                            const imageParams = `fit-in/${finalSize}x0/filters:quality(50)/filters:autojpg()`
                             //const imageParams = `w_${100 * Math.round(finalSize * pixelRatio / 100)},h_${100 * Math.round(finalSize * pixelRatio / 100)},q_auto,c_fill,f_auto`
                             //,g_auto nhận diện tiêu điểm ảnh
                             const url = `${baseUrl}/${imageParams}/${img.dataset.bg}`
-                            img.style.backgroundImage = `url('${url}')`
+                            img.src = `${url}`
+                            //img.style.backgroundImage = `url('${url}')`
                         }   
                         observer.disconnect();
                     }

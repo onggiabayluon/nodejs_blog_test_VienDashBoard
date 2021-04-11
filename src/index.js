@@ -1,3 +1,5 @@
+// dotenv
+require('dotenv').config()
 //
 const path          = require('path');
 const express       = require('express');
@@ -5,20 +7,23 @@ const morgan        = require('morgan');
 const compression   = require('compression');
 const session       = require('express-session');
 const flash         = require('connect-flash')
+const sortMiddleWare= require('./app/middlewares/meControllerSort.middleware')
+const serveStatic     = require('serve-static')
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
 
-
+// db and route
 const route = require('./routes');
 const db    = require('./config/db');
+
 
 
 // connect to DB
 db.connect();
 
 const app   = express();
-const port  = 3000;
+const port  = 3000 ;
 
 // Flash setup
 app.use(session({
@@ -48,8 +53,12 @@ app.use(compression({
     }
 }))
 
-// Defind Static path
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, path) => {
+        const isRevved = /[a-f0-9]{7,}/.exec(path)
+        res.setHeader('Cache-Control', `max-age=${isRevved ? 31536000 : 0}`);
+    }
+}));
 
 //add cái này cho form (post) parse ra dạng kiểu dữ liệu cho console.log
 app.use(express.urlencoded({
@@ -66,6 +75,8 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 // method override
 app.use (methodOverride('_method'));
 
+// Custom MiddleWare
+app.use(sortMiddleWare)
 //Template engine: express handlebars (add partial parts)
 const handlebars = require('express-handlebars');
 app.engine(
@@ -78,7 +89,7 @@ app.engine(
           //Hàm tự thêm vào nhờ express handlebars
           helpers: {
             minus: (a,b) => a - b,
-            mySum: (a, b) =>  a + b,
+            sum: (a, b) =>  a + b,
             limit: (arr, limit) => {
                 if (!Array.isArray(arr)) { return []; }
                 return arr.slice(0, limit);
@@ -120,6 +131,78 @@ app.engine(
                     accum += block.fn(i);
                 return accum;
             },
+            sortable: (sortField, sortType) => {
+                //Xem field click vào có giống _sort.column không
+                // nếu = thi dùng sortStype.type này
+                // không thì dùng icon default
+                // else các sortfield khác thì dùng default
+                const sort = sortField === sortType.column ?  sortType.type : 'default'
+                
+                const iconsTitle = {
+                    default: ` 
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                            viewBox="0 0 400 512"><!-- Font Awesome Pro 5.15.1 by 
+                            @fontawesome - https://fontawesome.com License - 
+                            https://fontawesome.com/license (Commercial License) -->
+                            <path class="view-icon-svg" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 
+                            448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 
+                            64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 
+                            32.1-25.9 17-41z"/>
+                        </svg>`,
+                    asc: ` 
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><defs><style>.fa-secondary{opacity:.4}</style></defs><path d="M276 192h152a20 20 0 0 0 20-20V52a20 20 0 0 0-20-20H276a20 20 0 0 0-20 20v120a20 20 0 0 0 20 20zm208 64H284a28 28 0 0 0-28 28v168a28 28 0 0 0 28 28h200a28 28 0 0 0 28-28V284a28 28 0 0 0-28-28z" class="view-icon-svg fa-secondary"/><path d="M107.31 36.69a16 16 0 0 0-22.62 0l-80 96C-5.35 142.74 1.77 160 16 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.21 0 21.38-17.24 11.31-27.31z" class="view-icon-svg fa-primary"/>
+                        </svg>`,
+                    desc: ` 
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                            viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><defs><style>.fa-secondary{opacity:.4}</style></defs><path d="M275.9 192h152.2a20 20 0 0 0 19.9-20V52a20 20 0 0 0-19.9-20H275.9A20 20 0 0 0 256 52v120a20 20 0 0 0 19.9 20zM484 256H284a28 28 0 0 0-28 28v168a28 28 0 0 0 28 28h200a28 28 0 0 0 28-28V284a28 28 0 0 0-28-28z" class="view-icon-svg fa-secondary"/><path d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.37 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352z" class="view-icon-svg fa-primary"/>
+                        </svg>`
+                }
+
+                const iconsTime = {
+                    default: `
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 448 512"><!-- Font Awesome Pro 5.15.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path class="stopwatch view-icon-svg" d="M393.3 141.3l17.5-17.5c4.7-4.7 4.7-12.3 0-17l-5.7-5.7c-4.7-4.7-12.3-4.7-17 0l-17.5 17.5c-35.8-31-81.5-50.9-131.7-54.2V32h25c6.6 0 12-5.4 12-12v-8c0-6.6-5.4-12-12-12h-80c-6.6 0-12 5.4-12 12v8c0 6.6 5.4 12 12 12h23v32.6C91.2 73.3 0 170 0 288c0 123.7 100.3 224 224 224s224-100.3 224-224c0-56.1-20.6-107.4-54.7-146.7zM224 480c-106.1 0-192-85.9-192-192S117.9 96 224 96s192 85.9 192 192-85.9 192-192 192zm4-128h-8c-6.6 0-12-5.4-12-12V172c0-6.6 5.4-12 12-12h8c6.6 0 12 5.4 12 12v168c0 6.6-5.4 12-12 12z"/>
+                        </svg>`,
+                    asc: `
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path class="hourglass-start view-icon-svg" d="M360 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24 0 90.965 51.016 167.734 120.842 192C75.016 280.266 24 357.035 24 448c-13.255 0-24 10.745-24 24v16c0 13.255 10.745 24 24 24h336c13.255 0 24-10.745 24-24v-16c0-13.255-10.745-24-24-24 0-90.965-51.016-167.734-120.842-192C308.984 231.734 360 154.965 360 64c13.255 0 24-10.745 24-24V24c0-13.255-10.745-24-24-24zm-64 448H88c0-77.458 46.204-144 104-144 57.786 0 104 66.517 104 144z"/>
+                        </svg>`,
+                    desc: `
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                            viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path class="hourglass-end view-icon-svg" d="M360 64c13.255 0 24-10.745 24-24V24c0-13.255-10.745-24-24-24H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24 0 90.965 51.016 167.734 120.842 192C75.016 280.266 24 357.035 24 448c-13.255 0-24 10.745-24 24v16c0 13.255 10.745 24 24 24h336c13.255 0 24-10.745 24-24v-16c0-13.255-10.745-24-24-24 0-90.965-51.016-167.734-120.842-192C308.984 231.734 360 154.965 360 64zM192 208c-57.787 0-104-66.518-104-144h208c0 77.945-46.51 144-104 144z"/>
+                        </svg>`
+                }
+
+                if (sortField === "title") {
+                    var iconForField = iconsTitle
+                    var tooltipTexts = 'Name Sort'
+                } else {  var iconForField = iconsTime
+                        var tooltipTexts = 'Time Sort' }
+               
+                const tooltiptexts = {
+                    default: 'desc',
+                    asc: 'desc',
+                    desc: 'asc',
+                }
+
+                const types = {
+                    default: 'desc',
+                    asc: 'desc',
+                    desc: 'asc',
+                }
+
+                // sortype là giá trị truyền vào
+                const icon = iconForField[sort] //icons[default] 
+                
+                const type = types[sort] //types[default]
+
+                return  `<a href="?_sort&column=${sortField}&type=${type}" 
+                class="mr-2 view-icon tooltipIcon" >
+                <span class="mb-2 tooltiptext"> ${tooltipTexts} </span>
+                ${icon}
+                </a>`
+            }
         }
     }).engine,
 );
