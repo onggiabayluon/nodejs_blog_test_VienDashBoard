@@ -40,7 +40,7 @@
                                  <div class="card-img-top p-xl-3 p-5">
                                     {{#each comic}}
                                         {{#each this.thumbnail}}
-                                            <img src="{{this.url}}"alt="img" width="100%" height="auto">
+                                            <img src="https://cloudimagewall.xyz/350x0/filters:quality(75)/filters:autojpg()/{{this.url}}"alt="img" width="100%" height="auto">
                                             {{else}}
                                             <div class="m-3 alert alert-warning alert-dismissible fade show rounded mb-0" role="alert">
                                                 <strong>Bạn chưa upload Thumbnail</strong>
@@ -66,7 +66,7 @@
 
                                     {{!-- Dropzone Form upload --}}
                                     <div class="card-body position-relative">
-                                            <form class="dropzone" action="/me/stored/comics/{{this.slug}}/single-upload" id="buldUploadForm" method="POST" enctype="multipart/form-data">
+                                            <form class="dropzone" action="/me/stored/comics/{{this.slug}}/S3-thumbnail-upload" id="buldUploadForm" method="POST" enctype="multipart/form-data">
                                             <div class="dz-clickable" id="uploadDropzone">
                                                 <div class="dz-default dz-message" data-dz-message>
                                                     <span>Drop 1 image here to upload</span>
@@ -195,6 +195,7 @@
                 this.on("success", function (file, responseText) {
                     console.log(responseText);
                     $(".alert-success").toggleClass('d-none')
+                    $(".alert-warning").toggleClass('d-none')
                     //setTimeout(function () { location.reload(true); }, 5000);
                 });
             },

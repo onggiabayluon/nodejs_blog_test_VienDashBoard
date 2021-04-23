@@ -28,7 +28,7 @@ const port  = 3000 ;
 // Flash setup
 app.use(session({
     secret: 'secret',
-    cookie: { maxAge: 10000 },
+    cookie: { maxAge: 5000 },
     resave: false,
     saveUninitialized: false
 }));

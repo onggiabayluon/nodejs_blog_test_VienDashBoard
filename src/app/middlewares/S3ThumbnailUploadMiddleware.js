@@ -20,18 +20,6 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-// // this is just to test locally if multer is working fine.
-// const storage = multer.diskStorage({
-//     destination: (req, res, cb) => {
-//         cb(null, 'src/api/media/profiles')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, new Date().toISOString() + '-' + file.originalname)
-//     }
-// })
-
-
-
 const multerS3Config = multerS3({
     s3: s3Config,
     bucket: process.env.AWS_BUCKET_NAME,
@@ -45,7 +33,7 @@ const multerS3Config = multerS3({
     key: function (req, file, cb) {
         console.log(file)
         
-        var ImageFolder = req.params.slug + '/chapter-' + req.body.chapter + '/'
+        var ImageFolder = req.params.slug + '/thumbnail/' 
         //If you want to save into a folder concat de name of the folder to the path
         var fullPath =  `${ImageFolder}${Date.now()}-${file.originalname}`;
         cb(null, fullPath)
@@ -58,12 +46,12 @@ const multerS3Config = multerS3({
     limits: {
         fileSize: 1024 * 1024 * 5 // we are allowing only 5 MB files
     }
-}).array("many-files", 200);
+}).single('single-file');
 
  // Mục đích của util.promisify() là để bên controller có thể dùng async-await để gọi tới middleware này
- let multipleUploadMiddleware = util.promisify(uploadManyFiles);
+ let thumbnailUploadMiddleware = util.promisify(uploadManyFiles);
  
- module.exports = multipleUploadMiddleware;
+ module.exports = thumbnailUploadMiddleware;
 
 /*
 app.post('/upload', upload.array("many-files", 200), function (req, res, next) {

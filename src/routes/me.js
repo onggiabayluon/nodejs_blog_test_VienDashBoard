@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const meController = require('../app/controllers/meController');
-const UploadController  = require('../app/controllers/UploadController');
 const S3UploadController  = require('../app/controllers/S3UploadController');
 //đang ở trong route: /courses/:slug
 //:slug là route kế tiếp /news/details
@@ -13,8 +12,7 @@ router.get('/stored/comics', meController.storedComics);
 
 // Upload
 router.post('/stored/comics/:slug/S3-multiple-upload', S3UploadController.multipleUpload);
-router.post('/stored/comics/:slug/multiple-upload', UploadController.multipleUpload);
-router.post('/stored/comics/:slug/single-upload', UploadController.singleUpload);
+router.post('/stored/comics/:slug/S3-thumbnail-upload', S3UploadController.thumbnailUpload);
 
 router.get('/stored/comics/:slug/edit', meController.renderComicEdit);
 // [GET] / me / stored / comics / :slug -> update

@@ -3,7 +3,7 @@
     <div class=" card d-flex flex-row mb-3">
         <a class="d-flex" href="/me/stored/comics/{{this.slug}}/edit" aria-label="{{this.slug}}">
             {{#each thumbnail}}
-            <img data-bg="{{this.url}}" class="shadow-img list-thumbnail responsive border-0  my-thumb-style"
+            <img src="https://cloudimagewall.xyz/fit-in/130x0/filters:quality(75)/filters:autojpg()/{{this.url}}" data-bg="{{this.url}}" class="shadow-img list-thumbnail responsive border-0  my-thumb-style"
                 alt="image">
             {{else}}
             <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"

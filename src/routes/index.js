@@ -1,6 +1,5 @@
 // routes: index.js --> courses.js --> controller: coursesController.js
 
-const newsRouter = require('./news');
 const siteRouter = require('./site');
 const mangasRouter = require('./manga');
 const meRouter = require('./me');
@@ -10,7 +9,6 @@ function route(app) {
 
     //đang chọn route đầu tiên
     //Action ---> Dispatcher ---> Function handler
-    app.use('/news', newsRouter);
     app.use('/manga', mangasRouter);
     app.use('/me', meRouter);
     

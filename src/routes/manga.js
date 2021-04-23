@@ -3,7 +3,6 @@ const router = express.Router();
 
 
 const MangaController = require('../app/controllers/MangaController');
-const UploadController  = require('../app/controllers/UploadController');
 
 //đang ở trong route: /manga/:slug
 //:slug là route kế tiếp /news/details
@@ -17,8 +16,6 @@ router.post('/handle-form-action', MangaController.handleFormAction);
 router.get('/:slug/uploadChapter', MangaController.uploadChapter);
 //upload ảnh
 router.get('/upload', MangaController.renderUpload);
-router.post('/:slug/multiple-upload', UploadController.multipleUpload);
-router.post('/:slug/single-upload', UploadController.singleUpload);
 //[PUT]: chỉnh sửa lên chính cái id 
 router.get('/:slug/edit', MangaController.edit);
 router.put('/:slug', MangaController.update);

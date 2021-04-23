@@ -4746,9 +4746,9 @@ div.error {
     span {
       display: inline-block;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath style='fill:"+encodecolor(
-          var(--theme-color-1)
+        #c43d4b
         )+";' d='M4.1,23.9A13.51,13.51,0,0,1,0,14,13.52,13.52,0,0,1,4.1,4.1,13.52,13.52,0,0,1,14,0a13.52,13.52,0,0,1,9.9,4.1A13.52,13.52,0,0,1,28,14a13.51,13.51,0,0,1-4.1,9.9A13.52,13.52,0,0,1,14,28,13.52,13.52,0,0,1,4.1,23.9Z'/%3E%3Cpath style='fill:"+encodecolor(
-          var(--foreground-color)
+          #ffffff
         )+";' d='M13.13,19.35V6.17a.88.88,0,1,1,1.75,0V19.35Z'/%3E%3Crect style='fill:"+encodecolor(var(--foreground-color))+";' x='13.13' y='21.07' width='1.75' height='1.64'/%3E%3C/svg%3E");
       width: 28px;
       height: 28px;
@@ -4765,9 +4765,9 @@ div.error {
     span {
       display: inline-block;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath style='fill:"+encodecolor(
-          var(--theme-color-1)
+          #3e884f
         )+";' d='M4.1,23.9A13.51,13.51,0,0,1,0,14,13.52,13.52,0,0,1,4.1,4.1,13.52,13.52,0,0,1,14,0a13.52,13.52,0,0,1,9.9,4.1A13.52,13.52,0,0,1,28,14a13.51,13.51,0,0,1-4.1,9.9A13.52,13.52,0,0,1,14,28,13.52,13.52,0,0,1,4.1,23.9Z'/%3E%3Cpath style='fill:"+encodecolor(
-          var(--foreground-color)
+          #ffffff
         )+";' d='M20.14,8.81A.77.77,0,0,1,21.2,9a.81.81,0,0,1,.25.61.83.83,0,0,1-.25.62L12.48,19l-.11.1a.82.82,0,0,1-1.23,0L6.79,14.74l-.11-.16a.49.49,0,0,1-.08-.18,1.06,1.06,0,0,1,0-.19.61.61,0,0,1,0-.19,1.16,1.16,0,0,1,0-.18,1.26,1.26,0,0,1,.08-.18,1,1,0,0,1,.11-.15.87.87,0,0,1,1.26,0l3.69,3.7L19.94,9A.72.72,0,0,1,20.14,8.81Z'/%3E%3C/svg%3E");
       width: 28px;
       height: 28px;
@@ -4816,9 +4816,11 @@ div.error {
     display: none;
   }
 
-  .dz-error-mark,
+  .dz-error-mark {
+    color: $error-color
+  }
   .dz-success-mark {
-    color: var(--theme-color-1) !important;
+    color: $success-color;
   }
 }
 
@@ -7461,10 +7463,10 @@ i.large-icon {
 // 49.
 .my-thumb-style {
   background-size: cover;
-  min-height: 120px;
-  min-width: 120px;
-  max-width: 120px;
-  height: auto !important; }
+  max-height: 130px;
+  min-width: 130px;
+  max-width: 130px;
+  margin: auto 0; }
 
 /* Tooltip container */
 .tooltipIcon {
@@ -7688,4 +7690,32 @@ $check-color: $brand-success;
 }
 .custom_align td {
   vertical-align: middle;
+}
+
+// Hover effect thumbnail-frame
+.thumbnail-frame {
+  position: relative;
+  z-index: 1;
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0;
+  //   right: 1rem;
+  //   bottom: 0px;
+  //   left: -1rem;
+  //   margin: 0;
+  //   border-radius: 10px;
+  //   overflow: hidden;
+  //   z-index: -1;
+  //   background: white;
+  //   clip-path: inset(1rem 0 1rem 2rem round 10px);
+  // }
+
+  // &:hover::after {
+  //   margin: -1.5rem;
+  //   }
+    &:hover img {
+      transform: scale(1.1);
+      transition: $animation-time-short;
+      }
 }

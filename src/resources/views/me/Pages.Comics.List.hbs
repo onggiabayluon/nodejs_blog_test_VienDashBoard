@@ -12,27 +12,7 @@
 
             <div class="container-fluid disable-text-selection">
 
-                <div class="row">
-                    {{#if error_message}}
-
-                    <div class="alert alert-danger" role="alert" style="width: 98%;">
-                        {{error_message}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    {{/if}}
-                    {{#if success_message}}
-
-                    <div class="alert alert-success" role="alert" style="width: 98%;">
-                        {{success_message}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    {{/if}}
-
-                </div>
+                {{> errorMessage}}
 
                 <div class="row">
                     <div class="col-12">
@@ -123,18 +103,24 @@
 
                 <div class="row">
                     <div class="col-12 list" data-check-all="checkAll">
+                        {{#ifCond noComics '==' true}}
+                        <p class="text-center">Bạn chưa đăng Truyện nào hết !!</p>
+                        <p class="text-center">Hãy Nhấn vào nút 
+                           <a href="/me/stored/comics/create" 
+                           class="text-primary"> Tạo Truyện Mới </a> </p>
+                        {{/ifCond}}
                         <div class="resultOfSearch">
                             {{#each comics}}
                             <div class=" card d-flex flex-row mb-3">
-                                <a class="d-flex" href="/me/stored/comics/{{this.slug}}/edit"
+                                <a class="d-flex thumbnail-frame" href="/me/stored/comics/{{this.slug}}/edit"
                                     aria-label="{{this.slug}}">
                                     {{#each thumbnail}}
                                     <img data-bg="{{this.url}}"
-                                        class="shadow-img list-thumbnail responsive border-0  my-thumb-style"
+                                        class="thumbnailsLoader list-thumbnail responsive border-0  my-thumb-style"
                                         alt="image">
                                     {{else}}
                                     <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"
-                                        class="shadow-img list-thumbnail responsive border-0 card-img-left my-thumb-style" />
+                                        class="list-thumbnail responsive border-0 card-img-left my-thumb-style" />
                                     {{/each}}
                                 </a>
                                 <div class="pl-2 d-flex flex-grow-1 min-width-zero">
@@ -216,85 +202,15 @@
                             {{/each}}
                         </div>
 
+                        {{> pagination}}
 
-
-
-
-
-    </form>
-    {{#if pages}}
-    {{#ifCond current '<=' pages}} <nav class="mt-4 mb-3" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center mb-0">
-
-            <li class="page-item ">
-                <a class="page-link first" href="#" aria-label="first">
-                    <i class="simple-icon-control-start" style="line-height: unset;"></i>
-                </a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link prev" {{#ifCond ../current '==' 1}}href="#" {{else}} href="?page=1"
-                    aria-label="prev" {{/ifCond}}>
-                    <i class="simple-icon-arrow-left" style="line-height: unset;"></i>
-                </a>
-            </li>
-
-            {{#ifCond ../current '>' 3}}
-            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-            {{/ifCond}}
-            {{#ifCond ../prevPage2 '>' 0}}
-            <li class="page-item"><a class="page-link" href="?page={{../prevPage2}}">{{../prevPage2}}</a></li>
-            {{/ifCond}}
-            {{#ifCond ../prevPage '>' 0}}
-            <li class="page-item"><a class="page-link" href="?page={{../prevPage}}">{{../prevPage}}</a></li>
-            {{/ifCond}}
-            <li class="page-item active "><a class="page-link" href="?page={{../current}}">{{../current}}</a></li>
-            {{#ifCond ../current '<' ../pages}} <li class="page-item"><a class="page-link"
-                    href="?page={{../nextPage}}">{{../nextPage}}</a></li>
-                {{/ifCond}}
-                {{#ifCond ../nextPage '<' ../pages}} <li class="page-item"><a class="page-link"
-                        href="?page={{sum ../nextPage 1}}">{{sum ../nextPage 1}}</a></li>
-                    {{/ifCond}}
-                    {{#ifCond ../current '<' (minus ../pages 2)}} <li class="page-item disabled"><a class="page-link"
-                            href="#">...</a></li>
-                        {{/ifCond}}
-
-                        <li class="page-item ">
-                            <a class="page-link next" {{#ifCond ../current '==' ../pages}}href="#" {{else}}
-                                href="?page={{../pages}}" aria-label="next" {{/ifCond}}>
-                                <i class="simple-icon-arrow-right" style="line-height: unset;"></i>
-                            </a>
-                        </li>
-                        <li class="page-item ">
-                            <a class="page-link last" href="#" aria-label="Last">
-                                <i class="simple-icon-control-end" style="line-height: unset;"></i>
-                            </a>
-                        </li>
-
-                        {{!-- <li class="page-item">
-                            <form action="" method="get">
-                                <input type="text" name="page" required>
-                                <button type="submit" class="btn btn-primary">nhập số trang</button>
-                            </form>
-                        </li> --}}
-        </ul>
-        </nav>
-        {{else}}
-        <div class="row">
-            <h1>Bạn chưa đăng truyện</h1>
-        </div>
-
-        {{/ifCond}}
-        {{else}}
-        <div class="row">
-            <h1>Bạn chưa đăng truyện</h1>
-        </div>
-        {{/if}}
-
-        </div>
-        </div>
-        </div>
+                    </div>
+                </div>
+            </div>
         </main>
+    </form>
 
+    <script src="/js/thumbnailsLoader.js"></script>
 </body>
 
 {{!-- Confirm delete course --}}
@@ -340,7 +256,6 @@
                 data: JSON.stringify({ data: data }),
                 success: function (result) {
                     output.replaceWith(result)
-                    fetchImage()
                 },
                 error: function (result) {
                     console.log(result)
@@ -348,34 +263,6 @@
             });
         })
 
-
-
-
-
-        fetchImage()
-        /*--  Optimize Image --*/
-        function fetchImage() {
-            var clourdinary_name = 'dwajvm53v';
-            const baseUrl = `https://res.cloudinary.com/${clourdinary_name}/image/fetch`
-
-            Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
-                const { clientWidth, clientHeight } = image
-                const pixelRatio = window.devicePixelRatio || 1.0
-                const imageParams = `w_${100 * Math.round(clientWidth * pixelRatio / 100)},h_${100 * Math.round(clientHeight * pixelRatio / 100)},q_auto,c_fill,f_auto`
-                //,g_auto nhận diện tiêu điểm ảnh
-                const url = `${baseUrl}/${imageParams}/${image.dataset.bg}`
-                image.style.backgroundImage = `url('${url}')`
-            })
-            /*--  End Optimize Image --*/
-
-            /*-- Lazy loader Image --*/
-        }
-
-
-        const targets = document.querySelectorAll('div [data-bg]');
-        console.log(targets)
-
-        /*-- End Lazy loader Image --*/
 
         var comicSlug;
         var hiddenForm = document.forms['hidden-form'];
