@@ -1,0 +1,158 @@
+<style>
+  label {
+    margin-left: 1.2rem;
+  }
+  .customFlexbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .labelFlex {
+    width: 100%;
+    max-width: 30em;  
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .customInput {
+    flex-grow: 1;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 300;
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0.5em 0;
+    line-height: 1;
+    transition: border-color 0.2s;
+    padding: 10px;
+  }
+  .customInput:focus {
+    border-color: hsl(0, 0%, 25%);
+    outline: none;
+  }
+  .customInput:focus + .icon {
+    stroke-dasharray: 28.284, 20;
+    stroke-dashoffset: 0;
+  }
+
+  .icon {
+    width: 1rem;
+    order: -1;
+    transition: all 0.2s;
+    stroke-dasharray: 0, 20;
+    stroke-dashoffset: -14.142;
+  }
+  .icon path {
+    stroke: black;
+    stroke-width: 1px;
+    fill: none;
+  }
+  .line {
+    width: 100%;
+    height: 2px;
+    stroke: hsl(0, 0%, 75%);
+    stroke-width: 2px;
+    margin-left: 1rem;
+  }
+  .line .focus,
+  .line .valid,
+  .line .invalid {
+    transition: all 0.2s;
+    stroke-dasharray: 0, 20;
+    stroke-dashoffset: -20;
+  }
+  .line .focus {
+    stroke: black;
+  }
+  .line .valid {
+    stroke: hsl(166, 72%, 40%);
+  }
+  .line .invalid {
+    stroke: hsl(0, 100%, 40%);
+  }
+  
+  .customInput:focus ~ .line .focus,
+  .customInput:valid ~ .line .valid,
+  .customInput[data-touched]:invalid ~ .line .invalid {
+    stroke-dasharray: 40, 0;
+    stroke-dashoffset: 0;
+  }
+</style>
+
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i>  Login</h1>
+      {{> errorMessage}}
+      <form action="/users/login" method="POST">
+
+        <div class="customFlexbox">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="labelFlex">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="customInput"
+                  placeholder="Enter Email"
+                  value="{{email}}"
+                  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                />
+                <svg viewBox="0 0 20 20" class="icon">
+                  <path d="M0 0 L10 10 L0 20"></path>
+                </svg>
+                <svg viewBox="0 0 40 2" class="line" preserveAspectRatio="none">
+                  <path d="M0 1 L40 1"></path>
+                  <path d="M0 1 L40 1" class="focus"></path>
+                  <path d="M0 1 L40 1" class="invalid"></path>
+                  <path d="M0 1 L40 1" class="valid"></path>
+                </svg>
+            </div>
+          </div>
+          
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="labelFlex">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="customInput"
+                    placeholder="Enter Password"
+                    value="{{password}}"
+                    required minlength="6"
+                  />
+                  <svg viewBox="0 0 20 20" class="icon">
+                    <path d="M0 0 L10 10 L0 20"></path>
+                  </svg>
+                  <svg viewBox="0 0 40 2" class="line" preserveAspectRatio="none">
+                    <path d="M0 1 L40 1"></path>
+                    <path d="M0 1 L40 1" class="focus"></path>
+                    <path d="M0 1 L40 1" class="invalid"></path>
+                    <path d="M0 1 L40 1" class="valid"></path>
+                  </svg>
+              </div>
+            </div>
+            
+          </div>
+        <button type="submit" class="mt-3 btn btn-primary btn-block">Login</button>
+      </form>
+      <p class="lead mt-4">
+        No Account? <a href="/users/register">Register</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  Array.from(document.querySelectorAll('.form-group input')).forEach(i => {
+    i.addEventListener('invalid', () => {
+      i.dataset.touched = true
+    })
+    i.addEventListener('blur', () => {
+      if (i.value !== '') { i.dataset.touched = true }
+    })
+  });
+</script>

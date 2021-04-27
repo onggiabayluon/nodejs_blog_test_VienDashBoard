@@ -3,14 +3,22 @@
 const siteRouter = require('./site');
 const mangasRouter = require('./manga');
 const meRouter = require('./me');
+const userRouter = require('./user');
 
 
 function route(app) {
 
     //đang chọn route đầu tiên
     //Action ---> Dispatcher ---> Function handler
+
+    // Manga Page
     app.use('/manga', mangasRouter);
+
+    // Me Page
     app.use('/me', meRouter);
+
+    // users Page
+    app.use('/users', userRouter);
     
     // Home Page
     app.use('/', siteRouter);

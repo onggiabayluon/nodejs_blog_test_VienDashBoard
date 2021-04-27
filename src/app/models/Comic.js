@@ -17,6 +17,8 @@ const Comic = new Schema({
   // chapter: { type: String, unique: true },
   description: { type: String },
   videoId: { type: String },
+  userId: { type: String },
+  userName: { type: String },
   slug: { type: String },
   comicUpdateTime: { type: String },
   thumbnail: [

@@ -36,7 +36,7 @@
                 href="https://1.envato.market/5kAb">&nbsp;BUY&nbsp;</a>
         </div>
 
-        <a class="navbar-logo" href="Dashboard.Default.html" aria-label="navbar-logo">
+        <a class="navbar-logo" href="/me/stored/comics/dashboard/admin" aria-label="navbar-logo">
             <span class="logo d-none d-xs-block"></span>
             <span class="logo-mobile d-block d-xs-none"></span>
         </a>
@@ -161,7 +161,7 @@
             <div class="user d-inline-block">
                 <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    <span class="name">Sarah Kortney</span>
+                    <span class="name">{{user.name}}</span>
                     <span>
                         <img alt="Profile Picture" src="/img/profile-pic-l.jpg" />
                     </span>
@@ -172,7 +172,7 @@
                     <a class="dropdown-item" href="#">Features</a>
                     <a class="dropdown-item" href="#">History</a>
                     <a class="dropdown-item" href="#">Support</a>
-                    <a class="dropdown-item" href="#">Sign out</a>
+                    <a class="dropdown-item" href="/users/logout">Sign out</a>
                 </div>
             </div>
         </div>
@@ -232,8 +232,14 @@
 
                 <ul class="list-unstyled" data-link="dashboard">
                     <li>
-                        <a href="Dashboard.Default.html">
-                            <i class="simple-icon-rocket"></i> <span class="d-inline-block">Default</span>
+                        <a href="/me/stored/comics/dashboard/{{user.role}}">
+                            <i class="simple-icon-rocket"></i> <span class="d-inline-block">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/me/stored/comics/faqPage">
+                            <i class="simple-icon-rocket"></i> <span class="d-inline-block">Câu hỏi thường gặp</span>
                         </a>
                     </li>
                 </ul>

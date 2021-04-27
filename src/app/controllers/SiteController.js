@@ -8,9 +8,17 @@ const Comic     = require('../models/Comic');
 const Chapter   = require('../models/Chapter');
 const TimeDifferent = require('../../config/middleware/TimeDifferent')
 //cái dấu { } này để import từng phần tử bên trong
-const { multiMongooseToObject } =  require('../../util/mongoose');
+const { singleMongooseToObject, multiMongooseToObject } =  require('../../util/mongoose');
 
 class SiteController {
+
+    dashboardPage(req, res, next) {
+        
+        res.render('users/dashboard', {
+            layout: `${req.user.role}Main`,
+            user: singleMongooseToObject(req.user)
+        })
+    }
     // [GET] / Site
     index(req, res, next) {
        
@@ -54,7 +62,7 @@ class SiteController {
         .then(courses => { //4.       
                 
             res.render('home', { 
-                layout: 'main',
+                layout: 'adminMain',
                 courses: multiMongooseToObject(courses)
              });
         })

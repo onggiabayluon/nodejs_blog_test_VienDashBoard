@@ -15,6 +15,8 @@ const Chapter = new Schema({
     description: { type: String },
     chapterSlug: { type: String },
     chapterUpdateTime: { type: String },
+    userId: { type: String },
+    userName: { type: String },
     image: [
       {
         name: String,

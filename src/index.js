@@ -6,9 +6,10 @@ const express       = require('express');
 const morgan        = require('morgan');
 const compression   = require('compression');
 const session       = require('express-session');
+const passport      = require('passport');
 const flash         = require('connect-flash')
 const sortMiddleWare= require('./app/middlewares/meControllerSort.middleware')
-const serveStatic     = require('serve-static')
+const serveStatic   = require('serve-static')
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
@@ -18,24 +19,34 @@ const route = require('./routes');
 const db    = require('./config/db');
 
 
+// Passport Config
+require('./config/auth/passport')(passport);
 
 // connect to DB
 db.connect();
-
 const app   = express();
 const port  = 3000 ;
 
 // Flash setup
 app.use(session({
     secret: 'secret',
-    cookie: { maxAge: 5000 },
-    resave: false,
-    saveUninitialized: false
+    cookie: { maxAge: 2592000}, //   30 day
+    resave: true,
+    saveUninitialized: true
 }));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect flash
 app.use(flash());
+
+// Global variables
 app.use((req, res, next) => {
     res.locals.success_message = req.flash('success-message')
     res.locals.error_message = req.flash('error-message')
+    res.locals.error = req.flash('error');
     next();
 })
 
