@@ -3,6 +3,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const util = require("util");
 const path = require("path");
+const Chapter = require('../models/Chapter');
 
 const s3Config = new AWS.S3({
     accessKeyId: process.env.AWS_IAM_USER_ACCESS_KEY_ID,
@@ -11,7 +12,26 @@ const s3Config = new AWS.S3({
     region: 'us-east-1'
   });
 
-const fileFilter = (req, file, cb) => {
+function chapterIsExisted (req) {
+    // 1. Implement this!
+      return (
+        Chapter
+        .findOne({comicSlug: req.params.slug, chapter: `chapter-${req.body.chapter}`})
+        .then(chapterExisted => {
+          if (chapterExisted) { return false } 
+          return true 
+        }))
+}
+
+const fileFilter = async (req, file, cb) => {
+    var check = await chapterIsExisted(req)
+    // console.log(check)
+    if (check == true) {
+        cb(null, true)
+    } else {
+        let errorMess = `chapter ${req.body.chapter} đã có, hãy nhập chapter khác`;
+        return cb(errorMess, null);
+    }
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true)
     } else {
@@ -20,24 +40,13 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-// // this is just to test locally if multer is working fine.
-// const storage = multer.diskStorage({
-//     destination: (req, res, cb) => {
-//         cb(null, 'src/api/media/profiles')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, new Date().toISOString() + '-' + file.originalname)
-//     }
-// })
-
-
-
 const multerS3Config = multerS3({
     s3: s3Config,
     bucket: process.env.AWS_BUCKET_NAME,
     cacheControl: 'max-age=31536000',
     acl: 'private',
     contentType: multerS3.AUTO_CONTENT_TYPE,
+    
     //acl: 'private',
     metadata: function (req, file, cb) {
         cb(null, { fieldName: file.fieldname });
@@ -65,6 +74,7 @@ const multerS3Config = multerS3({
  
  module.exports = multipleUploadMiddleware;
 
+// module.exports = uploadManyFiles
 /*
 app.post('/upload', upload.array("many-files", 200), function (req, res, next) {
     res.send("Uploaded!");

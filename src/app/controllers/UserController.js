@@ -11,7 +11,7 @@ class UserController {
     // login Page
     loginPage(req, res, next) {
         res.render('users/login', {
-            layout: 'userMain'
+            layout: 'login_register_layout'
         })
     }
 
@@ -34,13 +34,13 @@ class UserController {
     // Register Page
     registerPage(req, res, next) {
         res.render('users/register', {
-            layout: 'userMain'
+            layout: 'login_register_layout'
         })
     }
     
     // Register
     register(req, res, next) {
-
+        const layout = "login_register_layout"
         const { name, email, password, password2 } = req.body;
         let errors = [];
 
@@ -48,7 +48,7 @@ class UserController {
 
         if (errors.length > 0) {
             res.render('users/register', {
-                layout: 'userMain',
+                layout: layout,
                 errors,
                 name,
                 email,
@@ -79,7 +79,7 @@ class UserController {
                 if (user) {
                     errors.push({ msg: 'Email Existed, Please use anothers' });
                     res.render('users/register', {
-                        layout: 'userMain',
+                        layout: layout,
                         errors,
                         name,
                         email,
@@ -102,7 +102,7 @@ class UserController {
                             .then(user => {
                               req.flash('success-message', 'You are now registered and can log in');
                               res.render('users/login', {
-                                  layout: 'userMain',
+                                  layout: layout,
                                   email,
                                   password
                               })
@@ -197,7 +197,7 @@ class UserController {
                 var check = await canChangeBannedStatus(userToBan, myRole)
                 if (!check) {
                     res.status(401).redirect(`/me/stored/comics/dashboard/${myRole}`)
-                    req.flash('error-message', `Bạn không đủ điều kiện để ${statusWantToChange} người này`)
+                    req.flash('error-message', `Bạn không đủ điều kiện để ${message} người này`)
                 } else {
                     changeUserStatus(userToBan, req, res, next)
                 }

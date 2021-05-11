@@ -1,89 +1,72 @@
 const Comic = require('../models/Comic');
 const Chapter = require('../models/Chapter');
 const shortid = require('shortid');
+const customError = require('../../util/customErrorHandler')
 const S3UploadMiddleWare = require("../middlewares/S3UploadMiddleWare");
 const S3ThumbnailUploadMiddleware = require("../middlewares/S3ThumbnailUploadMiddleware");
 const S3DeleteMiddleWare = require('../middlewares/S3DeleteMiddleware')
 
-let debug = console.log.bind(console);
+// let debug = console.log.bind(console);
 class S3UploadController {
 
-    /**
- * Created by trungquandev.com's author on 17/08/2019.
- * multipleUploadController.js
- */
     // [POST] / stored /comics /:slug /S3-multiple-upload
-    multipleUpload = async (req, res) => {
+    multipleUpload = async (req, res, next) => {
         try {
             // thực hiện upload
-            // console.log(req.files)
-            // return console.log(req.files)
-            await S3UploadMiddleWare(req, res);
+            await S3UploadMiddleWare(req, res)
+            await saveURLToDb()
+            
 
             // Nếu upload thành công, không lỗi thì tất cả các file của bạn sẽ được lưu trong biến req.files
-            debug(req.files);
-
+            // debug(req.files);
             // Mình kiểm tra thêm một bước nữa, nếu như không có file nào được gửi lên thì trả về thông báo cho client
+            
             //parseFloat thì chữ abc sẽ mất, còn số giữ lại
             var chapter = parseFloat(req.body.chapter);
             if (req.files.length <= 0) {
-                return res.send(`You must select at least 1 file or more.`);
+                return next(new customError('Bạn cần chọn ít nhất 1 file hoặc nhiều hơn', 404));
             } else if (!chapter)
-                return res.send(`bạn chưa điền vào cột chapter hoặc bạn nhập không phải số`);
-            // trả về cho người dùng cái thông báo đơn giản.
-            const imageArray = req.files;
-            const comicChapter = new Chapter(req.body);
+                return next(new customError('bạn chưa điền vào cột chapter hoặc bạn nhập không phải số', 404));
+            
+            
+            
 
             function saveURLToDb() {
-                return new Promise(resolve => {
-                    comicChapter.chapter = 'chapter-' + req.body.chapter
-                    comicChapter.title = 'chapter of ' + req.params.slug
-                    comicChapter.chapterSlug = req.params.slug + '-' + shortid();
-                    comicChapter.comicSlug = req.params.slug
+                const comicChapter = new Chapter(req.body);
+                const imageArray = req.files;
+                comicChapter.chapter = 'chapter-' + req.body.chapter
+                comicChapter.title = 'chapter of ' + req.params.slug
+                comicChapter.chapterSlug = req.params.slug + '-' + shortid();
+                comicChapter.comicSlug = req.params.slug
 
-                    console.log('title: ' + comicChapter.title);
-                    console.log('comicSlug: ' + comicChapter.comicSlug);
-                    console.log('chapter: ' + req.body.chapter);
+                // console.log('title: ' + comicChapter.title);
+                // console.log('comicSlug: ' + comicChapter.comicSlug);
+                // console.log('chapter: ' + req.body.chapter);
 
-                    imageArray.map(img => {
-                        comicChapter.image.push({
-                            name: img.originalname,
-                            url: img.key,
-                        });
-                        console.log('name: ' + img.originalname);
-                        console.log('url: ' + img.key);
+                imageArray.map(img => {
+                    comicChapter.image.push({
+                        name: img.originalname,
+                        url: img.key,
                     });
-                    resolve();
-                    var link = `/me/stored/comics/${req.params.slug}/chapter-list`
-                    res.status(201).redirect(link);
-                    req.flash('success-message', 'Tạo chapter thành công !!')                
+                    // console.log('name: ' + img.originalname);
+                    // console.log('url: ' + img.key);
                 });
+                comicChapter
+                .save()
+                .then(res.redirect('back'))
             }
 
-            saveURLToDb()
-                .then(() => comicChapter.save())
-                .catch((error) => {
-                    console.error('> Error>', error);
-                })
-
-            //res.send(`Your files has been uploaded.`)
-            // res.status(201).redirect('/me/stored/manga');
-
         } catch (error) {
-            // Nếu có lỗi thì debug lỗi xem là gì ở đây
-            debug(error);
-
+            next(error)
             // Bắt luôn lỗi vượt quá số lượng file cho phép tải lên trong 1 lần
             if (error.code === "LIMIT_UNEXPECTED_FILE") {
                 return res.send(`Upload không quá 200 files.`);
             }
-
-            return res.send(`Error when trying upload many files: ${error}}`);
         }
     };
 
 
-    thumbnailUpload = async (req, res) => {
+    thumbnailUpload = async (req, res, next) => {
         try {
             await S3ThumbnailUploadMiddleware(req, res);
 
@@ -139,7 +122,8 @@ class S3UploadController {
 
         } catch (error) {
             // Nếu có lỗi thì debug lỗi xem là gì ở đây
-            debug(error);
+            next(error)
+            
 
             // Bắt luôn lỗi vượt quá số lượng file cho phép tải lên trong 1 lần
             if (error.code === "LIMIT_UNEXPECTED_FILE") {

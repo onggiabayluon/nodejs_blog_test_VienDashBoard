@@ -4,6 +4,7 @@ const siteRouter = require('./site');
 const mangasRouter = require('./manga');
 const meRouter = require('./me');
 const userRouter = require('./user');
+const fetchRouter = require('./fetch');
 
 
 function route(app) {
@@ -19,6 +20,9 @@ function route(app) {
 
     // users Page
     app.use('/users', userRouter);
+
+    // users Page
+    app.use('/fetch', fetchRouter);
     
     // Home Page
     app.use('/', siteRouter);

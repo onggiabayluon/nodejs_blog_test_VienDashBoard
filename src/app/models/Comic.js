@@ -13,9 +13,11 @@ const opts = {
 const Comic = new Schema({
   title: { type: String },
   titleForSearch: { type: String },
-  // chaptername: { type: String },
-  // chapter: { type: String, unique: true },
   description: { type: String },
+  isPublish: {
+    type: Boolean,
+    required: true,
+  },
   videoId: { type: String },
   userId: { type: String },
   userName: { type: String },

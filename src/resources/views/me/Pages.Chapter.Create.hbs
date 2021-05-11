@@ -40,11 +40,33 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="mb-4">Tạo Chapter Mới</h5>
+                    <div id="message" class="d-none mt-5 alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>Đang upload ảnh !!</strong>
+                        <p> Vui lòng chờ trong giây lát </p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="message-2" class="d-none alert-error mt-5 alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Chapter Đã tồn tại !!</strong>
+                        <p>hãy chọn chapter khác </p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                         <div class="card-body position-relative">
                             {{!-- form --}}
                             <form>
                                 <label class="form-group has-float-label">
-                                    <input id="getInput" class="form-control" value="" placeholder="VD: 1 hoặc 20.1" />
+                                    <input type="number" class="form-control" id="getInput" name="Chapter" 
+                                    placeholder="VD: 1 hoặc 20.1" 
+                                    required min="0" step="any" />
+                                    <svg viewBox="0 0 40 2" class="line" preserveAspectRatio="none">
+                                        <path d="M0 1 L40 1"></path>
+                                        <path d="M0 1 L40 1" class="focus"></path>
+                                        <path d="M0 1 L40 1" class="invalid"></path>
+                                        <path d="M0 1 L40 1" class="valid"></path>
+                                    </svg>
                                     <span>Thêm Chapter</span>
                                 </label>
                             </form> {{!-- /form --}}
@@ -60,8 +82,10 @@
                                     </div>
                                 </div>
 
-                                <input class="btn btn-primary dropzone-submit-btn" name="many-files" type="submit" id="submitDropzonebtn"
-                                    value="Upload Images" />
+                                <input class="btn btn-primary dropzone-submit-btn" 
+                                name="many-files" 
+                                type="submit" id="submitDropzonebtn"
+                                    value="Upload Images"/>
                             </form>
                         </div> {{!-- /Dropzone Form upload --}}
                 </div>
@@ -73,13 +97,16 @@
    
 
 
-    <script src="/js/vendor/jquery-3.3.1.min.js"></script>
+    {{!-- <script src="/js/vendor/jquery-3.3.1.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     $(document).ready(function () {
         if ($().dropzone && !$(".dropzone").hasClass("disabled")) {
-            Dropzone.autoDiscover = false;
+            Dropzone.autoDiscover = false; 
 
             $(document).ready(function () {
+                var message = document.getElementById('message')
+                var message2 = document.getElementById('message-2')
                 var textInputValue = document.getElementById('getInput')
                 var textOutputValue = document.getElementById('chapter')
                 var linkcomic = document.getElementById('linkcomic')
@@ -104,9 +131,17 @@
                             myDropzone.processQueue();
                             
                         });
+                        this.on("sending", function () {
+                            message.classList.remove("d-none");
+                        });
                         
                         this.on("success", function (file, responseText) {
                             window.location.replace(linkcomic);
+                        });
+                        this.on("error", function (file, responseText) {
+                            message.classList.add("d-none");
+                            message2.classList.remove("d-none");
+                            setTimeout(() => { window.location.href = ''}, 4000)
                         });
                     },
                     thumbnailWidth: 160,

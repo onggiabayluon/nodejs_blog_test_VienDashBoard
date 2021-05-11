@@ -3,6 +3,7 @@ require('dotenv').config()
 //
 const path          = require('path');
 const express       = require('express');
+const cookieParser  = require('cookie-parser')
 const morgan        = require('morgan');
 const compression   = require('compression');
 const session       = require('express-session');
@@ -10,6 +11,7 @@ const passport      = require('passport');
 const flash         = require('connect-flash')
 const sortMiddleWare= require('./app/middlewares/meControllerSort.middleware')
 const serveStatic   = require('serve-static')
+const favicon         = require('serve-favicon');
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
@@ -64,6 +66,7 @@ app.use(compression({
     }
 }))
 
+app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public'), {
     setHeaders: (res, path) => {
         const isRevved = /[a-f0-9]{7,}/.exec(path)
@@ -78,7 +81,8 @@ app.use(express.urlencoded({
 );
 app.use(express.json());
 
-
+// Cookie Parser
+app.use(cookieParser())
 
 // HTTP logger
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
@@ -90,6 +94,7 @@ app.use (methodOverride('_method'));
 app.use(sortMiddleWare)
 //Template engine: express handlebars (add partial parts)
 const handlebars = require('express-handlebars');
+const Handlebars = require('handlebars');
 app.engine(
     'hbs',
     handlebars.create({
@@ -110,6 +115,10 @@ app.engine(
                 return  str;// replace '-' -> space 
                
             },
+            encodeMyString: (text) => { 
+                return new Handlebars.SafeString(text);
+            }
+            ,
             ifCond: (a,operator,b,options) => {
                 switch (operator) {
                     case '==':

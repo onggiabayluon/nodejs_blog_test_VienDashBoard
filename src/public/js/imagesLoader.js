@@ -1,10 +1,12 @@
 /*-- Lazy loader Image --*/
-const targets = document.querySelectorAll('.imagesLoader');
+const targets = document.querySelectorAll('.image--loader');
 const imgOptions = {
     threshhold: 1, // 1 là toàn bộ bức ành
-    rootMargin: "2000px",
+    rootMargin: "0px 0px 6000px 0px",
 }
-const baseUrl = `https://cloudimagewall.xyz`
+// const baseUrl = `https://d2jvgwfxnj05gs.cloudfront.net`
+// const baseUrl = `https://cloudimagewall.xyz`
+const baseUrl = `https://api.cloudimagewall.xyz`
 var flag = 0;
 var finalSize = 0
 function querry(clientWidth) {
@@ -14,7 +16,7 @@ function querry(clientWidth) {
             };
             var mediaQueries = {
                 desktop: 1000,
-                tablets: 700,
+                tablets: 690,
                 phone: 400,
             };
             var clientWidthString = clientWidth
@@ -47,7 +49,7 @@ const lazyLoad = target => {
                     {
                        
                         const { clientWidth, clientHeight } = img
-                        // console.log("img WIDTH: " + clientWidth)
+                        console.log("img WIDTH: " + clientWidth)
                         const pixelRatio = window.devicePixelRatio || 1.0
                         function setFinalSize() {
                             finalSize = finalSize + querry(clientWidth)
@@ -59,6 +61,7 @@ const lazyLoad = target => {
                         //,g_auto nhận diện tiêu điểm ảnh
                         const url = `${baseUrl}/${imageParams}/${img.dataset.bg}`
                         img.src = `${url}`
+                        img.classList.remove('imgPlaceholder--loader')
                         //img.style.backgroundImage = `url('${url}')`
                     }   
                     observer.disconnect();

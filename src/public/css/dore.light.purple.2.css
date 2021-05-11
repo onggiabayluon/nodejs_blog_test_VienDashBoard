@@ -5760,7 +5760,7 @@ i.large-icon {
   display: block;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 50%;
+  border-radius: 1em;
   background-color: var(--background-color);
   text-align: center;
   transition: 0.5s;
@@ -5885,3 +5885,76 @@ i.large-icon {
   .thumbnail-frame:hover img {
     transform: scale(1.1);
     transition: 200ms; }
+
+.customFlexbox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; }
+
+.labelFlex {
+  width: 100%;
+  /*max-width: 30em;*/
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; }
+
+.customInput {
+  flex-grow: 1;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 300;
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0.5em 0;
+  line-height: 1;
+  transition: border-color 0.2s;
+  padding: 10px;
+  background: var(--input-background); }
+  .customInput:focus {
+    border-color: var(--primary-color);
+    outline: none; }
+  .customInput:focus + .icon {
+    stroke-dasharray: 28.284, 20;
+    stroke-dashoffset: 0; }
+
+.icon {
+  width: 1rem;
+  order: -1;
+  transition: all 0.2s;
+  stroke-dasharray: 0, 20;
+  stroke-dashoffset: -14.142; }
+  .icon path {
+    stroke: var(--primary-color);
+    stroke-width: 1px;
+    fill: none; }
+
+.line {
+  width: 100%;
+  height: 1px;
+  stroke: var(--input-background);
+  stroke-width: 2px;
+  margin-left: 0rem;
+  position: absolute; }
+  .line .focus, .line .valid, .line .invalid {
+    transition: all 0.2s;
+    stroke-dasharray: 0, 20;
+    stroke-dashoffset: -20; }
+  .line .focus {
+    stroke: var(--light-btn-background); }
+  .line .valid {
+    stroke: #1daf8d; }
+  .line .invalid {
+    stroke: #dc3848; }
+
+.customInput:focus ~ .line .focus,
+.customInput:valid ~ .line .valid,
+.customInput[data-touched]:invalid ~ .line .invalid {
+  stroke-dasharray: 40, 0;
+  stroke-dashoffset: 0; }
+
+.form-control:focus ~ .line .focus,
+.form-control:valid ~ .line .valid,
+.form-control[data-touched]:invalid ~ .line .invalid {
+  stroke-dasharray: 40, 0;
+  stroke-dashoffset: 0; }

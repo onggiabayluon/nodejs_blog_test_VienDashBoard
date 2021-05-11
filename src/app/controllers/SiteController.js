@@ -60,10 +60,10 @@ class SiteController {
         
         //3. 
         .then(courses => { //4.       
-                
             res.render('home', { 
                 layout: 'adminMain',
-                courses: multiMongooseToObject(courses)
+                courses: multiMongooseToObject(courses),
+                user: singleMongooseToObject(req.user)
              });
         })
         .catch(error => next(error));

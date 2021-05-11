@@ -22,7 +22,7 @@
                                 <a href="#">Pages</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="/me/stored/comics/comic-list">All Comics</a>
+                                <a id="linkcomic" href="/me/stored/comics/comic-list">All Comics</a>
                             </li>
                             {{#each comic}}
                             <li class="breadcrumb-item active" aria-current="page">
@@ -42,18 +42,19 @@
                                         {{#each this.thumbnail}}
                                             <img src="https://cloudimagewall.xyz/350x0/filters:quality(75)/filters:autojpg()/{{this.url}}"alt="img" width="100%" height="auto">
                                             {{else}}
-                                            <div class="m-3 alert alert-warning alert-dismissible fade show rounded mb-0" role="alert">
-                                                <strong>Bạn chưa upload Thumbnail</strong>
+                                            <div style="vertical-align: middle;position: unset;position: relative;padding: .75rem 1.25rem;margin-bottom: 1rem;border: 1px solid transparent;"
+                                            class="alert alert-warning alert-dismissible fade show rounded pl-2 pr-1" role="alert">
+                                                <strong class="ml-2">Bạn chưa upload Thumbnail</strong>
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                                                    <span style="vertical-align: middle;" aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                         {{/each}} 
                                     
                                     {{!-- <div class="separator mb-5"></div> --}}
-                                    <div class="d-none m-3 alert alert-success alert-dismissible fade show  mb-0" role="alert">
-                                        <strong>Cập nhập thumbnail thành công !!</strong>
-                                        <p>Vui lòng load lại Page</p>
+                                    <div id="message" class="d-none mt-5 alert alert-info alert-dismissible fade show  mb-0" role="alert">
+                                        <strong>Đang upload ảnh !!</strong>
+                                        <p> Vui lòng chờ trong giây lát </p>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -140,14 +141,14 @@
 
                                         <div class="form-row mb-4 ml-1">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
-                                                <label class="custom-control-label" for="customRadio1">
+                                                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" >
+                                                <label class="custom-control-label" for="customRadio3">
                                                     Đang tiến hành
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-radio ml-4">
                                                 <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
-                                                <label class="custom-control-label" for="customRadio2">
+                                                <label class="custom-control-label" for="customRadio4">
                                                     Hoàn thành
                                                 </label>
                                             </div>
@@ -177,7 +178,8 @@
     if ($().dropzone && !$(".dropzone").hasClass("disabled")) {
         Dropzone.autoDiscover = false;
 
-
+        var linkcomic = document.getElementById('linkcomic')
+        var message = document.getElementById('message')
         var submitDropzonebtn = document.getElementById('submitDropzonebtn');
         var myDropzone = new Dropzone('#buldUploadForm', {
             paramName: 'single-file',
@@ -192,20 +194,16 @@
                     e.stopPropagation();
                     myDropzone.processQueue();
                 });
+                this.on("sending", function () {
+                    message.classList.remove("d-none");
+                });
                 this.on("success", function (file, responseText) {
-                    console.log(responseText);
-                    $(".alert-success").toggleClass('d-none')
-                    $(".alert-warning").toggleClass('d-none')
-                    //setTimeout(function () { location.reload(true); }, 5000);
+                    window.location.replace(linkcomic);
                 });
             },
             thumbnailWidth: 160,
             previewTemplate: '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "><div class="p-0 w-30 position-relative"><div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div><div class="preview-container"><img data-dz-thumbnail class="img-thumbnail border-0" /><i class="simple-icon-doc preview-icon" ></i></div></div><div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"><div><span data-dz-name></span></div><div class="text-primary text-extra-small" data-dz-size /><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div></div><a href="#/" class="remove" data-dz-remove><i class="glyph-icon simple-icon-trash"></i></a></div>'
         });
-        /*myDropzone.on("complete", function (file) {
-               myDropzone.removeFile(file);
-           });*/
-
     }
 });
 </script>

@@ -18,7 +18,7 @@
     <main>
         <div class="container-fluid">
 
-            {{> errorMessage}}
+            
 
             <div class="row">
                 <div class="col-12">
@@ -149,7 +149,7 @@
                                         data-order="[[ 1, &quot;desc&quot; ]]">
                                         <thead style="cursor: pointer;">
                                             <div class="search-sm d-inline-block float-md-left mb-3 align-top">
-                                                <input placeholder="Search...">
+                                                <input id="search" placeholder="Search..." type="text">
                                             </div>
                                             <tr>
                                                 <th>User Name</th>
@@ -159,7 +159,7 @@
                                                 <th>Delete User</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="match-list">
                                        
                                         {{#each users}}
                                             <tr>
@@ -189,12 +189,12 @@
                                                         <div class="dropdown-menu" x-placement="left-start"
                                                             style="color: var(--theme-color-5); position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-162px, 0px, 0px);">                                
                                                             {{#ifCond ../ this.role '!=' 'extraAdmin'}}
-                                                            <a class="dropdown-item" href="" data-toggle="modal" data-id="{{../ this._id}}" data-target="#up-to-extraAdmin">  
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-id="{{../ this._id}}" data-target="#up-to-extraAdmin">  
                                                                     <Span class="text-info">Up to Extra Admin</Span>
                                                             </a>
                                                             {{/ifCond}}
                                                             {{#ifCond ../ this.role '!=' 'user'}}
-                                                            <a class="dropdown-item" href="" data-toggle="modal" data-id="{{../ this._id}}" data-target="#down-to-user">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-id="{{../ this._id}}" data-target="#down-to-user">
                                                                     <Span class="text-danger">Remove Extra Admin</Span>
                                                             </a>
                                                             {{/ifCond}}
@@ -211,16 +211,16 @@
                                                         <div class="dropdown-menu" x-placement="left-start" 
                                                         style="color: var(--theme-color-5); position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-162px, 0px, 0px);">
                                                             {{#ifCond ../ this.banned '==' 'false'}}
-                                                            <a class="dropdown-item" href="" data-toggle="modal" data-id="{{../ this._id}}" data-target="#ban-user">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-id="{{../ this._id}}" data-target="#ban-user">
                                                                 <Span class="text-muted">Ban (Cấm)</Span>
                                                             </a>
                                                             {{/ifCond}}
                                                             {{#ifCond ../ this.banned '==' 'true'}}
-                                                            <a class="dropdown-item" href="" data-toggle="modal" data-id="{{../ this._id}}" data-target="#unban-user">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-id="{{../ this._id}}" data-target="#unban-user">
                                                                 <Span class="text-success">UnBan (Mở Cấm)</Span>
                                                             </a>
                                                             {{/ifCond}}
-                                                            <a class="dropdown-item" href="" data-toggle="modal" data-id="{{../ this._id}}" data-target="#remove-user">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-id="{{../ this._id}}" data-target="#remove-user">
                                                                 <Span class="text-danger">Remove (Xóa)</Span>
                                                             </a>
                                                         </div>
@@ -749,15 +749,126 @@
     </div>
 </div>
 
+<script id="userSearch-template" type="text/x-handlebars-template">
+\{{#each users}}
+    <tr>
+        <td>
+            <p class="list-item-heading">\{{this.name}}</p>
+        </td>
+        <td>
+            <p class="text-muted">\{{this.role}}</p>
+        </td>
+        <td>
+            \{{#ifCond this.banned '==' 'true'}}
+            <div class="w-15 w-sm-100">
+                <span class="badge badge-danger">Banned</span>
+            </div>
+            \{{else}}
+            <div class="w-15 w-sm-100">
+                <span class="badge badge-secondary">Normal</span>
+            </div>
+            \{{/ifCond}}
+        </td>
+        <td>
+            <div class="btn-group dropleft mb-1">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle DropLeft</span>
+                </button>
+                \{{#ifCond this.role '!=' 'admin'}}
+                <div class="dropdown-menu" x-placement="left-start"
+                    style="color: var(--theme-color-5); position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-162px, 0px, 0px);">
+                    \{{#ifCond this.role '!=' 'extraAdmin'}}
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-id="\{{this._id}}"
+                        data-target="#up-to-extraAdmin">
+                        <Span class="text-info">Up to Extra Admin</Span>
+                    </a>
+                    \{{/ifCond}}
+                    \{{#ifCond this.role '!=' 'user'}}
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-id="\{{this._id}}"
+                        data-target="#down-to-user">
+                        <Span class="text-danger">Remove Extra Admin</Span>
+                    </a>
+                    \{{/ifCond}}
+                </div>
+                \{{/ifCond}}
+            </div>
+        </td>
+        <td>
+            <div class="btn-group dropleft mb-1">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle DropLeft</span>
+                </button>
+                \{{#ifCond this.role '!=' 'admin'}}
+                <div class="dropdown-menu" x-placement="left-start"
+                    style="color: var(--theme-color-5); position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-162px, 0px, 0px);">
+                    \{{#ifCond  this.banned '==' 'false'}}
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-id="\{{this._id}}"
+                        data-target="#ban-user">
+                        <Span class="text-muted">Ban (Cấm)</Span>
+                    </a>
+                    \{{/ifCond}}
+                    \{{#ifCond  this.banned '==' 'true'}}
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-id="\{{this._id}}"
+                        data-target="#unban-user">
+                        <Span class="text-success">UnBan (Mở Cấm)</Span>
+                    </a>
+                    \{{/ifCond}}
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-id="\{{this._id}}"
+                        data-target="#remove-user">
+                        <Span class="text-danger">Remove (Xóa)</Span>
+                    </a>
+                </div>
+                \{{/ifCond}}
+            </div>
+        </td>
+    </tr>
+\{{/each}}
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        /* Start Search */
+        var userData
+        var fetchAPIUrl = 'http://localhost:3000/fetch/users'
+        var search = document.getElementById('search');
+        var matchList = document.getElementById('match-list');
+        var source = document.getElementById("userSearch-template").innerHTML;
+        var invoke_one_time = true;
+        var templateObjProperty = 'users'
+        
+
+        search.addEventListener("click", runSearch_OneTime);
+
+
+        function filterProperty(data, regex) {
+            return data.name.match(regex) || data.role.match(regex) || data.banned.match(regex)
+        } 
+        function runSearch_OneTime() {
+            if (invoke_one_time) {
+                runSearch()
+                invoke_one_time = false;
+            }
+        }
+        
+        runSearch = async () => {
+            userData = await getData(fetchAPIUrl)
+            SearchHandler(userData, search, matchList, source, templateObjProperty, filterProperty)  
+        } /* End Search */
+        
+
+        /* Start Form */
         var userId;
         var hiddenForm = document.forms['hidden-form'];
         var btnUpRole = document.getElementById('btn-up-role');
         var btnDownRole = document.getElementById('btn-down-role');
         var btnBanUser = document.getElementById('btn-ban-user');
         var btnUnbanUser = document.getElementById('btn-unban-user');
-        var btnDeleteUser = document.getElementById('btn-delete-user');
+        var btnDeleteUser = document.getElementById('btn-delete-user'); 
+
+        
 
         $('#up-to-extraAdmin').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -802,6 +913,6 @@
         btnDeleteUser.onclick = function () {
             hiddenForm.action = '/users/deleteUser/' + userId + '?_method=DELETE'
             hiddenForm.submit();
-        };
+        }; /* End Form */
     });
 </script>

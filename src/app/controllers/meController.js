@@ -1,26 +1,87 @@
-const Comic       = require('../models/Comic');
-const Chapter     = require('../models/Chapter');
-const User        = require('../models/User');
-const shortid     = require('shortid');
-const cloudinary  = require('../../config/middleware/ModelCloudinary')
-const trimEng     = require('../../config/middleware/trimEng')
+const Comic = require('../models/Comic');
+const Chapter = require('../models/Chapter');
+const User = require('../models/User');
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
-const removeVietnameseTones   = require('../../config/middleware/VnameseToEng');
-const TimeDifferent           = require('../../config/middleware/TimeDifferent')
-const dbHelper                = require('./dbHelper')
-const { db }                  = require('../models/Comic');
-var { canViewProject, canDeleteProject }        = require('../../config/permissions/comics.permission')
+const dbHelper = require('./dbHelper')
+var { canViewProject, canDeleteProject } = require('../../config/permissions/comics.permission')
 class meController {
 
 
-  showChapter(req, res, next) {
-    Chapter.find({ comicSlug: req.params.slug, chapter: req.params.chapter })
+  async showChapter(req, res, next) {
+
+    var showChapter = await Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter })
+    
+    try {
+
+      var comicSlug = req.params.slug
+      var currentReadingChapter = req.params.chapter
+      var cookie = req.cookies[comicSlug]; //  ['chapter-1', 'chapter-2]}
+      
+      checkCookie()
+
+      async function checkCookie() {
+        
+        var hadCookie = (cookie === undefined) ? false : true
+
+        if (hadCookie === false) {
+
+          // Set Cookie
+          res.cookie(comicSlug, { chapters: [currentReadingChapter] }, { maxAge: 604800000 })
+
+          // Increase View
+          showChapter.view += 1
+
+          // console.log(showChapter.view)
+
+        }
+        if (hadCookie === true) {
+          
+          var checkisViewed = await isViewed(cookie)
+          // console.log("checkisview" + checkisViewed)
+
+          if (!checkisViewed) { 
+            // check 0 mean not view yet so change oldCookie to new 
+            // and increase view
+
+            // Set new Cookie
+            
+            var currentComicList = cookie
+            
+            var newComicList = {chapters: appendObjTo(currentComicList, 'chapters', currentReadingChapter)}
+          
+            res.cookie(comicSlug, newComicList, { maxAge: 604800000 })
+
+            // increase view
+            showChapter.view += 1
+
+            // console.log(showChapter.view)
+          } // check 1 mean already count so do nothing
+        }
+      }
+
+      function appendObjTo(thatArray, thatArrayProperty, newObj) {
+        const frozenObj = Object.freeze(newObj);
+        return Object.freeze(thatArray[thatArrayProperty].concat(frozenObj));
+      }
+
+      function isViewed(viewedComicList) {
+        var check = viewedComicList.chapters.filter(chapter => {
+          return (chapter.includes(currentReadingChapter))
+        })
+        return (check[0] === currentReadingChapter ) // if check cookie giống chapter đang đọc > true
+      }
+
+    } catch (error) {
+      next(error)
+    }
+
+    showChapter
+      .save()
       .then(chapter => {
-        // return res.json(chapter)
         res.render('me/showChapter.hbs',
           {
-            layout: 'main',
-            chapter: multiMongooseToObject(chapter),
+            layout: 'adminMain',
+            chapter: singleMongooseToObject(chapter),
           })
       })
       .catch(next);
@@ -43,18 +104,19 @@ class meController {
   10. destroy Chapter
   11. Handle Form Action Chapter
   ***** Chapter Controller *****/
- 
 
 
-  
+
+
   // 0. default: [GET] / me / stored / comics
   adminDashboard(req, res, next) {
 
     Promise.all([Comic.find({ $and: [{ title: { $exists: true } }, { chaptername: { $not: { $exists: true } } }] }), Comic.countDocumentsDeleted()
-  , User.find({})]
+      , User.find({}).select('banned role name _id')]
     )
 
-      .then(([comics, deletedCount, users]) =>
+      .then(([comics, deletedCount, users]) => {
+        var userData = users
         res.render('me/Dashboard.Admin.hbs',
           {
             layout: 'admin',
@@ -62,7 +124,9 @@ class meController {
             comics: multiMongooseToObject(comics),
             users: multiMongooseToObject(users),
             user: singleMongooseToObject(req.user),
+            userData: JSON.stringify(userData),
           })
+      }
       )
       .catch(next);
   }
@@ -70,7 +134,7 @@ class meController {
   extraAdminDashboard(req, res, next) {
 
     Promise.all([Comic.find({ $and: [{ title: { $exists: true } }, { chaptername: { $not: { $exists: true } } }] }), Comic.countDocumentsDeleted()
-  , User.find({})]
+      , User.find({})]
     )
 
       .then(([mangas, deletedCount]) =>
@@ -91,7 +155,7 @@ class meController {
         user: singleMongooseToObject(req.user),
       })
   }
-  
+
   // 1. Render comic list: [GET] / me / stored / comics / comic-list  + (/:comicId )
   comicListPage(req, res, next) {
     var comicList = new Object()
@@ -100,17 +164,17 @@ class meController {
       comicList = Comic.find({})
     } else {
       // Route comic-list của user. VD: comiclist/6084e73384620a19a88780da
-      comicList = Comic.find({userId: req.params.comicId})
+      comicList = Comic.find({ userId: req.params.comicId })
     }
 
-    if(req.query.hasOwnProperty('_sort')) {
+    if (req.query.hasOwnProperty('_sort')) {
       comicList = comicList.sort({
         [req.query.column]: [req.query.type]
       })
     }
 
     authGetProject(comicList, req, res, next)
-    
+
     async function authGetProject(comicList, req, res, next) {
       var check = await canViewProject(req.user, comicList)
       if (!check) {
@@ -122,10 +186,10 @@ class meController {
         dbHelper.comicListPage_Pagination_Helper(comicList, req, res, next, null)
       }
     }
-    
+
 
   }
-  
+
   // 2. Render Create comics Page: [GET] / me / stored / comics / create
   createComicPage(req, res, next) {
     res.status(200).render('me/Pages.Comic.Create.hbs',
@@ -147,7 +211,7 @@ class meController {
   // 5. Update comic: [GET] / me / stored / comics / :slug -> update
   updateComic(req, res, next) {
     dbHelper.UpdateComic_Helper(req, res, next, null)
-          
+
   }
 
   // 6. Destroy comic: [DELETE] / me / stored / destroyComic / :slug
@@ -155,7 +219,7 @@ class meController {
     // var comicList = new Object()
     // comicList = await Comic.findOne({ slug: req.params.slug })
     // authDeleteProject(comicList, req, res, next)
-    
+
     // async function authDeleteProject(comicList, req, res, next) {
     //   var check = await canDeleteProject(req.user, comicList)
     //   if (!check) {
@@ -169,8 +233,8 @@ class meController {
     // }
     dbHelper.destroyComic_Helper(req, res, next, null)
 
-  } 
-  
+  }
+
   // 7. Handle Form Action Comic: [POST] / me / stored / handle-form-action-for-comic
   async handleFormActionForComics(req, res, next) {
     dbHelper.handleFormActionForComics_Helper(req, res, next, null)
@@ -182,7 +246,7 @@ class meController {
 
 
 
-  
+
   // 8. Render ChapterList: [GET] / me / stored / comics / :slug / chapter-list
   chapterListPage(req, res, next) {
     var chapterList = Chapter.find({ comicSlug: req.params.slug })

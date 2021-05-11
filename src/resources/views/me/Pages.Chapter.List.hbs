@@ -11,7 +11,7 @@
         <main>
             <div class="container-fluid disable-text-selection">
 
-                {{> errorMessage}}
+                
 
                 <div class="row">
                     <div class="col-12">
@@ -52,7 +52,7 @@
                                         <a href="/me/stored/comics/comic-list">All Comics</a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        <a href="/me/stored/comics/{{linkComics}}/edit">{{replaceHyphenIntoSpace
+                                        <a data-id="{{linkComics}}" id="chapterSlug" href="/me/stored/comics/{{linkComics}}/edit">{{replaceHyphenIntoSpace
                                             linkComics}}</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="mb-2">
-                            <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse"
+                            <a class="display-text pb-2 d-inline-block d-md-none" data-toggle="collapse"
                                 href="#displayOptions" role="button" aria-expanded="true"
                                 aria-controls="displayOptions">
                                 Display Options
@@ -118,9 +118,10 @@
                                             <button type="button" class="btn btn-primary mb-1 "
                                                 style="color: white;">Tạo Chapter mới</button>
                                         </a>
-                                        <div class="search-sm d-inline-block  ml-3 mb-1 align-top">
-                                            <input class="w-100" placeholder="Search...">
-                                        </div>
+                                        <div class="search-sm d-inline-block ml-3 mb-1">
+                                                <input id="search" type="text" class="w-100"
+                                                    placeholder="Nhập 1 hoặc 20.1">
+                                            </div>
                                     </div>
 
 
@@ -150,7 +151,7 @@
                         </div>
                     </div> --}}
 
-                    <div class="col-12 list" data-check-all="checkAll">
+                    <div id="match-list" class="col-12 list" data-check-all="checkAll">
                         {{#ifCond noChapters '==' true}}
                         <p class="text-center">Bạn chưa đăng chapter nào hết !!</p>
                         <p class="text-center">Hãy Nhấn vào nút 
@@ -247,8 +248,83 @@
 
 </form>
 
+{{!-- Search Template --}}
+<script id="userSearch-template" type="text/x-handlebars-template">
+    \{{#each chapters}}
+    <div class="card d-flex flex-row mb-3">
+        <a class="d-flex thumbnail-frame" href="#">
+            \{{#each thumbnail}}
+            <img src="#" alt="Chưa có thumbnail" class="list-thumbnail responsive border-0 card-img-left my-thumb-style" />
+            \{{else}}
+            <img src="/img/goose-breast-thumb.jpg" alt="Chưa có thumbnail"
+                class="list-thumbnail responsive border-0 card-img-left my-thumb-style" />
+            \{{/each}}
+        </a>
+        <div class="pl-2 d-flex flex-grow-1 min-width-zero">
+            <div
+                class="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                <a href="#" class="w-40 w-sm-100">
+                    <p class="list-item-heading mb-0 truncate">\{{replaceHyphenIntoSpace
+                        this.chapter}}</p>
+                </a>
+
+                <p class="mb-0 text-muted text-small w-15 w-sm-100 myPadding-top-sm">
+                    \{{this.chapterUpdateTime}}</p>
+
+                <div class="w-20 w-sm-100 d-flex social-menu myPadding-top-sm" style="justify-content: space-evenly;">
+
+                    <a href="#" class="tooltipIcon delete-icon-red" style="align-items: center;">
+                        <span class="tooltiptext"> Xóa </span>
+                        <div class="icon-container" data-toggle="modal" data-id="\{{this.chapterSlug}}"
+                            data-target="#delete-course-modal">
+                            <i class="simple-icon-trash" style="z-index: -1;"></i>
+                        </div>
+                    </a>
+
+                </div>
+
+                
+            </div>
+            <label class="custom-control custom-checkbox mb-1 align-self-center pr-4">
+                <input type="checkbox" class="custom-control-input" name="chapterSlug[]" value="\{{this.chapterSlug}}">
+                <span class="custom-control-label">&nbsp;</span>
+            </label>
+        </div>
+    </div>
+    \{{/each}}
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        /* Start Search */
+        var chapterSlug = document.getElementById('chapterSlug');
+        var chapterSlugValue = chapterSlug.getAttribute('data-id')
+        var chapterData
+        var fetchAPIUrl = `http://localhost:3000/fetch/comics/${chapterSlugValue}`
+        var search = document.getElementById('search');
+        var matchList = document.getElementById('match-list');
+        var source = document.getElementById("userSearch-template").innerHTML;
+        var invoke_one_time = true;
+        var templateObjProperty = 'chapters'
+
+        search.addEventListener("click", runSearch_OneTime);
+
+        function filterProperty(data, regex) {
+            return data.chapter.replace('chapter-','').match(regex)
+        }
+        function runSearch_OneTime() {
+            if (invoke_one_time) {
+                runSearch()
+                invoke_one_time = false;
+            }
+        }
+        runSearch = async () => {
+            chapterData = await getData(fetchAPIUrl)
+            SearchHandler(chapterData, search, matchList, source, templateObjProperty, filterProperty)  
+        } /* End Search */
+
+        /* Start Form */
         var chapterSlug;
         var hiddenForm = document.forms['hidden-form'];
         var btnDeleteCourse = document.getElementById('btn-delete-course');
@@ -266,7 +342,7 @@
         btnDeleteCourse.onclick = function () {
             hiddenForm.action = '/me/stored/destroyChapter/' + chapterSlug + '?_method=DELETE';
             hiddenForm.submit();
-        };
+        }; /* End Form */
 
     });
 </script>
