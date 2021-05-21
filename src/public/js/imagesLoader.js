@@ -4,8 +4,6 @@ const imgOptions = {
     threshhold: 1, // 1 là toàn bộ bức ành
     rootMargin: "0px 0px 6000px 0px",
 }
-// const baseUrl = `https://d2jvgwfxnj05gs.cloudfront.net`
-// const baseUrl = `https://cloudimagewall.xyz`
 const baseUrl = `https://api.cloudimagewall.xyz`
 var flag = 0;
 var finalSize = 0

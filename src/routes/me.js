@@ -3,6 +3,7 @@ const router                = express.Router();
 //Load Controller
 const meController          = require('../app/controllers/meController');
 const S3UploadController    = require('../app/controllers/S3UploadController');
+const UploadController      = require('../app/controllers/UploadController');
 // Load Middleware
 const { authRole, ensureAuthenticated, forwardAuthenticated } = require('../config/auth/auth');
 
@@ -14,7 +15,11 @@ router.get('/stored/comics/dashboard/extraAdmin', meController.extraAdminDashboa
 // Quyền truy cập Page
 router.get('/stored/comics/faqPage', meController.faqPage);
 // Upload Chapter Images 
-router.post('/stored/comics/:slug/S3-multiple-upload', S3UploadController.multipleUpload);
+router.post('/stored/comics/:slug/S3-multiple-upload', 
+UploadController.multipleUpload,
+// UploadController.resizeImages,
+// UploadController.getResult
+);
 // Upload Thumbnail Image 
 router.post('/stored/comics/:slug/S3-thumbnail-upload', S3UploadController.thumbnailUpload);
 
@@ -23,19 +28,25 @@ router.post('/stored/comics/:slug/S3-thumbnail-upload', S3UploadController.thumb
 ***               **/
 
 // Page Comic Edit 
-router.get('/stored/comics/:slug/edit', ensureAuthenticated, meController.comicEditPage);
+router.get('/stored/comics/:slug/edit', meController.comicEditPage);
 // User Page Comic List 
 router.get('/stored/comics/comic-list/:comicId', ensureAuthenticated, meController.comicListPage);
-// Admin Page Comic List 
+// Comic Page List 
 router.get('/stored/comics/comic-list', ensureAuthenticated, authRole('admin'), meController.comicListPage);
+// Category Page List
+router.get('/stored/comics/category-list', meController.categoryListPage);
 // Page Create Comic
 router.get('/stored/comics/create', ensureAuthenticated, meController.createComicPage);
 // Create Comic
 router.post('/stored/comics/create', ensureAuthenticated, meController.createComic);
+// Create Categories
+router.post('/stored/comics/category-list/create', meController.createCategories);
+// Delete Categories
+router.delete('/stored/comics/destroyCategory/:_id', meController.destroyCategory);
 // Update Comic
-router.put('/stored/comics/:slug', ensureAuthenticated, meController.updateComic);
+router.put('/stored/comics/:slug', meController.updateComic);
 // Destroy Comic
-router.delete('/stored/destroyComic/:slug', ensureAuthenticated, meController.destroyComic)
+router.delete('/stored/destroyComic/:slug', meController.destroyComic)
 // Handling Comics Form 
 router.post('/stored/handle-form-action-for-comics', ensureAuthenticated, meController.handleFormActionForComics);
 

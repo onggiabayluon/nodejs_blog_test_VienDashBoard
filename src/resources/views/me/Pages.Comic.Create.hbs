@@ -16,7 +16,6 @@
         <div class="container-fluid">
 
             
-
             <div class="row">
                 <div class="col-12">
                     <h1>Create Comic</h1>
@@ -51,14 +50,7 @@
                             </svg>
                             <span>Tên truyện</span>
                         </label>
-            
-                        <label class="form-group has-float-label">
-                            <input class="form-control" data-role="tagsinput" 
-                            type="text" id="tags" 
-                            name="tags" value="comic">
-                            <span>Tags</span>
-                        </label>
-            
+                        
                         <label class="form-group has-float-label">
                             <input class="form-control datepicker" 
                             id="description" name="description" placeholder="Nhập ít nhất 1 ký tự"
@@ -113,6 +105,22 @@
                                 </div>
                             </div>
 
+                            {{!-- Start checkbox --}}
+                            <div class="form-row">
+                                <label class="form-group ml-1">
+                                    <div class="checkbox">
+                                        {{#each categories}}
+                                        <label class="checkbox-wrapper mr-2">
+                                            <input type="checkbox" class="checkbox-input" name="categories[]" value="{{this._id}}" />
+                                            <span class="checkbox-tile">
+                                                <span class="checkbox-label">{{this.name}}</span>
+                                            </span>
+                                        </label>
+                                        {{/each}}
+                                    </div>
+                                </label> 
+                            </div> {{!-- End CheckBox --}}
+                            
                         <button class="btn btn-primary default" type="submit">Đăng truyện</button>
                         <button onclick="reset()" class="ml-4 btn btn-primary default">Clear</button>
                     </form> {{!-- /form --}}

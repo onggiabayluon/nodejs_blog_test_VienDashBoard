@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <h1>{{user.role}} Dashboard</h1>
+                    <h1>Hello {{user.name}} !! </h1>
                     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb pt-0">
                             <li class="breadcrumb-item">
@@ -100,20 +100,20 @@
                             <div class="glide__track" data-glide-el="track">
                                 <ul class="glide__slides">
                                     <li class="glide__slide">
-                                        <a href="#" class="card">
+                                        <a href="/me/stored/comics/comic-list?_sort&column=isPublish&type=asc" class="card">
                                             <div class="card-body text-center">
                                                 <i class="iconsminds-clock"></i>
-                                                <p class="card-text mb-0">Pending Posts</p>
-                                                <p class="lead text-center">16</p>
+                                                <p class="card-text mb-0">Pending Comics</p>
+                                                <p class="lead text-center">{{pendingComic}}</p>
                                             </div>
                                         </a>
                                     </li>
                                     <li class="glide__slide">
-                                        <a href="#" class="card">
+                                        <a href="/me/stored/comics/comic-list?_sort&column=isPublish&type=desc" class="card">
                                             <div class="card-body text-center">
                                                 <i class="iconsminds-basket-coins"></i>
-                                                <p class="card-text mb-0">Completed Posts</p>
-                                                <p class="lead text-center">32</p>
+                                                <p class="card-text mb-0">Published Comics</p>
+                                                <p class="lead text-center">{{publishedComic}}</p>
                                             </div>
                                         </a>
                                     </li>
@@ -241,7 +241,7 @@
                 <div class="col-xl-6 col-lg-12 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">Top Viewed Posts</h5>
+                            <h5 class="card-title">Top Viewed Comics</h5>
                             <table class="data-table data-table-standard responsive nowrap"
                                 data-order="[[ 1, &quot;desc&quot; ]]">
                                 <thead>
@@ -251,102 +251,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{#each comicListView}}
                                     <tr>
                                         <td>
-                                            <p class="list-item-heading">Wedding Cake with Flowers Macarons</p>
+                                            <a href="/me/stored/comics/{{this.slug}}/edit">
+                                                <p class="list-item-heading">{{this.title}}</p>
+                                            </a>
                                         </td>
                                         <td>
-                                            <p class="text-muted">1452</p>
+                                            <p class="text-muted">{{this.view}}</p>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Cheesecake with Chocolate Cookies</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">1420</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Homemade Cheesecake with Fresh Berries</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">1360</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Cheesecake with Fresh Berries</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">1310</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Tea Loaf with Fresh Oranges</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">1245</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Cheesecake with Chocolate Cookies</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">1100</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Homemade Cheesecake with Fresh Berries</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">1003</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Homemade Cheesecake with Fresh Berries</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">952</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Cheesecake with Fresh Berries</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">924</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Tea Loaf with Fresh Oranges</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">842</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Cheesecake with Chocolate Cookies</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">810</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="list-item-heading">Homemade Cheesecake with Fresh Berries</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted">605</p>
-                                        </td>
-                                    </tr>
+                                    {{/each}}
                                 </tbody>
                             </table>
                         </div>
@@ -552,7 +468,7 @@
                             <div>
                                 <i class="iconsminds-clock mr-2 text-white align-text-bottom d-inline-block"></i>
                                 <div>
-                                    <p class="lead text-white">5 Posts</p>
+                                    <p class="lead text-white">{{pendingComic}} Comics</p>
                                     <p class="text-small text-white">Pending for publish</p>
                                 </div>
                             </div>

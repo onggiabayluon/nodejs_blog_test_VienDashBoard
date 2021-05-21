@@ -1,10 +1,12 @@
 const Comic = require('../models/Comic');
 const Chapter = require('../models/Chapter')
+const Category = require('../models/Category')
 const TimeDifferent = require('../../config/middleware/TimeDifferent')
 const removeVietnameseTones = require('../../config/middleware/VnameseToEng');
 const trimEng = require('../../config/middleware/trimEng')
 const shortid = require('shortid');
 const customError = require('../../util/customErrorHandler')
+const mongoose = require('mongoose');
 const deleteMiddleWare = require('../middlewares/S3DeleteMiddleware');
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
 
@@ -39,6 +41,7 @@ const comicListPage_Pagination_Helper = (exports.comicListPage_Pagination_Helper
     comicList
       .skip(skipCourse)
       .limit(PageSize)
+      .lean()
       .then((comics) => {
         var noComics = false;
         if (comics.length == 0) { noComics = true }
@@ -59,7 +62,7 @@ const comicListPage_Pagination_Helper = (exports.comicListPage_Pagination_Helper
               prevPage2,
               user: singleMongooseToObject(req.user),
               pages: Math.ceil(count / PageSize),
-              comics: multiMongooseToObject(comics),
+              comics: comics,
             })
         })
       })
@@ -73,8 +76,8 @@ const CreateComic_Helper = (exports.CreateComic_Helper
   = (req, res, next, msg) => {
 
     const { title, description } = req.body;
+    const categoriesInput = req.body.categories;
     let errors = [];
-
     checkInput(title, description)
 
     if (errors.length > 0) {
@@ -113,68 +116,90 @@ const CreateComic_Helper = (exports.CreateComic_Helper
             comic.userName = req.user.name
             comic.slug = slug;
             comic.titleForSearch = trimEng(comic.title)
-            comic.save()
+            comic.category = categoriesInput
+            comic
+              .save()
+              .then(() => handleAddCategoryModel(comic, categoriesInput))
               .then(() => {
-                if (req.user.role == "admin") {
-                  res
+                res
                   .status(201)
                   .redirect('/me/stored/comics/comic-list');
-                } else {
-                  res
-                  .status(201)
-                  .redirect(`/me/stored/comics/comic-list/${req.user._id}`);
-                }
                 req.flash('success-message', `Tạo truyện >>${title}<< thành công`)
               })
               .catch(next);
             }
           })
         .catch(next)
-    }
+    };
+
+    function handleAddCategoryModel(comic, categoriesNeedAdd) {
+      if (!categoriesNeedAdd) return;
+      categoriesNeedAdd.forEach(categoriesNeedAdd_id => {
+        Category.findOneAndUpdate(
+          { _id: categoriesNeedAdd_id }, 
+          { $push: { comic: comic._id } })
+          .then()
+          .catch(err => next(err))
+      })
+    };
 
   });
 
 // 3. comicEditPage_Helper
 const comicEditPage_Helper = (exports.comicEditPage_Helper
   = (req, res, next, msg) => {
-    Comic.find({ slug: req.params.slug })
-      .select('title slug createdAt updatedAt description thumbnail')
-      .then(comicExisted => {
-        if (comicExisted.length == 0) {
+    Promise.all([
+      Comic
+      .findOne({ slug: req.params.slug }).lean()
+      .select('title slug createdAt updatedAt description thumbnail category')
+      , Category.find({}).lean().select("name _id")
+    ])
+      .then(([comic, categories]) => {
+        if (comic == null) {
           return next(new customError('comic not found', 404));
-        }
-        Chapter.find({ comicSlug: req.params.slug })
-          .select('title slug createdAt updatedAt description comicSlug chapter')
-          .then(chapters => {
-            res.status(200).render('me/Pages.Comic.edit.hbs', {
+        } else {
+          
+          // comic.category = ["xxxxx", "xxxxx"] arr object
+          // categories     = [{_id: "xxxxx", name: "acbsda"}, {.....}] arr object
+          let comicCategoryString = JSON.stringify(comic.category)
+          let intersection = (comicCategoryString) ? categories.filter(x => comicCategoryString.includes(x._id)) : []; // Lấy phần chung
+          let intersectionIdList = intersection.map(({ _id }) => _id); // Lọc bỏ phần name ra lát mới so sánh dc
+          let difference = categories.filter(x => !intersectionIdList.includes(x._id)); // Lấy phần còn lại của category mà comic không có
+
+          // console.log('intersection: ') // Total = intersection(checked) và difference(uncheck)
+          console.log(intersection)
+          // console.log('diff: ')
+          // console.log(difference)
+
+          res
+            .status(200)
+            .render('me/Pages.Comic.edit.hbs', {
               layout: 'admin',
               user: singleMongooseToObject(req.user),
-              chapters: multiMongooseToObject(chapters),
-              comic: multiMongooseToObject(comicExisted)
+              comic: comic,
+              intersection: (intersection) ,
+              difference: (difference),
             })
-          })
-          .catch(next);
+        }
       })
       .catch(next);
   });
 
 // 4. UpdateComic_Helper
 const UpdateComic_Helper = (exports.UpdateComic_Helper
-  = (req, res, next, msg) => {
+  = async (req, res, next, msg) => {
 
-    // //update thumbnail
-    // req.body.thumbnail = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    //update lấy Comic id, chỉnh sửa reg.body
-    // tìm tất cả chapter truyện lưu vào biến để lát thay đổi hêt các chaptername
     var newtitle = req.body.title;
     var oldSlug = req.params.slug;
     var newSlug = removeVietnameseTones(newtitle)
+    var categoriesInput = req.body.categories
 
-    var titleforsearch = { titleForSearch: trimEng(newtitle) }
+    var titleforsearch = trimEng(newtitle) 
     var jsonFile = req.body
     var finalReqBody = Object.assign({}, jsonFile, titleforsearch);
 
-    Comic.findOne({ slug: req.params.slug })
+    
+    Comic.findOne({slug: req.params.slug})
       .then(page => {
         if (newtitle !== page.title) {
           Comic.findOne({ slug: newSlug })
@@ -183,46 +208,51 @@ const UpdateComic_Helper = (exports.UpdateComic_Helper
               // nếu slug mới mà có sử dụng r` thì slug cũ = slug mới + shortId
               if (slugExisted) {
 
-                // đổi slug cũ sang slug mới 
-                req.body.slug = newSlug + '-' + shortid.generate();
-                jsonFile = req.body
-                finalReqBody = Object.assign({}, jsonFile, titleforsearch);
+                  // đổi slug cũ sang slug mới 
+                  
+                  req.body.slug = newSlug + '-' + shortid.generate();
+                  jsonFile = req.body
+                  finalReqBody = Object.assign({}, jsonFile, titleforsearch);
+
+                  Comic.updateOne({ slug: req.params.slug }, finalReqBody)
+                  .then(() => {
+                    res
+                      .status(200)
+                      .redirect('/me/stored/comics/comic-list');
+                  })
+                  .then(() => updateCategory(req.body.slug))
+                  .catch(next)
 
                 Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: req.body.slug })
                   .select("comicSlug")
                   .then(result => { console.log(result) })
                   .catch(next)
 
+              } else {
 
+                // nếu slug mới chưa có sử dụng thì slug cũ = slug mới
+                
+                req.body.slug = newSlug;
+                jsonFile = req.body
+                finalReqBody = Object.assign({}, jsonFile, titleforsearch);
                 Comic.updateOne({ slug: req.params.slug }, finalReqBody)
                   .then(() => {
                     res
                       .status(200)
                       .redirect('/me/stored/comics/comic-list');
                   })
+                  .then(() => updateCategory(req.body.slug))
                   .catch(next)
-
-              } else {
-
-                // nếu slug mới chưa có sử dụng thì slug cũ = slug mới
-                req.body.slug = newSlug;
-                jsonFile = req.body
-                finalReqBody = Object.assign({}, jsonFile, titleforsearch);
 
                 Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: newSlug })
                   .select("comicSlug")
                   .then(result => { console.log(result) })
-                Comic.updateOne({ slug: req.params.slug }, finalReqBody)
-                  .then(() => {
-                    res
-                      .status(200)
-                      .redirect('/me/stored/comics/comic-list');
-                  })
-                  .catch(next)
               }
             })
         } else {
           // Nếu title mới giống title cũ thì update bình thường, không update slug
+          // return console.log(comic)
+          updateCategory(req.params.slug)
           Comic.updateOne({ slug: req.params.slug }, finalReqBody)
             .then(() => {
               res
@@ -234,6 +264,78 @@ const UpdateComic_Helper = (exports.UpdateComic_Helper
       })
       .catch(next)
 
+      // nếu comic.category.length = categoriresInput.length thì kô update
+      // (optional) else xóa bỏ comic_id trong category đó (Category.findupdate)
+      // else sau đó add từng category_id vào comic đó
+
+      //EX" input: manhua, manhwa, manga
+      //EX: comic: manhua
+      //EX: category: manhua, manhwa, manga, action
+      async function updateCategory(slug) {
+
+        const comic = await Comic.findOne({ slug: slug })
+        const comicCategory = (comic.category).toString().split(",")
+        const comicCategoryLength = comic.category.length
+        categoriesInput = (categoriesInput) ? categoriesInput.toString().split(",") : []
+        
+        // console.log(comicCategoryLength)
+        // console.log(categoriesInput.length)
+        if(categoriesInput.length == 0 && comicCategoryLength == 1) {
+          //console.log("delete single")
+          handleDeleteSingleCategoryModel(comic);
+          handleDeleteComicCategory(comic);
+        };
+
+        if (categoriesInput.length < comicCategoryLength && !(categoriesInput.length == 0 && comicCategoryLength == 1)) {
+          //console.log("delete multiple")
+          var categoriesNeedDelete = comicCategory.filter(x => !categoriesInput.includes(x));
+          handleDeleteCategoryModel(comic, categoriesNeedDelete);
+          handleComicCategory(comic, categoriesInput);
+        };
+        if (categoriesInput.length > comicCategoryLength) {
+          //console.log("add")
+          var categoriesNeedAdd = categoriesInput.filter(x => !comicCategory.includes(x));
+          handleAddCategoryModel(comic, categoriesNeedAdd);
+          handleComicCategory(comic, categoriesInput);
+        };
+
+        function handleComicCategory(comic, categoriesInput) {
+          comic.category = categoriesInput
+          comic.save()
+        };
+        function handleDeleteComicCategory(comic) {
+          comic.category = []
+          comic.save()
+        };
+        function handleDeleteSingleCategoryModel(comic) {
+          Category.findOneAndUpdate(
+            { _id: comic.category[0] },
+            { $pull: { comic: comic._id } })
+            .then()
+            .catch(err => next(err))
+        };
+        function handleDeleteCategoryModel(comic, categoriesNeedDelete) {
+          categoriesNeedDelete.forEach(categoryToDelete_id => {
+            Category.findOneAndUpdate(
+              { _id: categoryToDelete_id }, 
+              { $pull: { comic: comic._id } })
+              .then()
+              .catch(err => next(err))
+          })
+        };
+        function handleAddCategoryModel(comic, categoriesNeedAdd) {
+          categoriesNeedAdd.forEach(categoriesNeedAdd_id => {
+            Category.findOneAndUpdate(
+              { _id: categoriesNeedAdd_id }, 
+              { $push: { comic: comic._id } })
+              .then()
+              .catch(err => next(err))
+          })
+        };
+        
+        
+      };
+
   });
 
 // 5. destroyComic_Helper
@@ -241,7 +343,7 @@ const destroyComic_Helper = (exports.destroyComic_Helper
   = (req, res, next, msg) => {
 
     deleteThumbnail_Images_s3().then(() => {
-      return Promise.all([delete_Chapters_mongodb(), delete_Comic_mongodb()]);
+      return Promise.all([delete_Chapters_mongodb(), delete_Comicmongodb_CategoryModel()]);
     }).then((args) => {
       res.status(200).redirect('back');
       req.flash('success-message', 'Xóa truyện thành công !!')
@@ -287,7 +389,7 @@ const destroyComic_Helper = (exports.destroyComic_Helper
         });
 
       });
-    }
+    };
 
     function delete_Chapters_mongodb() {
       return new Promise((resolve, reject) => {
@@ -300,20 +402,33 @@ const destroyComic_Helper = (exports.destroyComic_Helper
           })
           .catch(next) /* -- end Third task -- */
       })
-    }
+    };
 
-    function delete_Comic_mongodb() {
-      return new Promise((resolve, reject) => {
-        // do something async
+    function delete_Comicmongodb_CategoryModel() {
+      return new Promise(async (resolve, reject) => {
+        const comic = await Comic.findOne({ slug: req.params.slug })
         /* -- Fourth task -- */
         console.log("--4 Tiến hành Xóa comic trên mongodb: ")
-        Comic.deleteOne({ slug: req.params.slug })
+        handleDeleteCategoryModel(comic, comic.category)
+        comic
+          .remove()
           .then((result) => {
-            resolve(result);
+            resolve(result)
           })
           .catch(next) /* -- end Fourth task -- */
       });
-    }
+    };
+
+    function handleDeleteCategoryModel(comic, categoriesNeedDelete) {
+      if (!categoriesNeedDelete) return;
+      categoriesNeedDelete.forEach(categoryToDelete_id => {
+        Category.findOneAndUpdate(
+          { _id: categoryToDelete_id }, 
+          { $pull: { comic: comic._id } })
+          .then()
+          .catch(err => next(err))
+      })
+    };
 
   });
 
@@ -321,7 +436,7 @@ const destroyComic_Helper = (exports.destroyComic_Helper
 const handleFormActionForComics_Helper = (exports.handleFormActionForComics_Helper
   = (req, res, next, msg) => {
 
-    var chapterExisted = true;
+    const chapterExisted = true
     switch (req.body.action) {
       case 'delete':
         //comicSlugs là biến đã đặt trong html
@@ -332,7 +447,7 @@ const handleFormActionForComics_Helper = (exports.handleFormActionForComics_Help
         } else {
           
           delete_Thumbnail_Images_s3().then(() => {
-            delete_Comic_Chapter_mongodb()
+            delete_Comic_And_CategoryModel_Chapter_mongodb()
           })
           
         }
@@ -368,25 +483,41 @@ const handleFormActionForComics_Helper = (exports.handleFormActionForComics_Help
                   .catch(next)
               })
             })
-        } 
+        };
         
-        async function delete_Comic_Chapter_mongodb() {
-            //reg.body.comicSlug là mảng[ ]
-            // xóa comic trên mongodb
-              Comic.deleteMany({ slug: { $in: req.body.comicSlug } })
-                .then(() => {
-                  res.status(200);
-                })
-                .catch(next)
-              if (chapterExisted == true) {
-                Chapter.deleteMany({ comicSlug: { $in: req.body.comicSlug } })
-                  .then(() => {
-                    res.status(200).redirect('back');
-                    req.flash('success-message', 'Xóa truyện thành công !!')
-                  })
-                  .catch(next)
-              }
-        }
+        function delete_Comic_And_CategoryModel_Chapter_mongodb() {
+          //reg.body.comicSlug là mảng[ ]
+          // xóa comic trên mongodb
+          comicSlugs.forEach(async comicSlug => {
+            const comic = await Comic.findOne({ slug: comicSlug })
+            handleDeleteCategoryModel(comic, comic.category)
+            comic
+              .remove()
+              .then((result) => {
+                console.log(result)
+              })
+              .catch(next)
+          });
+          if (chapterExisted == true) {
+            Chapter.deleteMany({ comicSlug: { $in: req.body.comicSlug } })
+              .then(() => {
+                res.status(200).redirect('back');
+                req.flash('success-message', 'Xóa truyện thành công !!')
+              })
+              .catch(next)
+          };
+        };
+        
+        function handleDeleteCategoryModel(comic, categoriesNeedDelete) {
+          if (!categoriesNeedDelete) return;
+          categoriesNeedDelete.forEach(categoryToDelete_id => {
+            Category.findOneAndUpdate(
+              { _id: categoryToDelete_id }, 
+              { $pull: { comic: comic._id } })
+              .then()
+              .catch(err => next(err))
+          })
+        };
 
         break;
       default:
@@ -409,6 +540,7 @@ const chapterListPage_Helper = (exports.chapterListPage_Helper
       .select('title chapterSlug createdAt updatedAt description thumbnail comicSlug chapter')
       .skip(skipCourse)
       .limit(PageSize)
+      .lean()
       .then((chapters) => {
         var noChapters = false;
         if (chapters.length == 0) { noChapters = true }
@@ -427,7 +559,7 @@ const chapterListPage_Helper = (exports.chapterListPage_Helper
             prevPage,
             prevPage2,
             pages: Math.ceil(chapters.length / PageSize),
-            chapters: multiMongooseToObject(chapters)
+            chapters: chapters
           })
         }
       })

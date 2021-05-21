@@ -10,19 +10,42 @@ const opts = {
   // set lại time zone sang asia
   timestamps: { currentTime: () => moment.tz(Date.now(), "Asia/Bangkok") },
 };
+function setDefaultTime() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = String(today.getFullYear());
+  return ({dd, mm, yyyy})
+};
+
 const Comic = new Schema({
-  title: { type: String },
+  title:          { type: String },
   titleForSearch: { type: String },
-  description: { type: String },
+  description:    { type: String },
+  videoId:        { type: String },
+  userId:         { type: String },
+  userName:       { type: String },
+  slug:           { type: String },
+  comicUpdateTime:{ type: String },
+  view: {
+    totalView: { type: Number, default: 0 },
+    dayView: {
+      thisDay: { type: String, default: setDefaultTime().dd },
+      view: { type: Number, default: 0 }
+    },
+    monthView: {
+      thisMonth: { type: String, default: setDefaultTime().mm },
+      view: { type: Number, default: 0 }
+    },
+    yearView: {
+      thisYear: { type: String, default: setDefaultTime().yyyy },
+      view: { type: Number, default: 0 }
+    },
+  },
   isPublish: {
     type: Boolean,
     required: true,
   },
-  videoId: { type: String },
-  userId: { type: String },
-  userName: { type: String },
-  slug: { type: String },
-  comicUpdateTime: { type: String },
   thumbnail: [
     {
       name: String,
@@ -30,6 +53,10 @@ const Comic = new Schema({
       publicId: { type: String },
     }
   ],
+  category: [{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category"
+ }]
 }, opts);
 
 

@@ -2,9 +2,11 @@ const Comic = require('../models/Comic');
 const Chapter = require('../models/Chapter');
 const shortid = require('shortid');
 const customError = require('../../util/customErrorHandler')
-const S3UploadMiddleWare = require("../middlewares/S3UploadMiddleWare");
+// const S3UploadMiddleWare = require("../middlewares/S3UploadMiddleWare");
 const S3ThumbnailUploadMiddleware = require("../middlewares/S3ThumbnailUploadMiddleware");
 const S3DeleteMiddleWare = require('../middlewares/S3DeleteMiddleware')
+//
+const WasabiUploadMiddleWare = require("../middlewares/WasabiUploadMiddleWare");
 
 // let debug = console.log.bind(console);
 class S3UploadController {
@@ -13,9 +15,10 @@ class S3UploadController {
     multipleUpload = async (req, res, next) => {
         try {
             // thực hiện upload
-            await S3UploadMiddleWare(req, res)
+            await WasabiUploadMiddleWare(req, res)
+            // await S3UploadMiddleWare(req, res)
             await saveURLToDb()
-            
+            // console.log(req.files)
 
             // Nếu upload thành công, không lỗi thì tất cả các file của bạn sẽ được lưu trong biến req.files
             // debug(req.files);

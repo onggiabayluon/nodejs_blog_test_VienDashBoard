@@ -17,7 +17,6 @@ const Chapter = new Schema({
     chapterUpdateTime: { type: String },
     userId: { type: String },
     userName: { type: String },
-    view: {type: Number, default: 0},
     image: [
       {
         name: String,

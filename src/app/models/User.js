@@ -34,7 +34,11 @@ const User = new Schema({
       type: String,
       required: true,
       default: false
-    }
+    },
+    comment: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment"
+    },
   }, opts);
 
   module.exports = mongoose.model('User', User);

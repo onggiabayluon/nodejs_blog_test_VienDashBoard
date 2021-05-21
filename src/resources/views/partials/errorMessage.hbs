@@ -192,10 +192,10 @@
         const bars = document.getElementById('bar');
         const progress = document.getElementById('progress');
 
+        
         setTimeout(function () {
             $('.alert-danger').fadeOut('fast');
             $('.alert-success').fadeOut('fast');
-            hideModal()
         }, 5000);
 
         if (bars !== null || progress !== null) {
@@ -217,7 +217,10 @@
     if (modal !== null) {
         var modalChildren = modal.children;
 
-        
+        setTimeout(function () {
+            hideModal()
+        }, 5000);
+
             toggleClasses();
             showModal();
             showModalChildren();

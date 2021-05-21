@@ -27,7 +27,7 @@ require('./config/auth/passport')(passport);
 // connect to DB
 db.connect();
 const app   = express();
-const port  = 3000 ;
+const port  = 3000;
 
 // Flash setup
 app.use(session({
@@ -196,14 +196,12 @@ app.engine(
 
                 if (sortField === "title") {
                     var iconForField = iconsTitle
-                    var tooltipTexts = 'Name Sort'
-                } else {  var iconForField = iconsTime
-                        var tooltipTexts = 'Time Sort' }
+                } else { var iconForField = iconsTime }
                
                 const tooltiptexts = {
-                    default: 'desc',
-                    asc: 'desc',
-                    desc: 'asc',
+                    default: 'Giảm dần',
+                    asc: 'Tăng dần',
+                    desc: 'Giảm dần',
                 }
 
                 const types = {
@@ -214,12 +212,14 @@ app.engine(
 
                 // sortype là giá trị truyền vào
                 const icon = iconForField[sort] //icons[default] 
+
+                const tooltiptext = tooltiptexts[sort] //icons[default] 
                 
                 const type = types[sort] //types[default]
 
                 return  `<a href="?_sort&column=${sortField}&type=${type}" 
                 class="mr-2 view-icon tooltipIcon" >
-                <span class="mb-2 tooltiptext"> ${tooltipTexts} </span>
+                <span class="mb-2 tooltiptext"> ${tooltiptext} </span>
                 ${icon}
                 </a>`
             }

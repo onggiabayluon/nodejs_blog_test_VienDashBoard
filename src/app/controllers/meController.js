@@ -1,25 +1,34 @@
-const Comic = require('../models/Comic');
-const Chapter = require('../models/Chapter');
-const User = require('../models/User');
+const Comic     = require('../models/Comic');
+const Chapter   = require('../models/Chapter');
+const Category   = require('../models/Category');
+const User      = require('../models/User');
+const dbHelper  = require('./dbHelper')
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
-const dbHelper = require('./dbHelper')
-var { canViewProject, canDeleteProject } = require('../../config/permissions/comics.permission')
+const { canViewProject, canDeleteProject } = require('../../config/permissions/comics.permission')
 class meController {
 
 
-  async showChapter(req, res, next) {
-
-    var showChapter = await Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter })
-    
-    try {
+  showChapter(req, res, next) {
 
       var comicSlug = req.params.slug
       var currentReadingChapter = req.params.chapter
       var cookie = req.cookies[comicSlug]; //  ['chapter-1', 'chapter-2]}
       
-      checkCookie()
+      Promise.all([
+        Comic.findOne({ slug: req.params.slug }),
+        Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter })
+      ])
+      .then(([comicdoc, chapterdoc]) => {
+        
+        checkCookie(comicdoc)
 
-      async function checkCookie() {
+        renderChapterView(chapterdoc)
+      })
+      .catch(err => next(err))
+      
+      
+
+      async function checkCookie(comic) {
         
         var hadCookie = (cookie === undefined) ? false : true
 
@@ -29,19 +38,16 @@ class meController {
           res.cookie(comicSlug, { chapters: [currentReadingChapter] }, { maxAge: 604800000 })
 
           // Increase View
-          showChapter.view += 1
-
-          // console.log(showChapter.view)
+          icreaseView(comic)
 
         }
         if (hadCookie === true) {
           
           var checkisViewed = await isViewed(cookie)
-          // console.log("checkisview" + checkisViewed)
 
           if (!checkisViewed) { 
-            // check 0 mean not view yet so change oldCookie to new 
-            // and increase view
+            /* check 0 mean not view yet so change oldCookie to new 
+            and increase view */
 
             // Set new Cookie
             
@@ -52,42 +58,60 @@ class meController {
             res.cookie(comicSlug, newComicList, { maxAge: 604800000 })
 
             // increase view
-            showChapter.view += 1
+            icreaseView(comic)
 
-            // console.log(showChapter.view)
           } // check 1 mean already count so do nothing
         }
-      }
+      };
 
+      function icreaseView(comic) {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = String(today.getFullYear());
+
+        if (comic.view.dayView.thisDay == dd) { comic.view.dayView.view++ } else {
+          comic.view.dayView.view = 1
+          comic.view.dayView.thisDay = dd
+        }
+        if (comic.view.monthView.thisMonth == mm) { comic.view.monthView.view++ } else {
+          comic.view.monthView.view = 1
+          comic.view.monthView.thisMonth = mm
+        }
+        if (comic.view.yearView.thisYear == yyyy) { comic.view.yearView.view++ } else {
+          comic.view.yearView.view = 1
+          comic.view.yearView.thisYear = yyyy
+        }
+        comic.view.totalView++
+        comic.save()
+      };
+      
       function appendObjTo(thatArray, thatArrayProperty, newObj) {
         const frozenObj = Object.freeze(newObj);
         return Object.freeze(thatArray[thatArrayProperty].concat(frozenObj));
-      }
+      };
 
       function isViewed(viewedComicList) {
         var check = viewedComicList.chapters.filter(chapter => {
           return (chapter.includes(currentReadingChapter))
         })
         return (check[0] === currentReadingChapter ) // if check cookie giống chapter đang đọc > true
-      }
+      };
 
-    } catch (error) {
-      next(error)
-    }
-
-    showChapter
-      .save()
-      .then(chapter => {
+      function renderChapterView(chapterDoc) {
         res.render('me/showChapter.hbs',
           {
             layout: 'adminMain',
-            chapter: singleMongooseToObject(chapter),
+            chapter: singleMongooseToObject(chapterDoc),
           })
-      })
-      .catch(next);
+      };
+      
   }
 
   /***** Comic Controller *****
+  -3. delete Categories
+  -2. Create Categories
+  -1. Category List Page
   0. default page
   1. Render comic list
   2. Render Create comics
@@ -105,29 +129,113 @@ class meController {
   11. Handle Form Action Chapter
   ***** Chapter Controller *****/
 
+  // -3. delete Categories: [DELETE] / me / stored / category-list / destroy / :_id
+  destroyCategory(req, res, next) {
+    Category
+    .findOne({_id: req.params._id})
+    .then(category => {
+      deleteCategoryInComic(category)
+    })
+    .then(() => {
+      deleteCategoryModel(req.params._id)
+      req.flash('success-message', `Xóa Category thành công !!`)
+      res.redirect('/me/stored/comics/category-list')
+    })
+    .catch(err => next(err))
 
+    function deleteCategoryInComic(category) {
+      category.comic.forEach(comic_id => {
+        Comic.findOneAndUpdate(
+          { _id: comic_id },
+          { $pull: { category: category._id } })
+          .then()
+          .catch(err => next(err))
+      })
+    };
+    function deleteCategoryModel(category_id) {
+      Category.findOneAndRemove({_id: category_id}).exec()
+    };
+  };
+  // -2. Create Categories: [GET] / me / stored / category-list / create
+  createCategories(req, res, next) {
+    
+    const { category } = req.body;
 
+    checkInput(category)
+    
+    function checkInput(category) {
+        Category
+          .findOne({ name: category })
+          .then(categoryExisted => {
+            if (categoryExisted == null) {
+              createCategories(category)
+            } else {
+              req.flash('error-message', `Category <${category}>  đã tồn tại`)
+              res
+                .status(201)
+                .redirect('/me/stored/comics/category-list')
+            }
+      })
+    };
 
+    function createCategories(category) {
+      Category
+        .create({ name: category })
+        .then(() => {
+          req.flash('success-message', `Tạo Category thành công !!`)
+          res
+            .status(201)
+            .redirect('/me/stored/comics/category-list')
+        })
+        .catch(err => next(err))
+    }
+
+  };
+
+  // -1. Category List Page: [GET] / me / stored / category-list
+  categoryListPage(req, res, next) {
+    
+    Category.aggregate([
+      { $match: { } },
+      { $project: { 
+        numberOfComics: { $cond: { if: { $isArray: "$comic" }, then: { $size: "$comic" }, else: "NA"} },
+        name: "$name",
+        // test: { $cond: { if: { $regexMatch: { input: {$reduce: "$comic", } , regex: /test/ } }, then: "$comic", else: "$name"} },
+      } }
+    ])
+    .then(categories => {
+      res.status(200).render('me/Pages.Category.List.hbs',
+      {
+        layout: 'admin',
+        user: singleMongooseToObject(req.user),
+        categories
+      })
+    })
+    .catch(next)
+  }
+  
   // 0. default: [GET] / me / stored / comics
   adminDashboard(req, res, next) {
 
-    Promise.all([Comic.find({ $and: [{ title: { $exists: true } }, { chaptername: { $not: { $exists: true } } }] }), Comic.countDocumentsDeleted()
-      , User.find({}).select('banned role name _id')]
-    )
+    Promise.all([
+        Comic.find({ $and: [{ title: { $exists: true } }, { chaptername: { $not: { $exists: true } } }] }).lean()
+      , Comic.find({}).lean().select('view title slug').sort({view:-1}).limit(12) // desc
+      , Comic.countDocuments({isPublish: true})
+      , Comic.countDocuments({isPublish: false})
+      , User.find({}).select('banned role name _id')
+    ])
 
-      .then(([comics, deletedCount, users]) => {
-        var userData = users
+      .then(([comics, comicListView, publishedComic, pendingComic, users]) => {
         res.render('me/Dashboard.Admin.hbs',
           {
             layout: 'admin',
-            deletedCount,
-            comics: multiMongooseToObject(comics),
+            publishedComic, pendingComic,
+            comicListView: (comicListView),
+            comics: (comics),
             users: multiMongooseToObject(users),
             user: singleMongooseToObject(req.user),
-            userData: JSON.stringify(userData),
           })
-      }
-      )
+      })
       .catch(next);
   }
 
@@ -156,7 +264,7 @@ class meController {
       })
   }
 
-  // 1. Render comic list: [GET] / me / stored / comics / comic-list  + (/:comicId )
+  // 1. comic List Page: [GET] / me / stored / comics / comic-list  + (/:comicId )
   comicListPage(req, res, next) {
     var comicList = new Object()
     // Tức là role admin và route comic-list của admin
@@ -169,7 +277,7 @@ class meController {
 
     if (req.query.hasOwnProperty('_sort')) {
       comicList = comicList.sort({
-        [req.query.column]: [req.query.type]
+        [req.query.column]: [req.query.type] //column=title&type=desc
       })
     }
 
@@ -192,11 +300,17 @@ class meController {
 
   // 2. Render Create comics Page: [GET] / me / stored / comics / create
   createComicPage(req, res, next) {
-    res.status(200).render('me/Pages.Comic.Create.hbs',
-      {
-        layout: 'admin',
-        user: singleMongooseToObject(req.user),
-      });
+    Category
+    .find({}).lean()
+    .select("_id name")
+    .then(categories => {
+      res.status(200).render('me/Pages.Comic.Create.hbs',
+        {
+          layout: 'admin',
+          user: singleMongooseToObject(req.user),
+          categories: categories
+        })
+    });
   }
 
   // 3. Create comics: [Post] / me / stored / comics / create [create comic]
@@ -204,7 +318,7 @@ class meController {
     dbHelper.CreateComic_Helper(req, res, next, null)
   };
 
-  // 4. comicEditPage: [GET] / me / stored /comics /:slug / edit
+  // 4. Edit Page: [GET] / me / stored /comics /:slug / edit
   comicEditPage(req, res, next) {
     dbHelper.comicEditPage_Helper(req, res, next, null)
   }

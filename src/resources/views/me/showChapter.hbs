@@ -39,7 +39,7 @@
         background-size: 300px 100px;
         text-align: center;
     }
-
+    
     .image__Frame {
         color: #fff;
         border-color: #000;
@@ -56,32 +56,70 @@
         position: relative;
     }
 
-    /* Extra small devices (phones, 550 and down) */
-    @media only screen and (max-width: 550px) {
-        .image__Frame {
-            width: 400px;
-            min-height: 400px;
+    
+        @media only screen and (max-width: 550px) {
+            .image__Frame {
+                width: 400px;
+                min-height: 400px;
+            }
         }
-    }
 
-    /* Medium devices (landscape tablets, 550 and up) */
-    @media only screen and (min-width: 550px) {
-        .image__Frame {
-            width: 700px;
-            min-height: 700px;
+        
+        @media only screen and (min-width: 550px) {
+            .image__Frame {
+                width: 700px;
+                min-height: 700px;
+            }
         }
-    }
 
-    /* Extra large devices (large laptops and desktops, 850px and up) */
-    @media only screen and (min-width: 850px) {
-        .image__Frame {
-            width: 1000px;
-            min-height: 1000px;
+        
+        @media only screen and (min-width: 850px) {
+            .image__Frame {
+                width: 1000px;
+                min-height: 1000px;
+            }
         }
-    }
+    
+    
 </style>
 
-{{#each chapter.image}}
+<div class="image">
+    <picture>  
+    <source 
+    id="image--large"
+    srcset="https://cloudimagewallcdn.b-cdn.net/test-publish-false/chapter-7/1620738659757-0_5.jpg?width=1000,
+    /img/balloon.jpg" 
+    media="(min-width: 1000px)" type="image/jpg"/>
+    <source
+    id="image--medium" 
+    srcset="xhttps://www.gstatic.com/webp/gallery/1.webp" 
+    media="(min-width: 550px)" type="image/webp"/>
+    <source 
+    id="image--small"
+    srcset="/img/balloon.jpg" data-bg="https://www.gstatic.com/webp/gallery/5.webp"
+    media="(max-width: 550px)" type="image/webp"/>
+
+    <img src="https://cloudimagewallcdn.b-cdn.net/test-publish-false/chapter-7/1620738659757-0_5.jpg?width=1000"
+        class="image__Frame"
+        alt="image"
+        onerror="this.onerror=null;this.src='/img/404.jpg';" 
+        />
+    </picture>   
+</div>
+<form id="myForm" method="POST" onsubmit="return postComment(this);" enctype="application/x-www-form-urlencoded">
+    <input class="form-control" name="userId" value="6084dd9dec23a633c03f96e7" type=""></input>
+    <input class="form-control" name="chapter" value="{{chapter.chapter}}" type="hidden"></input>
+    <input id="comicSlugInput" class="form-control" name="comicSlug" value="{{chapter.comicSlug}}" type="hidden"></input>
+    
+    <div class="mb-3">
+        <label>Textarea</label>
+        <textarea class="form-control" name="inputText" placeholder="Required example textarea"
+            ></textarea>
+    </div>
+    <button type="submit" class="btn btn-block btn-primary default mb-1 mx-auto d-block ">
+        Áp dụng</button>
+</form>
+{{!-- {{#each chapter.image}}
 <div class="image">
     <img width="16" height="9" 
     class="image__dummy image__dummy--alt image__Frame image--loader img__PlaceholderLoader" 
@@ -90,6 +128,30 @@
     alt="{{this.name}}"
     >
 </div>
-{{/each}}
+{{/each}} --}}
 
 <script src="/js/imagesLoader.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var slug = $('#comicSlugInput').val()
+        window.postComment = function(form) {
+            var formData = {
+                userId: form.userId.value, 
+                inputText: form.inputText.value, 
+                comicSlug: form.comicSlug.value,
+                chapter: form.chapter.value,
+            }
+            $.ajax({
+                type: "POST",
+                url: `/comic/comment`,
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    alert(response)
+                }
+            })
+            return false;
+        };
+    });
+</script>

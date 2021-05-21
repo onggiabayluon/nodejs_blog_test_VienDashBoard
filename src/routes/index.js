@@ -1,7 +1,7 @@
 // routes: index.js --> courses.js --> controller: coursesController.js
 
 const siteRouter = require('./site');
-const mangasRouter = require('./manga');
+const comicRouter = require('./comic');
 const meRouter = require('./me');
 const userRouter = require('./user');
 const fetchRouter = require('./fetch');
@@ -13,7 +13,7 @@ function route(app) {
     //Action ---> Dispatcher ---> Function handler
 
     // Manga Page
-    app.use('/manga', mangasRouter);
+    app.use('/comic', comicRouter);
 
     // Me Page
     app.use('/me', meRouter);

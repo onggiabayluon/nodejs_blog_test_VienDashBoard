@@ -5,26 +5,25 @@ const { singleMongooseToObject, multiMongooseToObject } =  require('../../util/m
 
 class SiteController {
 
-    fetchUsers(req, res, next) {
-        User
+    async fetchUsers(req, res, next) {
+         User
         .find({})
-        .select('banned role name _id')
+        .select('banned role name _id').lean()
         .then(users => res.send(users))
         .catch(next)
     }
 
     fetchComics(req, res, next) {
         Comic
-        .find({})
+        .find({}).lean()
         .select('-userId')
         .then(comic => res.send(comic))
         .catch(next)
     }
 
     fetchChapters(req, res, next) {
-        console.log(req.params.chapterSlug)
         Chapter
-        .find({comicSlug: req.params.chapterSlug})
+        .find({comicSlug: req.params.chapterSlug}).lean()
         .select('-image')
         .then(chapters => res.send(chapters))
         .catch(next)
