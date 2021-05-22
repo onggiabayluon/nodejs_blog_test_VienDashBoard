@@ -1,5 +1,6 @@
 const Comic     = require('../models/Comic');
 const Comment   = require('../models/Comment');
+const mongoose  = require('mongoose');
 const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mongoose');
 
 class ComicController {
@@ -17,33 +18,67 @@ class ComicController {
       console.log(filteredChapterArr)
       if(filteredChapterArr.length == 0) {
         //Chưa có chapter đó nên push chapter mới vào
-        pushNewChapter(commentDoc)
-        commentDoc.save()
+        pushNewChapter2()
+
+        // mongoose.set('debug', true)
+        // pushNewChapter(commentDoc)
+        // commentDoc.save()
       }
       if(filteredChapterArr.length > 0) {
         //Đã có chapter đó nên push comment mới vào
-        pushNewComment(filteredChapterArr)
-        commentDoc.save()
+        pushNewComment2()
+
+        
+        // mongoose.set('debug', true)
+        // pushNewComment(filteredChapterArr)
+        // commentDoc.save()
       }
       // console.log(filteredChapterArr)
     })
 
+    function pushNewComment2() {
+      const newComment = {
+        userId: req.body.userId,
+        text: req.body.inputText,
+        reply: []
+      }
+      Comment.findOneAndUpdate(
+        { comicSlug: req.body.comicSlug, "chapterArr.chapter": req.body.chapter },
+        { $push: { 'chapterArr.0.commentArr': {$each: [newComment], $position: 0} } },
+        {safe: true, upsert: true}).exec()
+    };
+
+    function pushNewChapter2(commentDoc) {
+      const newChapter = {
+        chapter: req.body.chapter,
+        commentArr: {
+          userId: req.body.userId,
+          text: req.body.inputText,
+          reply: []
+        }
+      }
+      Comment.findOneAndUpdate(
+        { comicSlug: req.body.comicSlug },
+        { $push: { 'chapterArr': newChapter } },
+        {safe: true, upsert: true}).exec()
+    };
+    
     function pushNewComment(filteredChapterArr) {
       const newComment = {
         userId: req.body.userId,
         text: req.body.inputText
       }
       filteredChapterArr.forEach(filteredChapter => {
-        filteredChapter.comment.unshift(newComment)
-        console.log("filteredChapter.comment: ")
-        console.log(filteredChapter.comment)
+        filteredChapter.commentArr.unshift(newComment)
+        console.log("filteredChapter.commentArr: ")
+        console.log(filteredChapter.commentArr)
       })
     };
 
     function pushNewChapter(commentDoc) {
       const chapter = {
         chapter: req.body.chapter,
-        comment: {
+        commentArr: {
           userId: req.body.userId,
           text: req.body.inputText
         }
@@ -58,7 +93,7 @@ class ComicController {
       const comment = new Comment();
       const newComicComment = {
         chapter: req.body.chapter,
-        comment: {
+        commentArr: {
           userId: req.body.userId,
           text: req.body.inputText
         }

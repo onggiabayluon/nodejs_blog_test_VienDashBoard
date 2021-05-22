@@ -1,5 +1,6 @@
 const Comic     = require('../models/Comic');
 const Chapter   = require('../models/Chapter');
+const Comment   = require('../models/Comment');
 const Category   = require('../models/Category');
 const User      = require('../models/User');
 const dbHelper  = require('./dbHelper')
@@ -13,20 +14,42 @@ class meController {
       var comicSlug = req.params.slug
       var currentReadingChapter = req.params.chapter
       var cookie = req.cookies[comicSlug]; //  ['chapter-1', 'chapter-2]}
-      
+      var condition = req.params.chapter
+
       Promise.all([
         Comic.findOne({ slug: req.params.slug }),
-        Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter })
+        Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter }),
+        Comment.findOne({ comicSlug: req.params.slug}).lean()
       ])
-      .then(([comicdoc, chapterdoc]) => {
-        
+      .then(([comicdoc, chapterdoc, commentdoc]) => {
+
         checkCookie(comicdoc)
 
-        renderChapterView(chapterdoc)
+        renderChapterView(chapterdoc, filterCommentDoc(commentdoc) )
       })
       .catch(err => next(err))
       
       
+      function filterCommentDoc(commentdoc) {
+        if(!commentdoc) { return null }
+        
+        const filteredChapterArr = (condition != 'all') ? filterChapter(commentdoc.chapterArr, condition) : commentdoc.chapterArr
+        
+        function filterChapter(chapterArr, condition) {
+          var result = []
+          for (let i = 0; i < chapterArr.length; i++) {
+            if (chapterArr[i].chapter == condition) {
+              result = [chapterArr[i]]
+              break;
+            }
+          }
+          return result;
+        };
+
+        if(filteredChapterArr[0] == undefined) { return [] }
+
+        return filteredChapterArr[0].commentArr
+      };
 
       async function checkCookie(comic) {
         
@@ -98,11 +121,12 @@ class meController {
         return (check[0] === currentReadingChapter ) // if check cookie giống chapter đang đọc > true
       };
 
-      function renderChapterView(chapterDoc) {
+      function renderChapterView(chapterDoc, commentArr) {
         res.render('me/showChapter.hbs',
           {
             layout: 'adminMain',
             chapter: singleMongooseToObject(chapterDoc),
+            commentArr: commentArr
           })
       };
       

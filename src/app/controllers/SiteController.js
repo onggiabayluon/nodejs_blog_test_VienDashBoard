@@ -83,7 +83,23 @@ class SiteController {
         //     // }
         // })
 
-        /* Comment  */
+
+        // Comment.findOne({ comicSlug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap', 'chapterArr.chapter': 'chapter-2' })
+        // .then(info => console.log(info))
+        
+        pullComment2()
+        function pullComment2() {
+            const newComment = {
+              userId: 'test',
+              text: 'test'
+            }
+            Comment.findOneAndUpdate(
+              { _id: '60a86a4c17946a08184e59ad', "chapterArr.chapter": 'chapter-2' },
+              { $pull: { 'chapterArr.0.commentArr': { _id: '60a87124ca21b717f4ee4ae0' } } },
+            ).exec()
+          }
+
+        /* Comment  
         var condition = 'chapter-1'
         Comment.findOne({_id: "607a994a6290a72e18635e53"}).lean()
         // .select("chapterArr")
@@ -96,7 +112,7 @@ class SiteController {
             console.log(filteredChapterArr.sort())
 
             filteredChapterArr.forEach(filteredChapter => {
-                filteredChapter.comments.forEach(comment => {
+                filteredChapter.commentArr.forEach(comment => {
                     console.log(comment.text)
                 });
             });
@@ -125,6 +141,7 @@ class SiteController {
             }
             return result;
         }
+        */
         //temp
         // User.findOne({_id: "6084dd9dec23a633c03f96e7"}).lean()
         // // .select("comment")

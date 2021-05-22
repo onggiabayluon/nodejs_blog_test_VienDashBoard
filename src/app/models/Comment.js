@@ -12,7 +12,7 @@ const Comment = new Schema({
     {
       chapter: { type: String }, // chapter-1
       createdAt: { type: Date, default: new Date().toISOString()},
-      comment: [{
+      commentArr: [{
         //1. user
         userId: { 
           type: mongoose.Schema.Types.ObjectId,
