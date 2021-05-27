@@ -18,16 +18,20 @@ const Comment = new Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
         }, 
-        //2. text
+        //2. User name
+        userName: { type: String },
+        //3. text
         text: { type: String },
-        //3. reply
+        //4. reply
         reply: [{
-          //3.1 user 
+          //4.1 user 
           userId: { 
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
           },
-          //3.2 text
+          //4.1 user name
+          userName: { type: String },
+          //4.3 text
           text: { type: String },
         }] 
       }],

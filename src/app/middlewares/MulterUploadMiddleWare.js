@@ -3,27 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const util = require("util");
 
-let multerStorage = multer.diskStorage({
-    // Định nghĩa nơi file upload sẽ được lưu lại
-    destination: (req, file, callback) => {
-
-        callback(null, path.join(`${__dirname}/../../uploadResults`));
-
-    },
-
-    filename: (req, file, callback) => {
-        let math = ["image/png", "image/jpeg"];
-        if (math.indexOf(file.mimetype) === -1) {
-    
-          let errorMess = `The file <strong>${file.originalname}</strong> is invalid. Only allowed to upload image jpeg or png.`;
-          return callback(errorMess, null);
-          
-        }
-        let filename = `${Date.now()}-${file.originalname}`;
-
-        callback(null, filename);
-    }
-});
+const multerStorage = multer.memoryStorage()
 
 function chapterIsExisted(req) {
     // 1. Implement this!

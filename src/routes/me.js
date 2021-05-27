@@ -2,7 +2,7 @@ const express               = require('express');
 const router                = express.Router();
 //Load Controller
 const meController          = require('../app/controllers/meController');
-const S3UploadController    = require('../app/controllers/S3UploadController');
+// const S3UploadController    = require('../app/controllers/S3UploadController');
 const UploadController      = require('../app/controllers/UploadController');
 // Load Middleware
 const { authRole, ensureAuthenticated, forwardAuthenticated } = require('../config/auth/auth');
@@ -21,7 +21,7 @@ UploadController.multipleUpload,
 // UploadController.getResult
 );
 // Upload Thumbnail Image 
-router.post('/stored/comics/:slug/S3-thumbnail-upload', S3UploadController.thumbnailUpload);
+// router.post('/stored/comics/:slug/S3-thumbnail-upload', S3UploadController.thumbnailUpload);
 
 /**               ***
 ***  COMIC ROUTE  ***

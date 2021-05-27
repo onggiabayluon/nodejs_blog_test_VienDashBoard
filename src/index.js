@@ -11,7 +11,7 @@ const passport      = require('passport');
 const flash         = require('connect-flash')
 const sortMiddleWare= require('./app/middlewares/meControllerSort.middleware')
 const serveStatic   = require('serve-static')
-const favicon         = require('serve-favicon');
+const favicon       = require('serve-favicon');
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
@@ -29,6 +29,29 @@ db.connect();
 const app   = express();
 const port  = 3000;
 
+// Socket io
+const server = require('http').createServer(app);
+const io     = require('socket.io')(server);
+
+io.on('connection', client => {
+    console.log('users connected')
+
+    client.on('new_comment', comment => {
+        io.emit('new_comment', comment)
+    })
+
+    client.on('new_reply', reply => {
+        io.emit('new_reply', reply)
+    })
+
+    client.on('delete_comment', comment_id => {
+        io.emit('delete_comment', comment_id)
+    })
+
+    client.on('delete_reply', reply_id => {
+        io.emit('delete_reply', reply_id)
+    })
+});
 // Flash setup
 app.use(session({
     secret: 'secret',
@@ -121,6 +144,10 @@ app.engine(
             ,
             ifCond: (a,operator,b,options) => {
                 switch (operator) {
+                    case '== (string)':
+                        a = (!a) ? null : a.toString()
+                        b = (!b) ? null : b.toString()
+                        return (a == b) ? options.fn(this) : options.inverse(this);
                     case '==':
                         return (a == b) ? options.fn(this) : options.inverse(this);
                     case '===':
@@ -233,6 +260,6 @@ app.set('views', path.join(__dirname, 'resources', 'views')); //__dirname/resour
 //Routes init
 route(app);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });

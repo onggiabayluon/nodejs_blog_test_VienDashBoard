@@ -17,7 +17,7 @@ class meController {
       var condition = req.params.chapter
 
       Promise.all([
-        Comic.findOne({ slug: req.params.slug }),
+        Comic.findOne({ slug: req.params.slug }).lean(),
         Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter }),
         Comment.findOne({ comicSlug: req.params.slug}).lean()
       ])
@@ -105,8 +105,23 @@ class meController {
           comic.view.yearView.view = 1
           comic.view.yearView.thisYear = yyyy
         }
+        
         comic.view.totalView++
-        comic.save()
+
+        const comicView = {
+          'view.dayView.view': comic.view.dayView.view,
+          'view.dayView.thisDay': comic.view.dayView.thisDay,
+          'view.monthView.view': comic.view.monthView.view,
+          'view.monthView.thisMonth': comic.view.monthView.thisMonth,
+          'view.yearView.view': comic.view.yearView.view,
+          'view.yearView.thisYear': comic.view.yearView.thisYear,
+        }
+        Comic.updateOne(
+          { slug: req.params.slug },
+          { $set: comicView },
+        ).exec()
+
+        // comic.save()
       };
       
       function appendObjTo(thatArray, thatArrayProperty, newObj) {
@@ -126,7 +141,8 @@ class meController {
           {
             layout: 'adminMain',
             chapter: singleMongooseToObject(chapterDoc),
-            commentArr: commentArr
+            commentArr: commentArr,
+            user: singleMongooseToObject(req.user),
           })
       };
       
