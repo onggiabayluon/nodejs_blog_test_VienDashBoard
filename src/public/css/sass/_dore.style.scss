@@ -3069,7 +3069,7 @@ main {
   &.responsive {
     @include respond-below(md) {
       width: unset;
-      height: 135px;
+      height: 100%;
     }
 
     @include respond-below(xs) {
@@ -7467,7 +7467,6 @@ i.large-icon {
 // 49.
 .my-thumb-style {
   background-size: cover;
-  max-height: 130px;
   min-width: 130px;
   max-width: 130px;
   margin: auto 0; }

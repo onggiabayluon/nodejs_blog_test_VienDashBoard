@@ -7,8 +7,8 @@ class SiteController {
 
     async fetchUsers(req, res, next) {
          User
-        .find({})
-        .select('banned role name _id').lean()
+        .find({}).lean()
+        .select('banned role name _id')
         .then(users => res.send(users))
         .catch(next)
     }
