@@ -10,7 +10,6 @@ class meController {
 
 
   showChapter(req, res, next) {
-
       var comicSlug = req.params.slug
       var currentReadingChapter = req.params.chapter
       var cookie = req.cookies[comicSlug]; //  ['chapter-1', 'chapter-2]}
@@ -25,7 +24,7 @@ class meController {
 
         checkCookie(comicdoc)
 
-        renderChapterView(chapterdoc, filterCommentDoc(commentdoc) )
+        renderChapterView(comicdoc, chapterdoc, filterCommentDoc(commentdoc) )
       })
       .catch(err => next(err))
       
@@ -109,6 +108,7 @@ class meController {
         comic.view.totalView++
 
         const comicView = {
+          'view.totalView': comic.view.totalView,
           'view.dayView.view': comic.view.dayView.view,
           'view.dayView.thisDay': comic.view.dayView.thisDay,
           'view.monthView.view': comic.view.monthView.view,
@@ -130,16 +130,21 @@ class meController {
       };
 
       function isViewed(viewedComicList) {
-        var check = viewedComicList.chapters.filter(chapter => {
-          return (chapter.includes(currentReadingChapter))
-        })
-        return (check[0] === currentReadingChapter ) // if check cookie giống chapter đang đọc > true
+        var result = []
+        for (let i = 0; i < viewedComicList.chapters.length; i++) {
+          if (viewedComicList.chapters[i] === currentReadingChapter) {
+            result = viewedComicList.chapters[i]
+            break;
+          } 
+        }
+        return (result === currentReadingChapter) // if check cookie giống chapter đang đọc > true
       };
 
-      function renderChapterView(chapterDoc, commentArr) {
+      function renderChapterView(comicdoc, chapterDoc, commentArr) {
         res.render('me/showChapter.hbs',
           {
             layout: 'adminMain',
+            comics: comicdoc,
             chapter: singleMongooseToObject(chapterDoc),
             commentArr: commentArr,
             user: singleMongooseToObject(req.user),

@@ -15,13 +15,9 @@ router.get('/stored/comics/dashboard/extraAdmin', meController.extraAdminDashboa
 // Quyền truy cập Page
 router.get('/stored/comics/faqPage', meController.faqPage);
 // Upload Chapter Images 
-router.post('/stored/comics/:slug/S3-multiple-upload', 
-UploadController.multipleUpload,
-// UploadController.resizeImages,
-// UploadController.getResult
-);
+router.post('/stored/comics/:slug/S3-multiple-upload', UploadController.multipleUpload);
 // Upload Thumbnail Image 
-// router.post('/stored/comics/:slug/S3-thumbnail-upload', S3UploadController.thumbnailUpload);
+router.post('/stored/comics/:slug/S3-thumbnail-upload', UploadController.thumbnailUpload);
 
 /**               ***
 ***  COMIC ROUTE  ***
@@ -61,7 +57,7 @@ router.get('/stored/comics/:slug/chapter-list', meController.chapterListPage);
 // Page Create Chapter
 router.get('/stored/comics/:slug/create-chapter', meController.createChapterPage);;
 // Destroy Chapter
-router.delete('/stored/destroyChapter/:slug', meController.destroyChapter);
+router.delete('/stored/destroyChapter/:chapter_id', meController.destroyChapter);
 // Handling Chapters Form
 router.post('/stored/handle-form-action-for-chapters', meController.handleFormActionForChapters);
 

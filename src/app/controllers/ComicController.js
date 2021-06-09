@@ -12,17 +12,16 @@ class ComicController {
     Comment.findOne({comicSlug: req.body.comicSlug}).lean()
     .then(commentDoc => {
       if(!commentDoc) { 
-        createNewComicComment() //❌
-        // return sendStufftoClient(commentDoc) 
+        createNewComicComment() 
       }
       const filteredChapterArr = filterChapter(commentDoc.chapterArr, condition)
       if(filteredChapterArr.length == 0) {
-        //Chưa có chapter đó nên push chapter mới vào
+        // Trường hợp Chưa có chapter trong truyện đó nên push chapter mới vào
         return pushNewChapter()
         // return sendStufftoClient(commentDoc) 
       }
       if(filteredChapterArr.length > 0) {
-        //Đã có chapter đó nên push comment mới vào
+        //Đã có chapter đó trong truyện nên push comment mới vào
         pushNewComment(commentDoc) //❌
         // return sendStufftoClient(commentDoc) 
       }

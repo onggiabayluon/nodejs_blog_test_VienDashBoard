@@ -1,31 +1,32 @@
-module.exports = function destroyTodoImage (filename, callback) {
-    const aws = require('aws-sdk');
-    const s3 = new aws.S3({
-        accessKeyId: process.env.AWS_IAM_USER_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_IAM_USER_SECRET_ACCESS_KEY,
-        Bucket: process.env.AWS_BUCKET_NAME,
-        region: 'us-east-1'
-      });
+module.exports = function destroyTodoImage(filename, callback) {
+  const AWS = require('aws-sdk');
+  const wasabiEndpoint = new AWS.Endpoint(process.env.WASABI_ENDPOINT);
+  const s3 = new AWS.S3({
+    endpoint: wasabiEndpoint,
+    accessKeyId: process.env.WASABI_ACCESS_KEY_ID,
+    secretAccessKey: process.env.WASABI_SECRET_ACCESS_KEY,
+    region: process.env.WASABI_REGION
+  });
 
-    const imgKeys = filename.map(img => {
-      return { Key: img.url }
-    });
+  const imgKeys = filename.map(img => {
+    return { Key: img.url }
+  });
 
-    var params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Delete: {
-        Objects: imgKeys,
-        Quiet: false
-       }
-    };
+  var params = {
+    Bucket: process.env.WASABI_BUCKET_NAME,
+    Delete: {
+      Objects: imgKeys,
+      Quiet: false
+    }
+  };
 
-    s3.deleteObjects(params, function(err, data) {
-      if (err) {
-        console.log(err);
-        callback(err);
-      } else {
-        console.log(data)
-        callback(null);
-      }
-    });
-  }
+  s3.deleteObjects(params, function (err, data) {
+    if (err) {
+      console.log(err);
+      callback(err);
+    } else {
+      console.log(data)
+      callback(null);
+    }
+  });
+}

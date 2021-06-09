@@ -30,33 +30,6 @@ class SiteController {
         //test
         
     
-        // const getDocument = async () => {
-        //     try {
-        //         //const coursetest = new Course({ title: 'test' });
-        //         //coursetest.save()
-               
-        //         const result = await Course              
-        //         .findOne({slug: 'test'})
-        //         .then(course => {
-        //             course.thumbnail.map(thumbnail => {
-        //                 console.log(thumbnail.publicId)
-        //             })
-                   
-        //         })
-                
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-        // }
-        // getDocument();
-        // Comic.updateOne({ slug: 'test-truyen' }, {titleForSearch: 'test'}, {'$set':{titleForSearch: 'testset'}})
-        // .then(result => {console.log(result)
-        // }
-        // Comic.findOne({title: 'test truyện'})
-        // .then(page => {
-            
-        //     console.log(page)
-        // })
 
         const Comment   = require('../models/Comment');
         Comment.findOne({comicSlug: 'wizard-of-anesia'}).lean()
@@ -87,17 +60,6 @@ class SiteController {
         // Comment.findOne({ comicSlug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap', 'chapterArr.chapter': 'chapter-2' })
         // .then(info => console.log(info))
         
-        pullComment2()
-        function pullComment2() {
-            const newComment = {
-              userId: 'test',
-              text: 'test'
-            }
-            Comment.findOneAndUpdate(
-              { _id: '60a86a4c17946a08184e59ad', "chapterArr.chapter": 'chapter-2' },
-              { $pull: { 'chapterArr.0.commentArr': { _id: '60a87124ca21b717f4ee4ae0' } } },
-            ).exec()
-          }
 
         /* Comment  
         var condition = 'chapter-1'
@@ -206,15 +168,40 @@ class SiteController {
         //     comic.save(); // khong the edit trong database do su dung lean
         // })
 
+        // Delete array url
+        // Comic
+        //     .findOne({ slug: 'test-3' }).lean()
+        //     .then(comic => {
+        //         var arrURL = [
+        //             {
+        //                 url: comic.thumbnail.url + '-thumbnail.webp'
+        //             },
+        //             {
+        //                 url: comic.thumbnail.url + '-thumbnail-original.jpeg'
+        //             }
+        //         ]
+        //         console.log(arrURL)
+        //         S3DeleteMiddleware(comic.thumbnail)
+        //     })
+
+
         // .populate(Comic)
         Comic.find({ chaptername: { $not: { $exists: true } } })
-        .select('title description thumbnail slug')
+        .populate({
+            path: 'chapters',
+            select: 'chapter',
+            options: {
+                limit: 2,
+                sort: { createdAt: -1},
+            }
+        })
         
         //3. 
-        .then(courses => { //4.       
+        .then(comics => { //4.  
+            // console.log(comics[0])     
             res.render('home', { 
                 layout: 'adminMain',
-                courses: multiMongooseToObject(courses),
+                comics: multiMongooseToObject(comics),
                 user: singleMongooseToObject(req.user)
              });
         })

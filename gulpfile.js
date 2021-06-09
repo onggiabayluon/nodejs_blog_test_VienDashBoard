@@ -21,9 +21,22 @@ var csso        = require('gulp-csso');
 gulp.task('hello', function() {
  return console.log('gulp is running');
 });
+
 gulp.task("sass", function(callback) {
   return gulp
     .src("src/public/css/sass/themes/*.scss") // compile sass
+    .pipe(wait(300))
+    .pipe(sass())
+    .pipe(gulp.dest("src/public/css"))        // destination
+    .pipe(cssminify({zindex: false}))         // min css
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest("src/public/css"))        // destination
+    .pipe(gulp.dest("src/public/dist/css"));  // destination
+});
+
+gulp.task("sassTemp", function(callback) {
+  return gulp
+    .src("src/public/css/sass/homePage/*.scss") // compile sass
     .pipe(wait(300))
     .pipe(sass())
     .pipe(gulp.dest("src/public/css"))        // destination

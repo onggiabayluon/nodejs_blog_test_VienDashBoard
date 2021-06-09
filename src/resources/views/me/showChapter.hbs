@@ -86,22 +86,23 @@
     }
 </style>
 
+{{!-- show images --}}
 {{#each chapter.image}}
 <div class="image">
-    <picture>
-        <source id="image--large" srcset="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}-large.jpg"
-        media="(min-width: 1000px)" type="image/jpg" />
-        <source id="image--medium" srcset="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}-medium.webp" 
-        media="(min-width: 550px)" type="image/webp" />
-        <source id="image--small" srcset="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}-small.webp" 
-        media="(max-width: 550px)" type="image/webp" />
+    <picture class="lazy">
+        <source id="image--Main" 
+        data-srcset="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}"
+        data-srcmain="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}-large.jpeg" 
+        type="image/jpeg" />
 
-        <img src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}-large.jpg"
-            class="image__Frame" alt="image" onerror="this.onerror=null;this.src='/img/404.jpg';" />
+        <img 
+        data-srcset="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.url}}-large.jpeg" 
+        class="image__Frame" onerror="this.onerror=null;this.src='/img/404.jpg';" />
     </picture>
 </div>
-{{/each }}
+{{/each}} {{!-- 🛑 End show images --}}
 
+{{!-- POST Comment --}}
 <div class="container mt-5">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
@@ -132,137 +133,134 @@
             {{/if}}
         </div>
     </div>
-</div>
-{{!-- {{#each chapter.image}}
-<div class="image">
-    <img width="16" height="9" class="image__dummy image__dummy--alt image__Frame image--loader img__PlaceholderLoader"
-        data-bg="{{this.url}}" onerror="this.onerror=null;this.src='/img/404.jpg';" alt="{{this.name}}">
-</div>
-{{/each}} --}}
-{{#if commentArr}}
-{{#each commentArr}}
-<div id="comment-{{this._id}}">
-<div id="comment__container" class="container mt-2">
-    <div class="d-flex justify-content-center row">
-        <div class="col-md-10">
-            <div class="d-flex flex-column comment-section">
-                <div class="bg-white p-2">
-                    {{!-- Start delete comment form --}}
-                    {{#ifCond this.userId '== (string)' ../user._id}}
-                    <form id="destroyCommentForm" method="POST" onsubmit="return destroyComment(this);"
-                        enctype="application/x-www-form-urlencoded">
-                        <input class="form-control" name="comment_id" value="{{../this._id}}" type="hidden"></input>
-                        <input class="form-control" name="comicSlug" value="{{../../chapter.comicSlug}}" type="hidden"></input>
-                        <input class="form-control" name="chapter" value="{{../../chapter.chapter}}" type="hidden"></input>
-                        <button type="submit" class="close" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button> 
-                    </form>
-                    {{/ifCond}} {{!-- End delete comment form --}}
-                    <div class="d-flex flex-row user-info">
-                        <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                        <div class="d-flex flex-column justify-content-start ml-2">
-                            <span class="d-block font-weight-bold name">{{this.userName}}</span>
-                            <span class="date text-black-50">Shared publicly - Jan 2020</span>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <p class="comment-text">{{this.text}}</p>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end row">
-                    <div class="col-md-12" style="margin-top: -1rem;">
+</div> {{!-- 🛑 End POST Comment --}}
 
-                        <div class="bg-white">
-                            <div class="reply__parent d-flex flex-row fs-12">
-                                <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span
-                                        class="ml-1">Like</span></div>
-                                <div id="replyBtn" class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span
-                                        class="ml-1">Reply</span></div>
-                                <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span>
+
+{{!-- Show Comment BOX --}}
+{{#if commentArr}}
+    {{#each commentArr}}
+        <div id="comment-{{this._id}}">
+        <div id="comment__container" class="container mt-2">
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-10">
+                    <div class="d-flex flex-column comment-section">
+                        <div class="bg-white p-2">
+                            {{!-- Start delete comment form --}}
+                            {{#ifCond this.userId '== (string)' ../user._id}}
+                            <form id="destroyCommentForm" method="POST" onsubmit="return destroyComment(this);"
+                                enctype="application/x-www-form-urlencoded">
+                                <input class="form-control" name="comment_id" value="{{../this._id}}" type="hidden"></input>
+                                <input class="form-control" name="comicSlug" value="{{../../chapter.comicSlug}}" type="hidden"></input>
+                                <input class="form-control" name="chapter" value="{{../../chapter.chapter}}" type="hidden"></input>
+                                <button type="submit" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> 
+                            </form>
+                            {{/ifCond}} {{!-- 🛑 End delete comment form --}}
+                            <div class="d-flex flex-row user-info">
+                                <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                <div class="d-flex flex-column justify-content-start ml-2">
+                                    <span class="d-block font-weight-bold name">{{this.userName}}</span>
+                                    <span class="date text-black-50">Shared publicly - Jan 2020</span>
                                 </div>
                             </div>
+                            <div class="mt-2">
+                                <p class="comment-text">{{this.text}}</p>
+                            </div>
                         </div>
+                        <div class="d-flex justify-content-🛑 End row">
+                            <div class="col-md-12" style="margin-top: -1rem;">
 
-                        {{!-- Display Reply --}}
-                        <div id="reply__ofcomment-{{this._id}}"> 
-                            {{#each reply}}
-                            <div id="reply-{{this._id}}" class="container mt-2">
-                                <div class="d-flex justify-content-end row">
-                                    <div class="col-md-10">
-                                        <div class="d-flex flex-column comment-section">
-                                            <div class="bg-white p-2">
-                                                {{!-- Start delete reply form --}}
-                                                {{#ifCond this.userId '== (string)' ../../user._id}}
-                                                <form id="destroyReplyForm" method="POST" onsubmit="return destroyReply(this);"
-                                                    enctype="application/x-www-form-urlencoded">
-                                                    <input name="reply_id" value="{{../this._id}}" type="hidden"></input>
-                                                    <input name="comment_id" value="{{../../this._id}}" type="hidden"></input>
-                                                    <input name="comicSlug" value="{{../../../chapter.comicSlug}}" type="hidden"></input>
-                                                    <input name="chapter" value="{{../../../chapter.chapter}}" type="hidden"></input>
-                        
-                                                    <button type="submit" class="close" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </form>
-                                                {{/ifCond}} {{!-- End delete reply form --}}
-                                                <div class="d-flex flex-row user-info"><img class="rounded-circle"
-                                                        src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                                                    <div class="d-flex flex-column justify-content-start ml-2"><span
-                                                            class="d-block font-weight-bold name">{{this.userName}}</span><span
-                                                            class="date text-black-50">Shared publicly - Jan 2020</span>
+                                <div class="bg-white">
+                                    <div class="reply__parent d-flex flex-row fs-12">
+                                        <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span
+                                                class="ml-1">Like</span></div>
+                                        <div id="replyBtn" class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span
+                                                class="ml-1">Reply</span></div>
+                                        <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{!-- Display Reply --}}
+                                <div id="reply__ofcomment-{{this._id}}"> 
+                                    {{#each reply}}
+                                    <div id="reply-{{this._id}}" class="container mt-2">
+                                        <div class="d-flex justify-content-🛑 End row">
+                                            <div class="col-md-10">
+                                                <div class="d-flex flex-column comment-section">
+                                                    <div class="bg-white p-2">
+                                                        {{!-- Start delete reply form --}}
+                                                        {{#ifCond this.userId '== (string)' ../../user._id}}
+                                                        <form id="destroyReplyForm" method="POST" onsubmit="return destroyReply(this);"
+                                                            enctype="application/x-www-form-urlencoded">
+                                                            <input name="reply_id" value="{{../this._id}}" type="hidden"></input>
+                                                            <input name="comment_id" value="{{../../this._id}}" type="hidden"></input>
+                                                            <input name="comicSlug" value="{{../../../chapter.comicSlug}}" type="hidden"></input>
+                                                            <input name="chapter" value="{{../../../chapter.chapter}}" type="hidden"></input>
+                                
+                                                            <button type="submit" class="close" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </form>
+                                                        {{/ifCond}} {{!-- 🛑 End delete reply form --}}
+                                                        <div class="d-flex flex-row user-info"><img class="rounded-circle"
+                                                                src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                                            <div class="d-flex flex-column justify-content-start ml-2"><span
+                                                                    class="d-block font-weight-bold name">{{this.userName}}</span><span
+                                                                    class="date text-black-50">Shared publicly - Jan 2020</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <p class="comment-text">{{this.text}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="mt-2">
-                                                    <p class="comment-text">{{this.text}}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    {{/each}} 
+                                </div> {{!-- 🛑 End Display Reply --}}
+                                
+                                {{#if ../user}}
+                                <div id="replyBox" class="col-md-10 replyBox bg-light p-2 d-none" style="margin-left: auto;">
+                                    {{!-- Start Reply Form --}}
+                                    <form id="replyForm" method="POST" onsubmit="return postReply(this);"
+                                        enctype="application/x-www-form-urlencoded">
+                                        <input class="form-control" name="userId" value="{{../user._id}}" type="hidden"></input>
+                                        <input class="form-control" name="userName" value="{{../user.name}}"
+                                            type="hidden"></input>
+                                        <input class="form-control" name="comment_id" value="{{this._id}}" type="hidden"></input>
+                                        <input class="form-control" name="chapter" value="{{../chapter.chapter}}"
+                                            type="hidden"></input>
+                                        <input id="comicSlugInput" class="form-control" name="comicSlug"
+                                            value="{{../chapter.comicSlug}}" type="hidden"></input>
+                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle"
+                                                src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                            <textarea class="form-control" name="inputText" placeholder="Type something"
+                                                class="form-control ml-1 shadow-none textarea"></textarea>
+                                        </div>
+                                        <div class="mt-2 text-right">
+                                            <button type="submit" class="btn btn-primary btn-sm shadow-none">Reply
+                                                comment</button>
+                                            <button type="button"
+                                                class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </div>
-                            {{/each}} 
-                        </div> {{!-- End Display Reply --}}
-                        
-                        {{#if ../user}}
-                        <div id="replyBox" class="col-md-10 replyBox bg-light p-2 d-none" style="margin-left: auto;">
-                            {{!-- Start Reply Form --}}
-                            <form id="replyForm" method="POST" onsubmit="return postReply(this);"
-                                enctype="application/x-www-form-urlencoded">
-                                <input class="form-control" name="userId" value="{{../user._id}}" type="hidden"></input>
-                                <input class="form-control" name="userName" value="{{../user.name}}"
-                                    type="hidden"></input>
-                                <input class="form-control" name="comment_id" value="{{this._id}}" type="hidden"></input>
-                                <input class="form-control" name="chapter" value="{{../chapter.chapter}}"
-                                    type="hidden"></input>
-                                <input id="comicSlugInput" class="form-control" name="comicSlug"
-                                    value="{{../chapter.comicSlug}}" type="hidden"></input>
-                                <div class="d-flex flex-row align-items-start"><img class="rounded-circle"
-                                        src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                                    <textarea class="form-control" name="inputText" placeholder="Type something"
-                                        class="form-control ml-1 shadow-none textarea"></textarea>
-                                </div>
-                                <div class="mt-2 text-right">
-                                    <button type="submit" class="btn btn-primary btn-sm shadow-none">Reply
-                                        comment</button>
-                                    <button type="button"
-                                        class="btn btn-outline-primary btn-sm ml-1 shadow-none">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                        {{/if}}{{!-- End Reply Form --}}
+                                {{/if}}{{!-- 🛑 End Reply Form --}}
 
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-                
             </div>
         </div>
-    </div>
-</div>
-</div>
+        </div>
+    {{/each}}
+{{/if}} {{!-- 🛑 End Show Comment BOX --}}
 
-{{/each}}
-{{/if}}
 
 {{!-- Comment Template --}}
 <script id="comment-template" type="text/x-handlebars-template">
@@ -282,7 +280,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button> 
                     </form>
-                    \{{/ifCond}} {{!-- End delete comment form --}}
+                    \{{/ifCond}} {{!-- 🛑 End delete comment form --}}
                     
                     <div class="d-flex flex-row user-info"><img class="rounded-circle"
                             src="https://i.imgur.com/RpzrMR2.jpg" width="40">
@@ -294,7 +292,7 @@
                         <p class="comment-text">\{{new_comment.inputText}}</p>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end row">
+                <div class="d-flex justify-content-🛑 End row">
                     <div class="col-md-12" style="margin-top: -1rem; padding:unset">
                         <div class="bg-white">
                             <div class="reply__parent d-flex flex-row fs-12">
@@ -337,20 +335,20 @@
                                 </div>
                             </form>
                         </div>
-                        \{{/if}}{{!-- End Reply Form --}}
+                        \{{/if}}{{!-- 🛑 End Reply Form --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</script>
-{{!-- End comment template --}}
+</script> {{!-- 🛑 End comment template --}}
+
 
 {{!-- reply Template --}}
 <script id="reply-template" type="text/x-handlebars-template">
 <div id="reply-\{{new_reply.reply_id}}" class="container mt-2">
-    <div class="d-flex justify-content-end row">
+    <div class="d-flex justify-content-🛑 End row">
         <div class="col-md-10">
             <div class="d-flex flex-column comment-section">
                 <div class="bg-white p-2">
@@ -367,7 +365,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </form>
-                    \{{/ifCond}} {{!-- End delete reply form --}}
+                    \{{/ifCond}} {{!-- 🛑 End delete reply form --}}
                     <div class="d-flex flex-row user-info"><img class="rounded-circle"
                             src="https://i.imgur.com/RpzrMR2.jpg" width="40">
                         <div class="d-flex flex-column justify-content-start ml-2"><span
@@ -405,50 +403,130 @@
         </div>
     </form>
 </div>
-\{{/if}}{{!-- End Reply Form --}}                      
-</script>
-{{!-- End reply template --}}
+\{{/if}}{{!-- 🛑 End Reply Form --}}                      
+</script> {{!-- 🛑 End reply template --}}
 
-
-{{!-- Confirm delete comment --}}
-{{!-- <div id="delete-reply-modal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Xóa Reply !!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Bạn chắc chắn muốn xóa Reply này ?? </p>
-            </div>
-            <div class="modal-footer">
-                <button id="btn-delete-reply" type="button" class="btn btn-danger">
-                    Xóa bỏ</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Hủy</button>
-            </div>
-        </div>
-    </div>
-</div>  --}}
-{{!-- hidden form to delete reply --}}
-{{!-- <form id="hidden-reply-form" name="hidden-form" method="POST">
-    <input name="reply_id" type="hidden"></input>
-    <input name="comment_id" type="hidden"></input>
-    <input name="comicSlug" type="hidden"></input>
-    <input name="chapter" type="hidden" value="{{chapter.chapter}}"></input>
-</form> --}}
 
 {{!-- ReqUser_id --}}
 <input type="hidden" name="input__ReqUserId" value="{{user._id}}">
 
-<script src="/js/imagesLoader.js"></script>
+{{!-- chapter _id --}}
+<input type="hidden" name="input__chapterId" value="{{chapter._id}}">
+
+<script src="/js/LazyLoader.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script>
     $(document).ready(function () {
+
+        /* local History */
+        var url                 = window.location.href
+        var pathname            = window.location.pathname.split('/');
+        var chapterNameParams   = pathname[pathname.length - 1]
+        var slugParams          = pathname[pathname.length - 3]
+        var $chapterId          = $("input[type=hidden][name=input__chapterId]").val()
+        var visited_comics      = JSON.parse(localStorage.getItem('visited_comics'));
+        var visited_chapters    = JSON.parse(localStorage.getItem('visited_chapters'));
+        var newComicList        
+        var this_visit = {
+            chapterNameList: [{chapter: chapterNameParams, _id: $chapterId}],
+            chapterUrl: url,
+            comicName: 'temp',
+            comicUrl: 'temp',
+            comicSlug: slugParams,
+            imageUrl: 'temp'
+        }
+
+        if (visited_chapters == null) {
+
+            visited_chapters = [$chapterId]
+
+            localStorage.setItem('visited_chapters', JSON.stringify(visited_chapters));
+
+        } else {
+
+            var isvisited = chapterisvisited(visited_chapters)
+            
+            if (isvisited != true) {
+
+                newChapterList = appendObjTo(visited_chapters, $chapterId)
+
+                localStorage.setItem('visited_chapters', JSON.stringify(newChapterList));
+            }
+        }
+
+        
+        /* if not have visited_comics -> add it with chapters */
+        if (visited_comics == null) {
+
+            localStorage.setItem('visited_comics', JSON.stringify([this_visit]));
+            
+        } else { 
+            /* if have local_slug -> check if isviewed */
+
+            var visitResult  = isViewed(visited_comics)
+
+            if (visitResult.visit_thiscomic === false && visitResult.visit_thischapter === false) { 
+                
+                newComicList = appendObjTo(visited_comics, this_visit)
+
+                localStorage.setItem('visited_comics', JSON.stringify(newComicList));
+
+            }  
+            if (visitResult.visit_thiscomic === true && visitResult.visit_thischapter === false) {
+                // false: replace new and save
+
+                const newchapterNameList = [...visited_comics[comic_index].chapterNameList, {chapter: chapterNameParams, _id: $chapterId}] // construct old chapter list '[]'
+                console.table(newchapterNameList)
+                this_visit.chapterNameList = newchapterNameList // replace old chapter list '[]'
+                
+                newComicList = [...visited_comics.filter(x => x.comicSlug != slugParams), this_visit] // replace old visited comics '[]'
+                
+                localStorage.setItem('visited_comics', JSON.stringify(newComicList));
+
+            }
+        };
+
+        function isViewed(visited_comics) {
+            var result = {
+                visit_thiscomic: false,
+                visit_thischapter: false,
+                comic_index: 0,
+                chapter_index: 0
+            }
+            for (let i = 0; i < visited_comics.length; i++) {
+                if (visited_comics[i].comicSlug === slugParams) {
+                    result.visit_thiscomic = true
+                    comic_index = i 
+                    for (let j = 0; j < visited_comics[i].chapterNameList.length; j++) {
+                        if (visited_comics[i].chapterNameList[j].chapter === chapterNameParams) {
+                            console.log(visited_comics[i].chapterNameList[j])
+                            result.visit_thischapter = true
+                            break;
+                        }
+                    }
+                }
+            }
+            return result
+        };
+
+        function appendObjTo(thatArray, newObj) {
+            const frozenObj = Object.freeze(newObj);
+            return Object.freeze(thatArray.concat(frozenObj));
+        };
+
+        function chapterisvisited(visited_chapters) {
+            var result = false
+            for (let i = 0; i < visited_chapters.length; i++) {
+                if (visited_chapters[i] === $chapterId) {
+                    result = true
+                    break
+                }
+            }
+            return result
+        }
+        /* 🛑 End local History */
 
         /* Socket io */
         var socket = io()
@@ -482,8 +560,7 @@
                     return options.inverse(this);
             }
         })
-
-        /* End Socket io */
+        /* 🛑 End Socket io */
 
         /* Variables */
         var $reqUserId = $("input[type=hidden][name=input__ReqUserId]").val()
@@ -496,7 +573,7 @@
         var btnDeleteReply = document.getElementById('btn-delete-reply');
         var html = ''
         var templateObj = new Object()
-        /* Variables */
+        /* 🛑 End Variables */
 
         /* socket client catch */
         socket.on('new_comment', formData => {
@@ -525,7 +602,7 @@
         socket.on('delete_reply', formData => {
             $(`#reply-${formData.reply_id}`).remove()
         })
-        /* End socket client catch */
+        /* 🛑 End socket client catch */
 
         /* Start reply display */
         replyBtn.on('click', function (e) {
@@ -535,8 +612,7 @@
                 var $allReplyBox = $(this);
                 $allReplyBox.not($thisReplyBox).addClass('d-none');
             });
-        }) /* End reply display */
-
+        }) /* 🛑 End reply display */
 
 
         /* Start POST comment */
@@ -562,8 +638,7 @@
                 }
             })
             return false;
-        }; /* End POST comment */
-
+        }; /* 🛑 End POST comment */
 
 
         /* Start POST reply */
@@ -590,8 +665,7 @@
                 }
             })
             return false;
-        }; /* End POST reply */
-
+        }; /* 🛑 End POST reply */
 
 
         /* Start destroy comment */
@@ -613,8 +687,7 @@
                 })
             }
             return false;
-        }; /* End destroy comment */
-
+        }; /* 🛑 End destroy comment */
 
 
         /* Start destroy reply */
@@ -637,44 +710,7 @@
                 })
             }
             return false;
-        }; /* End destroy reply */
+        }; /* 🛑 End destroy reply */
 
-
-
-
-
-
-        /* Start Reply Delete Form 
-        $('#delete-reply-modal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            reply_id = button.data('reply_id');
-            comment_id = button.data('comment_id');
-            comicSlug = button.data('comicslug');
-            chapter = button.data('chapter');
-            $('input[name="reply_id"]').val(reply_id);
-            $('input[name="comment_id"]').val(comment_id);
-            $('input[name="comicSlug"]').val(comicSlug);
-            $('input[name="chapter"]').val(chapter);
-        });
-        btnDeleteReply.onclick = function () {
-            destroyReply()
-        };
-
-        function destroyReply() {
-            var formData = {};
-            $("#hidden-reply-form").serializeArray().forEach(function (element) {
-                formData[element.name] = element.value;
-            });
-            $.ajax({
-                type: "POST",
-                url: `/comic/comment/destroyReply?_method=DELETE`,
-                data: JSON.stringify(formData),
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-                    alert(response)
-                }
-            })
-            return false;
-        };  End Reply Delete Form */
     });
 </script>

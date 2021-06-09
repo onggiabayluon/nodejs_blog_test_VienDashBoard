@@ -187,23 +187,25 @@
                                         <a href="#" class="tooltipIcon delete-icon-red" style="align-items: center;">
                                             <span class="tooltiptext"> Xóa </span>
                                             <div class="icon-container" data-toggle="modal"
-                                                data-id="{{this.chapterSlug}}" data-target="#delete-course-modal">
+                                                data-id="{{this._id}}" 
+                                                data-slug="{{this.comicSlug}}"
+                                                data-target="#delete-course-modal">
                                                 <i class="simple-icon-trash" style="z-index: -1;"></i>
                                             </div>
                                         </a>
 
                                     </div>
 
-                                    {{!-- <div class="w-15 w-sm-100">
-                                        <span class="badge badge-pill badge-primary">PROCESSED</span>
-                                    </div> --}}
                                 </div>
-                                {{!-- checkbox --}}
+
+                                {{!-- Handle Form checkbox --}}
                                 <label class="custom-control custom-checkbox mb-1 align-self-center pr-4">
-                                    <input type="checkbox" class="custom-control-input" name="chapterSlug[]"
-                                        value="{{this.chapterSlug}}">
+                                    <input type="hidden" name="comicSlug" value="{{this.comicSlug}}">
+                                    <input type="checkbox" class="custom-control-input" name="chapter_id[]"
+                                        value="{{this._id}}">
                                     <span class="custom-control-label">&nbsp;</span>
                                 </label>
+                                {{!-- End Handle Form checkbox --}}
                             </div>
                         </div>
                         {{/each}}
@@ -245,7 +247,7 @@
 
 {{!-- hidden form to delete stuff --}}
 <form name="hidden-form" method="POST">
-
+    <input type="hidden" name="comicSlug" >
 </form>
 
 {{!-- Search Template --}}
@@ -275,7 +277,9 @@
 
                     <a href="#" class="tooltipIcon delete-icon-red" style="align-items: center;">
                         <span class="tooltiptext"> Xóa </span>
-                        <div class="icon-container" data-toggle="modal" data-id="\{{this.chapterSlug}}"
+                        <div class="icon-container" data-toggle="modal" 
+                        data-id="\{{this._id}}"
+                         data-slug="\{{this.comicSlug}}"
                             data-target="#delete-course-modal">
                             <i class="simple-icon-trash" style="z-index: -1;"></i>
                         </div>
@@ -286,7 +290,7 @@
                 
             </div>
             <label class="custom-control custom-checkbox mb-1 align-self-center pr-4">
-                <input type="checkbox" class="custom-control-input" name="chapterSlug[]" value="\{{this.chapterSlug}}">
+                <input type="checkbox" class="custom-control-input" name="chapter_id[]" value="\{{this._id}}">
                 <span class="custom-control-label">&nbsp;</span>
             </label>
         </div>
@@ -325,7 +329,7 @@
         } /* End Search */
 
         /* Start Form */
-        var chapterSlug;
+        var chapter_id, comicSlug;
         var hiddenForm = document.forms['hidden-form'];
         var btnDeleteCourse = document.getElementById('btn-delete-course');
 
@@ -336,11 +340,13 @@
         //dựa vào show modal rồi lưu slug
         $('#delete-course-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
-            //bấm vào button lưu id vào chapterSlug từ button-data bên trên
-            chapterSlug = button.data('id');
+            //bấm vào button lưu id vào chapter_id từ button-data bên trên
+            chapter_id = button.data('id');
+            comicSlug = button.data('slug');
         });
         btnDeleteCourse.onclick = function () {
-            hiddenForm.action = '/me/stored/destroyChapter/' + chapterSlug + '?_method=DELETE';
+            $("input:hidden[name=comicSlug]").val(comicSlug)
+            hiddenForm.action = '/me/stored/destroyChapter/' + chapter_id + '?_method=DELETE';
             hiddenForm.submit();
         }; /* End Form */
 

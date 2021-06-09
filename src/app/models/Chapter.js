@@ -19,7 +19,7 @@ const Chapter = new Schema({
     userName: { type: String },
     image: [
       {
-        name: String,
+        key: String,
         url: String,
       }
     ],

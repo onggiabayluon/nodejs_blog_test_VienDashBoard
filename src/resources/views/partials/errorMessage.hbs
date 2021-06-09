@@ -94,6 +94,7 @@
 </style>
 
 
+{{log errors}}
 {{#if errors}}
 {{#each errors}}
 <div class="modalBox">
@@ -106,7 +107,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{ errors }}
+                {{ this.msg }}
             </div>
         </div>
         <div id="progress" class="progress">

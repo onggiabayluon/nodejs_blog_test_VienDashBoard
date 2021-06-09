@@ -151,7 +151,6 @@ const comicEditPage_Helper = (exports.comicEditPage_Helper
     Promise.all([
       Comic
       .findOne({ slug: req.params.slug }).lean()
-      .select('title slug createdAt updatedAt description thumbnail category')
       , Category.find({}).lean().select("name _id")
     ])
       .then(([comic, categories]) => {
@@ -167,7 +166,7 @@ const comicEditPage_Helper = (exports.comicEditPage_Helper
           let difference = categories.filter(x => !intersectionIdList.includes(x._id)); // Lấy phần còn lại của category mà comic không có
 
           // console.log('intersection: ') // Total = intersection(checked) và difference(uncheck)
-          console.log(intersection)
+          // console.log(intersection)
           // console.log('diff: ')
           // console.log(difference)
 
@@ -343,7 +342,11 @@ const destroyComic_Helper = (exports.destroyComic_Helper
   = (req, res, next, msg) => {
 
     deleteThumbnail_Images_s3().then(() => {
-      return Promise.all([delete_Chapters_mongodb(), delete_Comicmongodb_CategoryModel()]);
+      return Promise.all([
+      delete_Chapters_mongodb(), 
+      delete_Comicmongodb_CategoryModel(),
+      delete_chaptersRef()
+    ]);
     }).then((args) => {
       res.status(200).redirect('back');
       req.flash('success-message', 'Xóa truyện thành công !!')
@@ -357,13 +360,21 @@ const destroyComic_Helper = (exports.destroyComic_Helper
         Comic.findOne({ slug: req.params.slug }, function (err, comic) {
 
           console.log("--1 Tiến hành Xóa comic thumbnail trên s3: ")
-          if (comic.thumbnail.length == 0) {
-            console.log(' --K có thumbnail để xóa')
-          }
-          else {
-            deleteMiddleWare(comic.thumbnail, function (err) {
+          if (comic.thumbnail != null) {
+            let arrURL = [
+              {
+                url: comic.thumbnail.url + '-thumbnail.webp'
+              },
+              {
+                url: comic.thumbnail.url + '-thumbnail-original.jpeg'
+              }
+            ]
+            deleteMiddleWare(arrURL, function (err) {
               if (err) { return next(err) }
             }); /* -- end First task -- */
+          }
+          else {
+            console.log(' --K có thumbnail để xóa')
           }
 
           console.log("--2 Tiến hành Xóa chapter images trên s3: ")
@@ -373,8 +384,20 @@ const destroyComic_Helper = (exports.destroyComic_Helper
                 console.log(' --K có chapter images để xóa')
               }
               else {
+                let arrURL = []
                 chapters.map(chapter => {
-                  deleteMiddleWare(chapter.image, function (err) {
+                  chapter.image.forEach(image => {
+                    arrURL.push({
+                      url: image.url + '-large.jpeg'
+                    },
+                    {
+                      url: image.url + '-medium.webp'
+                    },
+                    {
+                      url: image.url + '-small.webp'
+                    })
+                  });
+                  deleteMiddleWare(arrURL, function (err) {
                     if (err) { return next(err) }
                   });
                 })
@@ -401,6 +424,22 @@ const destroyComic_Helper = (exports.destroyComic_Helper
             resolve(result);
           })
           .catch(next) /* -- end Third task -- */
+      })
+    };
+
+    function delete_chaptersRef() {
+      return new Promise(async (resolve, reject) => {
+        const chapter = Chapter.findOne({ comicSlug: req.params.slug })
+        console.log('chapter: ')
+        console.log(await chapter._id)
+        Comic.updateOne(
+          { slug: req.params.slug },
+          { $pull: { chapter: chapter._id } }
+        )
+        .then(result => {
+          resolve(result)
+        })
+        .catch(next)
       })
     };
 
@@ -447,45 +486,64 @@ const handleFormActionForComics_Helper = (exports.handleFormActionForComics_Help
         } else {
           
           delete_Thumbnail_Images_s3().then(() => {
-            delete_Comic_And_CategoryModel_Chapter_mongodb()
+            delete_Comic_And_CategoryModel_mongodb()
           })
           
         }
 
         async function delete_Thumbnail_Images_s3() {
+            /* -- map comics -- */
             comicSlugs.map(comicSlug => {
-              console.log(comicSlug) //test-qP64bRH31 //test-d00cQa9fo
-              Comic.findOne({ slug: comicSlug }, function (err, comic) {
-    
-                console.log("--1 Tiến hành Xóa comic thumbnail trên s3: ")
-                if (comic.thumbnail.length == 0) {
-                  console.log(' --K có thumbnail để xóa')
-                }
-                else {
-                  deleteMiddleWare(comic.thumbnail, function (err) {
-                    if (err) { return next(err) }
-                  }); /* -- end First task -- */
-                }
-    
+              /* -- First task -- */
+              Comic.findOne({ slug: comicSlug })
+                .then(comic => {
+                  console.log("--1 Tiến hành Xóa comic thumbnail trên s3: ")
+                  if (comic.thumbnail != null) {
+                    let arrURL = [
+                      {
+                        url: comic.thumbnail.url + '-thumbnail.webp'
+                      },
+                      {
+                        url: comic.thumbnail.url + '-thumbnail-original.jpeg'
+                      }
+                    ]
+                    deleteMiddleWare(arrURL, function (err) {
+                      if (err) { return next(err) }
+                    }) /* -- end First task -- */
+                  }
+                })
+
+                /* -- Second task -- */
                 console.log("--2 Tiến hành Xóa chapter images trên s3: ")
                 Chapter.find({ comicSlug: comicSlug })
                   .then(chapters => {
                     if (chapters.length == 0) {
                       console.log(' --K có chapter images để xóa')
                     } else {
+                      let arrURL = []
                       chapters.map(chapter => {
-                        deleteMiddleWare(chapter.image, function (err) {
+                        chapter.image.forEach(image => {
+                          arrURL.push({
+                            url: image.url + '-large.jpeg'
+                          },
+                          {
+                            url: image.url + '-medium.webp'
+                          },
+                          {
+                            url: image.url + '-small.webp'
+                          })
+                        });
+                        deleteMiddleWare(arrURL, function (err) {
                           if (err) { return next(err) }
                         });
                       })
                     }
-                  })
-                  .catch(next)
-              })
-            })
+                  })/* -- End Second task -- */
+
+              }) /* -- End map comics -- */
         };
         
-        function delete_Comic_And_CategoryModel_Chapter_mongodb() {
+        function delete_Comic_And_CategoryModel_mongodb() {
           //reg.body.comicSlug là mảng[ ]
           // xóa comic trên mongodb
           comicSlugs.forEach(async comicSlug => {
@@ -570,30 +628,50 @@ const chapterListPage_Helper = (exports.chapterListPage_Helper
 const destroyChapter_Helper = (exports.destroyChapter_Helper
   = (req, res, next, msg) => {
 
-    delete_Chapter_Images_s3().then(() => {
-      delete_Chapter_mongodb()
+    delete_chaptersRef().then(() => {
+      delete_Chapter_Images_s3().then(() => {
+        delete_Chapter_mongodb()
+      })
     })
 
 
     async function delete_Chapter_Images_s3() {
-      Chapter.findOne({ chapterSlug: req.params.slug }, function (err, currentChapter) {
+      Chapter.findOne({ _id: req.params.chapter_id }, function (err, currentChapter) {
         // return res.json(chapter)
         console.log("-- 1.Tiến hành Xóa chapter images trên s3" + " [" + currentChapter.chapter + "]:")
-
-        deleteMiddleWare(currentChapter.image, function (err) {
+        let arrURL = []
+        currentChapter.image.forEach(image => {
+          arrURL.push({
+            url: image.url + '-large.jpeg'
+          },
+          {
+            url: image.url + '-medium.webp'
+          },
+          {
+            url: image.url + '-small.webp'
+          })
+        });
+        deleteMiddleWare(arrURL, function (err) {
           if (err) { return next(err) }
         });
       });
-    }
+    };
 
     async function delete_Chapter_mongodb() {
-      Chapter.deleteOne({ chapterSlug: req.params.slug }) //slug của chapters
+      Chapter.deleteOne({ _id: req.params.chapter_id }) //slug của chapters
         .then(() => {
           res.status(200).redirect('back');
           req.flash('success-message', 'Xóa Chapter Thành Công')
         })
         .catch(next)
-    }
+    };
+
+    async function delete_chaptersRef() {
+      Comic.updateOne(
+        { slug: req.body.comicSlug },
+        { $pull: { chapters: req.params.chapter_id } }
+      ).exec()
+    };
 
 
   })
@@ -605,44 +683,66 @@ const handleFormActionForChapters_Helper = (exports.handleFormActionForChapters_
     switch (req.body.action) {
       case 'delete':
 
-        
-        //chapterSlugs là biến đã đặt trong html
-        var chapterSlugs = req.body.chapterSlug;
-        if (!chapterSlugs) {
+        //chapter_ids là biến đã đặt trong html
+        var chapter_ids = req.body.chapter_id;
+        if (!chapter_ids) {
           req.flash('error-message', 'Bạn chưa chọn chapter')
           res.status(404).redirect('back');
         } else {
 
+          delete_chaptersRef()
           delete_Chapter_Images_s3()
           delete_Chapter_mongodb()
 
         }
 
         async function delete_Chapter_Images_s3() {
-          chapterSlugs.map(chapterSlug => {
-            Chapter.findOne({ chapterSlug: chapterSlug })
+          chapter_ids.map(chapter_id => {
+
+            delete_chaptersRef(chapter_id)
+
+            Chapter.findOne({ _id: chapter_id })
               .then(currentChapter => {
                 // Nếu image length > 0 thì tức là có chapter image
                 if (!currentChapter) {
                   console.log(' --K có chapter để xóa')
                 } else {
                   console.log("-- 2.Tiến hành Xóa chapter images trên s3" + " [" + currentChapter.chapter + "]:")
-                  deleteMiddleWare(currentChapter.image, function (err) {
+                  let arrURL = []
+                  currentChapter.image.forEach(image => {
+                    arrURL.push({
+                      url: image.url + '-large.jpeg'
+                    },
+                    {
+                      url: image.url + '-medium.webp'
+                    },
+                    {
+                      url: image.url + '-small.webp'
+                    })
+                  });
+                  deleteMiddleWare(arrURL, function (err) {
                     if (err) { return next(err) }
-                  })
+                  });
                 }
               }).catch(next)
           })
         }
 
         async function delete_Chapter_mongodb() {
-          Chapter.deleteMany({ chapterSlug: { $in: req.body.chapterSlug } })
+          Chapter.deleteMany({ _id: { $in: req.body.chapter_id } })
             .then(() => {
               res.status(200).redirect('back');
               req.flash('success-message', 'Xóa Chapter Thành Công')
             })
             .catch(next)
-        }
+        };
+
+        async function delete_chaptersRef(chapter_id) {
+          Comic.updateOne(
+            { slug: req.body.comicSlug[0] },
+            { $pull: { chapters: chapter_id } }
+          ).exec()
+        };
 
         break;
       default:

@@ -389,9 +389,12 @@ h6 {
 .list-item-heading {
   font-size: 1rem; }
 
+@media (min-width: 992px) {
+  .list-item-heading {
+    width: 80%; } }
+
 .truncate {
   text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden; }
 
 .min-width-zero {

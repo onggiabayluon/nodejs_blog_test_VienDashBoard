@@ -19,10 +19,11 @@ function setDefaultTime() {
 };
 
 const Comic = new Schema({
-  title:          { type: String },
-  titleForSearch: { type: String },
-  description:    { type: String },
+  description:    { type: String, trim: true },
+  title:          { type: String, trim: true },
+  titleForSearch: { type: String, trim: true },
   videoId:        { type: String },
+  author:         { type: String },
   userId:         { type: String },
   userName:       { type: String },
   slug:           { type: String },
@@ -44,19 +45,24 @@ const Comic = new Schema({
   },
   isPublish: {
     type: Boolean,
-    required: true,
+    default: true,
   },
-  thumbnail: [
-    {
-      name: String,
-      url: String,
-      publicId: { type: String },
-    }
-  ],
+  isFinish: {
+    type: Boolean,
+    default: true,
+  },
+  thumbnail: {
+    key: String,
+    url: String,
+  },
+  chapters: [{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Chapter"
+ }],
   category: [{ 
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category"
- }]
+ }],
 }, opts);
 
 

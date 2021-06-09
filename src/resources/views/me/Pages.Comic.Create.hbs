@@ -36,7 +36,7 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="mb-4">Tạo Truyện Mới</h5>
+                    <h5 class="mb-4">New Comic</h5>
                     {{!-- form --}}
                     <form id="comicCreateForm" method="POST" action="/me/stored/comics/create">
                         <label class="form-group has-float-label">
@@ -48,7 +48,7 @@
                                 <path d="M0 1 L40 1" class="invalid"></path>
                                 <path d="M0 1 L40 1" class="valid"></path>
                             </svg>
-                            <span>Tên truyện</span>
+                            <span> Name</span>
                         </label>
                         
                         <label class="form-group has-float-label">
@@ -61,7 +61,7 @@
                                 <path d="M0 1 L40 1" class="invalid"></path>
                                 <path d="M0 1 L40 1" class="valid"></path>
                             </svg>
-                            <span>Mô tả</span>
+                            <span>Description</span>
                         </label>
                         
                         <div class="form-row mb-4 ml-1">
@@ -82,7 +82,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="form-group has-float-label">
-                                      <input class="form-control datepicker" id="Translator" name="translator" placeholder="Nhập ít nhất 1 ký tự"
+                                      <input class="form-control datepicker" id="Author" name="author" placeholder="Nhập ít nhất 1 ký tự"
                                         required minlength="1">
                                       <svg viewBox="0 0 40 2" class="line" preserveAspectRatio="none">
                                         <path d="M0 1 L40 1"></path>
@@ -90,19 +90,19 @@
                                         <path d="M0 1 L40 1" class="invalid"></path>
                                         <path d="M0 1 L40 1" class="valid"></path>
                                       </svg>
-                                      <span>Tác Giả</span>
+                                      <span>Author</span>
                                     </label>
                                 </div>
-                                <div class="form-group col-md-4">
+                                {{!-- <div class="form-group col-md-4">
                                     <label class="form-group has-float-label" for="inputState">
-                                      <select id="inputState" class="form-control">
-                                          <option selected>None</option>
-                                          <option>Mới</option>
-                                          <option>Hot</option>
+                                      <select id="inputState" class="form-control" name="badge">
+                                          <option value="none" selected>None</option>
+                                          <option value="new">New</option>
+                                          <option value="hot">Hot</option>
                                       </select>
                                       <span>Badge</span>
                                     </label>
-                                </div>
+                                </div> --}}
                             </div>
 
                             {{!-- Start checkbox --}}
@@ -121,7 +121,7 @@
                                 </label> 
                             </div> {{!-- End CheckBox --}}
                             
-                        <button class="btn btn-primary default" type="submit">Đăng truyện</button>
+                        <button class="btn btn-primary default" type="submit">Submit</button>
                         <button onclick="reset()" class="ml-4 btn btn-primary default">Clear</button>
                     </form> {{!-- /form --}}
 

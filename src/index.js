@@ -135,13 +135,24 @@ app.engine(
             },
             replaceHyphenIntoSpace: (str) => {
                 str = str.toString().replace(/-/g, ' ');
-                return  str;// replace '-' -> space 
-               
+                return str && str[0].toUpperCase() + str.slice(1);// replace '-' -> space 
             },
             encodeMyString: (text) => { 
                 return new Handlebars.SafeString(text);
             }
             ,
+            breakWords: (str) => {
+                var words = str.trim().split(' ')
+                if (words.length == 2) {
+                    var result = `${Handlebars.escapeExpression(words[0])} </br> ${Handlebars.escapeExpression(words[1])}`
+                    return new Handlebars.SafeString(result);
+                } 
+                if (words.length == 3) {
+                    var result = `${Handlebars.escapeExpression(words[0] + ' ' + words[1])} </br> ${Handlebars.escapeExpression(words[2])}`
+                    return new Handlebars.SafeString(result);
+                }
+                return str
+            },
             ifCond: (a,operator,b,options) => {
                 switch (operator) {
                     case '== (string)':

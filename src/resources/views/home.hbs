@@ -1,47 +1,802 @@
-<div class="mt-4 container-fluid">
+<style>
+    /* color Scheme */
+    :root {
+        --separator-color-light: #313131;
+        --separator-color: #424242;
+        --background-color: #1b191b;
+        --foreground-color: #232223;
+        --input-background: #232223;
+
+        --dark-btn-background: #8d8d8d;
+        --light-btn-background: #e4e4e4;
+        --button-text-color: #d0d0d0;
+        --button-text-important: #d0d0d0;
+        --button-text-unimportant: #5a5a5a;
+
+        --theme-color-1: #8f2938;
+        --theme-color-2: #aa5e6c;
+        --theme-color-3: #a53949;
+        --theme-color-4: #843a47;
+        --theme-color-5: #9e777e;
+        --theme-color-6: #c07a6c;
+
+        --primary-color: #969696;
+        --secondary-color: #757575;
+        --muted-color: #5a5a5a;
+
+        --gradient-color-1 : #612c34;
+        --gradient-color-2 : #421e24;
+        --gradient-color-3 : #662b34;
+
+        --lp-bg-color-1 : #320209;
+        --lp-bg-color-2 : #35030b;
+        --lp-bg-color-3 : #620917;
+        --lp-bg-color-4 : #700c1b;
+    }
+    .dark {
+        --separator-color-light: #373a43;
+        --separator-color: rgba(228, 228, 228, 0.1);
+        --background-color: #1f222a;
+        --foreground-color: #242731;
+        --input-background: #242731;
+
+        --dark-btn-background: #8d8d8d;
+        --light-btn-background: #e4e4e4;
+        --button-text-color: #7c7d83;
+        --button-text-important: #ffffff;
+        --button-text-unimportant: #7c7d83;
+
+        --theme-color-1: #6c5dd3;
+        --theme-color-2: #c4bdf1;
+        --theme-color-3: #c4bdf1;
+        --theme-color-4: #6155bb;
+        --theme-color-5: #8dbdcc;
+        --theme-color-6: #3360a5;
+
+        --primary-color: #969696;
+        --secondary-color: #757575;
+        --muted-color: #5a5a5a;
+
+        --button-color-1: #5f75ee;
+        --button-background-1: #1f2128;
+
+        --gradient-color-1 : #612c34;
+        --gradient-color-2 : #421e24;
+        --gradient-color-3 : #662b34;
+
+        --lp-bg-color-1 : #320209;
+        --lp-bg-color-2 : #35030b;
+        --lp-bg-color-3 : #620917;
+        --lp-bg-color-4 : #700c1b;
+    }
+    /* End color Scheme */
+    body {
+        font-family: Nunito,sans-serif;
+        background: #1b191b;
+        border-radius: 1.3rem;
+    }
+    
+    
+    
+    
+     
+</style>
+
+
+
+<div class="mt-4 container">
     <div class="row">
-        {{!-- left: 8 --}}
-        <div class="col-lg-8">
+        <div class="p-xs-custom  col-12 pb-4">
+            {{!-- glider --}}
             <div class="row">
-                {{#each courses}}
-                    {{!-- 12/3 = 4 --}}
-                    <div class="col-lg-3">
-                        <div class="card h-100" style="width: 11rem; min-height: 300px">
-                            <a href="./manga/{{this.slug}}">
-                                {{#each thumbnail}}
-                                <img class="card-img-top" src="{{this.url}}" alt="Card image" style="max-height:200px;">
-                                {{/each}}
-                            </a>
-                            <div class="mt-auto">
-                                <div class="card-body">
-                                    <a href="./manga/{{this.slug}}">
-                                        <h5 class="card-title">{{this.title}}</h5>
-                                    </a>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="col-12">
+
+                    <h5 class="mb-4">Popular Manga Updates</h5>
+                        <div class="row mb-4">
+                                <div class="col-md-12 mb-4 pl-0 pr-0">
+                                    <div class="glide basic">
+                                        <div class="glide__track pb-3" data-glide-el="track">
+                                            <div class="glide__slides">
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-c-35 position-relative">
+                                                            <img width="125" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
+                                                                alt="Card image cap">
+                                                            <span   
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                        </div>
+                                                        <div class="w-c-65">
+                                                            <div class="card-body">
+                                                                <h6 class="mb-3 d-webkit-box">Comic Text Title
+                                                                </h6>
+                                                                <p class="text-muted text-small mb-2 font-weight-light">
+                                                                    January 12, 2018
+                                                                </p>
+                                                                
+                                                                <footer>
+                                                                    <div class="card__chapter mb-2 mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
+                                                                            href="">Chapter 2</a>
+                                                                    </div>
+                                                                    <div class="card__chapter mb-2 mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
+                                                                            href="">Chapter 1</a>
+                                                                    </div>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-50 position-relative">
+                                                            <img class="card-img-left" src="img/card-thumb-2.jpg"
+                                                                alt="Card image cap">
+                                                            <span
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="card-body">
+                                                                <h6 class="mb-4">Wedding Cake with Flowers Macarons and
+                                                                    Blueberries</h6>
+
+                                                                <footer>
+                                                                    <p class="text-muted text-small mb-0 font-weight-light">
+                                                                        09.04.2018
+                                                                    </p>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-50 position-relative">
+                                                            <img class="card-img-left" src="img/card-thumb-3.jpg"
+                                                                alt="Card image cap">
+                                                            <span
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="card-body">
+                                                                <h6 class="mb-4">Cheesecake with Chocolate Cookies and Cream
+                                                                    Biscuits
+                                                                </h6>
+
+                                                                <footer>
+                                                                    <p class="text-muted text-small mb-0 font-weight-light">
+                                                                        09.04.2018
+                                                                    </p>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-50 position-relative">
+                                                            <img class="card-img-left" src="img/card-thumb-3.jpg"
+                                                                alt="Card image cap">
+                                                            <span
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="card-body">
+                                                                <h6 class="mb-4">Cheesecake with Chocolate Cookies and Cream
+                                                                    Biscuits
+                                                                </h6>
+
+                                                                <footer>
+                                                                    <p class="text-muted text-small mb-0 font-weight-light">
+                                                                        09.04.2018
+                                                                    </p>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-50 position-relative">
+                                                            <img class="card-img-left" src="img/card-thumb-1.jpg"
+                                                                alt="Card image cap">
+                                                            <span
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="card-body">
+                                                                <h6 class="mb-4">Homemade Cheesecake with Fresh Berries and Mint
+                                                                </h6>
+
+                                                                <footer>
+                                                                    <p class="text-muted text-small mb-0 font-weight-light">
+                                                                        09.04.2018
+                                                                    </p>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-50 position-relative">
+                                                            <img class="card-img-left" src="img/card-thumb-3.jpg"
+                                                                alt="Card image cap">
+                                                            <span
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="card-body">
+                                                                <h6 class="mb-4">Cheesecake with Chocolate Cookies and Cream
+                                                                    Biscuits
+                                                                </h6>
+                                                                <footer>
+                                                                    <p class="text-muted text-small mb-0 font-weight-light">
+                                                                        09.04.2018
+                                                                    </p>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="glide__arrows slider-nav" data-glide-el="controls">
+                                            <button class="glide__arrow glide__arrow--left left-arrow btn btn-link"
+                                                data-glide-dir="<"><i class="simple-icon-arrow-left"></i></button>
+                                            <div class="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
+                                                <button class="glide__bullet slider-dot" data-glide-dir="=0"></button>
+                                                <button class="glide__bullet slider-dot" data-glide-dir="=1"></button>
+                                                <button class="glide__bullet slider-dot" data-glide-dir="=2"></button>
+                                                <button class="glide__bullet slider-dot" data-glide-dir="=3"></button>
+                                                <button class="glide__bullet slider-dot" data-glide-dir="=4"></button>
+                                            </div>
+                                            <button class="glide__arrow glide__arrow--right right-arrow btn btn-link"
+                                                data-glide-dir=">"><i class="simple-icon-arrow-right"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            
                         </div>
-                    </div>
-                {{/each}}
-            </div>
-        </div>
-       
-        {{!-- right: 4 --}}
-        <div class="col-lg-4">
-            <div class="row ml-5">
-                <div class="card" style="width: 12rem; height: auto">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the
-                            card's
-                            content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
                 </div>
             </div>
+            {{!-- 🛑 end glider --}}
+
+            <div class="row">
+                {{!-- left: 8 --}}
+                <div class="col-12 col-lg-8 col-md-8 col-sm-12 col-left mb-3">
+
+                    {{!-- nav container --}}
+                    <div class="row">
+                        <div class="col-12 nav__container">
+                            <div class="nav__wrapper">
+                                <nav class="nav">
+                                    <input class="nav__checkbox" type="radio" name="comic" id="item1">
+                                    <label id="tooltip1" for="item1" class="red-tooltip nav__item active" data-toggle="tooltip" data-placement="top" title="View All">
+                                        <i class="fal fa-books"></i>
+                                    </label>
+                                    <input class="nav__checkbox" type="radio" name="comic" id="item2">
+                                    <label id="tooltip2" class="nav__item" for="item2" data-toggle="tooltip" data-placement="top" title="History">
+                                        <i class="fas fa-history"></i>
+                                    </label>
+                                    <input class="nav__checkbox" type="radio" name="comic" id="item3">
+                                    <label id="tooltip3" class="nav__item" for="item3" data-toggle="tooltip" data-placement="top" title="Book Mark">
+                                        <i class="fas fa-bookmark"></i>
+                                    </label>
+                                    <input class="nav__checkbox" type="radio" name="comic" id="item4">
+                                    <label id="tooltip4" class="nav__item disabled" for="item4" data-toggle="tooltip" data-placement="top" title="Chat Box">
+                                        <i class="fas fa-comments"></i>
+                                    </label>
+                                    
+                                    {{!-- animation bar --}}
+                                    <div class="animation start-home">
+                                        <div class="center">
+                                            <i id="dynamic__icon" class="fal fa-books"></i>
+                                            {{!-- <span class="dynamic__text">View All</span> --}}
+                                        </div>
+                                    </div> {{!-- End animation bar --}}
+
+                                </nav>
+                            </div>
+                        </div>
+                    </div> {{!-- End nav container --}}
+
+                    <div class="row title title__container">
+                        <i class="title__icon fas fa-2x fa-book mr-3"></i>
+                        <h3 class="title__text">Truyện mới cập nhật</h3>
+                    </div>
+
+                    <div class="separator mt-4"></div>
+                    
+                    <div id="main__box" class="card__container card__container--left row foreground card__wrapper">
+                        {{#each comics}}
+                        {{!-- 12/3 = 4 --}}
+                        <div class="align-middle col-6 col-lg-3 col-md-4 col-sm-4 mt-2 mb-4">
+                            <div class="">
+                                <div class="example-2 card">
+                                <div class="wrapper">
+                                    <img src="{{#if this.thumbnail.url}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.thumbnail.url}}-thumbnail.webp
+                                    {{else}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/user-comic-2/thumbnail/1622345516518-7-thumbnail.webp
+                                    {{/if}}"
+                                    type="image/webp" width="175" height="238" style="max-width: 100%;height: auto" 
+                                    class=" responsive zoom"
+                                    alt="image">
+                                    <!-- overlays -->
+                                    <div class="color-overlay"></div>
+                                    <div class="header">
+                                        <ul class="menu-content icon-3-right icon-4-right">
+                                            <li><a href="#" class="fa fa-xs fa-bookmark-o"></a></li>
+                                            <li><a href="#" class="fa fa-xs fa-heart-o"><span>{{this.view.totalView}}</span></a></li>
+                                            <li><a href="#" class="fa fa-xs fa-comment-o"><span>30</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="mt-auto">
+                                    <div class="card-body mb-3" style="padding-bottom: 0;">
+                                        <a href="./manga/{{this.slug}}">
+                                            <h5 class="card-title card-title--modifier row w-md-unset">
+                                                {{ this.title}}
+                                            </h5>
+                                        </a>
+                                    </div>
+                                    <div class="chapter" style="padding: 0;">
+                                        {{#each chapters}}
+                                        <a href="/me/stored/comics/{{../ this.slug}}/chapter-list/{{this.chapter}}"
+                                            class="card-body__container mb-xl-custom mb-2 ml-xl-0">
+                                            <span id="{{this._id}}" class="card-body__chapter badge badge--modifier badge-pill "> 
+                                                {{replaceHyphenIntoSpace this.chapter}} </span>
+                                            <span class="card-body__time"> 56 mins ago </span>
+                                        </a>
+                                        {{/each}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{/each}}
+                    </div> {{!-- End Card container --}}
+                    
+                    {{!-- Pagination --}}
+                    <div class="row justify-content-center">
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <div class="d-flex">
+                                <div class="mx-auto">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="paginate_button page-item prev mr-3">
+                                            <a class="page-link prev" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link custom-numbers active" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link custom-numbers" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link custom-numbers" href="#">3</a></li>
+                                        <li class="paginate_button page-item next ml-3">
+                                            <a class="page-link next" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div> {{!-- End Pagination --}}
+                    
+
+                </div>  {{!-- End col left --}}
+                {{!-- right: 4 --}}
+                <div class="col-12 col-lg-4 col-md-4 col-sm-12 col-right mt-2">
+
+                    {{!-- 🖼️ widget History --}}
+                    <div id="history__box" class="mb-3">
+                        <div class="widget__container widget__container--right">
+                            {{!-- widget title --}}
+                            <div class="widget__title">
+                                <i class="fas fa-fire">
+                                    <span class="particle-fire"></span>
+                                </i>
+                                <h5>Reading History</h5>
+                            </div> {{!-- End widget title --}}
+                            {{!-- append box --}}
+                            <div id="append__Box" style="display: none;">
+                    
+                            </div>{{!-- end append box --}}
+                            {{!-- widget button --}}
+                            <div class="widget__btn">
+                                <button type="button" class="btn--modifier btn btn-sm btn-block">More</button>
+                            </div>
+                            {{!-- End widget button --}}
+                        </div>
+                    </div> {{!-- 🛑 end widget History --}}
+
+                    {{!-- 🍿 widget popular --}}
+                    <div id="popular__box" class="mb-3">
+                        {{!-- Widget Container --}}
+                        <div class="widget__container widget__container--right">
+                            {{!-- widget title --}}
+                            <div class="widget__title">
+                                <i class="fas fa-fire">
+                                    <span class="particle-fire"></span>
+                                </i>
+                                <h5>Popular Manga</h5>
+                            </div> {{!-- End widget title --}}
+                            
+
+                            {{!-- Widget card --}}
+                            <div>
+                                <div class="widget__card widget__card--styling">
+                                <a class="card__image" href="#">
+                                    <img alt="Card image cap" 
+                                    width="175" height="238"
+                                    class="zoom"
+                                    src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp
+                                    ">
+                                    <div class="card__image--overlay"></div>
+                                </a>
+                                <div class="card__details">
+                                    <h4 class="card__category">Wizard of Anesia</h4>
+                                    <div class="card__chapter">
+                                        <a id="id="{{this._id}}"" class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 1</a>
+                                        <span class="time__info">May 10, 2018</span>
+                                    </div>
+                                    <div class="card__chapter">
+                                        <a class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 2</a>
+                                        <span class="time__info">May 10, 2018</span>
+                                    </div>
+                                </div> 
+                            </div> {{!-- End Widget card --}}
+                            {{!-- Widget card --}}
+                            <div class="widget__card widget__card--styling">
+                                <a class="card__image" href="#">
+                                    <img alt="Card image cap" 
+                                    width="175" height="238"
+                                    class="zoom"
+                                    src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp
+                                    ">
+                                    <div class="card__image--overlay"></div>
+                                </a>
+                                <div class="card__details">
+                                    <h4 class="card__category">Wizard of Anesia</h4>
+                                    <div class="card__chapter">
+                                        <a class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 1</a>
+                                        <span class="time__info">May 10, 2018</span>
+                                    </div>
+                                    <div class="card__chapter">
+                                        <a class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 2</a>
+                                        <span class="time__info">May 10, 2018</span>
+                                    </div>
+                                </div> 
+                            </div> {{!-- End Widget card --}}
+                            </div>
+                            
+                            {{!-- widget button --}}
+                            <div class="widget__btn">
+                                <button type="button" class="btn--modifier btn btn-sm btn-block">More</button>
+                            </div>
+                            {{!-- End widget button --}}
+
+                        </div> {{!-- end Widget Container --}}
+                    </div> {{!-- 🛑 end widget popular --}}
+
+                </div>
+                
+
+            </div>
+
         </div>
     </div>
 </div>
+
+{{!-- 🖼️ history Template --}}
+<script id="history-template" type="text/x-handlebars-template">
+   \{{#each historyItems}}
+    {{!-- Widget card --}}
+    <div class="widget__card widget__card--styling">
+        <a class="card__image" href="#">
+            <img alt="Card image cap" width="175" height="238" class="zoom"
+                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp
+                                    ">
+            <div class="card__image--overlay"></div>
+        </a>
+        <div class="card__details">
+            <h4 class="card__category">\{{this.comicName}}</h4>
+            \{{#each (limitlast this.chapterNameList 2) }}
+            <div class="card__chapter">
+                <a id="\{{this._id}}" class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">\{{replaceHyphenIntoSpace this.chapter}}</a>
+                <span class="time__info">May 10, 2018</span>
+            </div>
+            \{{/each}}
+        </div>
+    </div>
+    \{{/each}} {{!-- End Widget card --}}
+
+    
+</script> {{!-- 🛑 end history Template --}}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script>
+    $( document ).ready(() => {
+    /* 03.42. Glide */
+    if (typeof Glide !== "undefined") {
+
+      // Details Images
+      if ($(".glide.details").length > 0) {
+        var glideThumbCountMax = 5;
+        var glideLength = $(".glide.thumbs li").length;
+        var perView = Math.min(glideThumbCountMax, glideLength);
+
+        var glideLarge = new Glide(".glide.details", {
+          bound: true,
+          rewind: false,
+          focusAt: 0,
+          perView: 1,
+          startAt: 0,
+          direction: 'ltr',
+        });
+
+        var glideThumbs = new Glide(".glide.thumbs", {
+          bound: true,
+          rewind: false,
+          perView: perView,
+          perTouch: 1,
+          focusAt: 0,
+          startAt: 0,
+          direction: 'ltr',
+          breakpoints: {
+            576: {
+              perView: Math.min(4, glideLength)
+            },
+            420: {
+              perView: Math.min(3, glideLength)
+            }
+          }
+        });
+
+        $(".glide.thumbs").css("width", perView * 70);
+        addActiveThumbClass(0);
+
+        $(".glide.thumbs li").on("click", function (event) {
+          var clickedIndex = $(event.currentTarget).index();
+          glideLarge.go("=" + clickedIndex);
+          addActiveThumbClass(clickedIndex);
+        });
+
+        glideLarge.on(["swipe.end"], function () {
+          addActiveThumbClass(glideLarge.index);
+        });
+
+        glideThumbs.on("resize", function () {
+          perView = Math.min(glideThumbs.settings.perView, glideLength);
+          $(".glide.thumbs").css("width", perView * 70);
+          if (perView >= $(".glide.thumbs li").length) {
+            $(".glide.thumbs .glide__arrows").css("display", "none");
+          } else {
+            $(".glide.thumbs .glide__arrows").css("display", "block");
+          }
+        });
+
+        function addActiveThumbClass(index) {
+          $(".glide.thumbs li").removeClass("active");
+          $($(".glide.thumbs li")[index]).addClass("active");
+          var gap = glideThumbs.index + perView;
+          if (index >= gap) {
+            glideThumbs.go(">");
+          }
+          if (index < glideThumbs.index) {
+            glideThumbs.go("<");
+          }
+        }
+        glideThumbs.mount();
+        glideLarge.mount();
+      }
+
+      // Dashboard Numbers
+      if ($(".glide.dashboard-numbers").length > 0) {
+        new Glide(".glide.dashboard-numbers", {
+          bound: true,
+          rewind: false,
+          perView: 4,
+          perTouch: 1,
+          focusAt: 0,
+          startAt: 0,
+          direction: 'ltr',
+          gap: 7,
+          breakpoints: {
+            1800: {
+              perView: 3
+            },
+            576: {
+              perView: 2
+            },
+            320: {
+              perView: 1
+            }
+          }
+        }).mount();
+      }
+
+      // Dashboard Best Rated
+      if ($(".best-rated-items").length > 0) {
+        new Glide(".best-rated-items", {
+          gap: 10,
+          perView: 1,
+          direction: 'ltr',
+          type: "carousel",
+          peek: { before: 0, after: 100 },
+          breakpoints: {
+            480: { perView: 1 },
+            992: { perView: 2 },
+            1200: { perView: 1 }
+          },
+        }).mount();
+      }
+
+
+      if ($(".glide.basic").length > 0) {
+        new Glide(".glide.basic", {
+          gap: 0,
+          rewind: false,
+          bound: true,
+          perView: 3,
+          direction: 'ltr',
+          breakpoints: {
+            600: { perView: 1 },
+            1000: { perView: 2 }
+          },
+        }).mount();
+      }
+
+      if ($(".glide.center").length > 0) {
+        new Glide(".glide.center", {
+          gap: 0,
+          type: "carousel",
+          perView: 4,
+          direction: 'ltr',
+          peek: { before: 50, after: 50 },
+          breakpoints: {
+            600: { perView: 1 },
+            1000: { perView: 2 }
+          },
+        }).mount();
+      }
+
+      if ($(".glide.single").length > 0) {
+        new Glide(".glide.single", {
+          gap: 0,
+          type: "carousel",
+          perView: 1,
+          direction: 'ltr',
+        }).mount();
+      }
+
+
+
+      if ($(".glide.gallery").length > 0) {
+        var enableClick = true;
+        var glideGallery = new Glide(".glide.gallery", {
+          gap: 10,
+          perTouch: 1,
+          perView: 1,
+          type: "carousel",
+          peek: { before: 100, after: 100 },
+          direction: direction
+        })
+
+        glideGallery.on(["swipe.move"], function () {
+          enableClick = false;
+        });
+
+        glideGallery.on(["run.after"], function () {
+          enableClick = true;
+        });
+
+        glideGallery.mount();
+
+        $(".glide.gallery").get(0).addEventListener('click', function (event) {
+          if (!enableClick) {
+            event.stopPropagation();
+            event.preventDefault();
+            return false;
+          } else {
+            return true;
+          }
+        }, true);
+
+      }
+    }
+    });
+</script>
+<script>
+    $( document ).ready(function() {
+        /* local History */
+       
+        constructHistory()
+        
+        addClassVisited()
+
+        function addClassVisited() {
+
+            //filter remove empty string in array
+            var visited_chapters_list = JSON.parse(localStorage.getItem('visited_chapters')).filter(items => items);
+            if (visited_chapters_list == null ) return
+
+            var $historyBox = $('#history__box')
+            var $mainBox    = $('#main__box')
+
+            for (let i = 0; i < visited_chapters_list.length; i++) {
+                $mainBox.find(`#${visited_chapters_list[i]}`).addClass('visited')
+                $historyBox.find(`#${visited_chapters_list[i]}`).addClass('visited')
+            }
+            
+        }
+
+        function constructHistory() {
+            var visited_comics_list = JSON.parse(localStorage.getItem('visited_comics'));
+            if (visited_comics_list == null) return
+
+            /* helper */
+            Handlebars.registerHelper('limitlast', (arr, limit) => {
+                if (!Array.isArray(arr)) { return []; }
+                return arr.slice(arr.length - limit, arr.length);
+            }) 
+            Handlebars.registerHelper('replaceHyphenIntoSpace', (str) => {
+                 str = str.toString().replace(/-/g, ' ');
+                return str && str[0].toUpperCase() + str.slice(1);
+            }) /* helper */
+
+            var content             = visited_comics_list.slice(Math.max(visited_comics_list.length - 3, 0))
+            var source              = document.getElementById("history-template").innerHTML
+            var template            = Handlebars.compile(source)
+            var html                = template({historyItems: content})
+            $('#append__Box').append(html).slideDown('slow')
+        }
+        /* 🛑 end local History */
+        
+        
+        /* Dynamic Icon */
+        var $dynamicicon = $('#dynamic__icon')
+        var $input1 = $('#item1')
+        var $input2 = $('#item2')
+        var $input3 = $('#item3')
+        var $input4 = $('#item4')
+        
+        $('[data-toggle="tooltip"]').tooltip()
+
+        $('.nav__item').click(function(){
+            $('.nav__item').not(this).each(function() {
+                $(this).removeClass('active');
+            });
+           $(this).addClass('active');
+
+            $input1.click(function() {
+                $dynamicicon.removeClass()
+                $dynamicicon.addClass('fal fa-books')
+            });
+            $input2.click(function() {
+                console.log('test')
+                $dynamicicon.removeClass()
+                $dynamicicon.addClass('fa fa-history')
+            });
+            $input3.click(function() {
+                $dynamicicon.removeClass()
+                $dynamicicon.addClass('fa fa-bookmark')
+            });
+            $input4.click(function() {
+                $dynamicicon.removeClass()
+                $dynamicicon.addClass('fa fa-comments')
+            });
+        })
+
+    });
+</script>
