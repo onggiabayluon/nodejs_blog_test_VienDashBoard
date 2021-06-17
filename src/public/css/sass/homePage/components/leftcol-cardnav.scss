@@ -6,16 +6,30 @@
 }
 /* title container */
 .title__container {
-    color: var(--button-text-important);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    color: var(--primary-color);
     background: var(--foreground-color);
+    margin: auto 0;
     padding: 2em 1.75em 0 2.8em;  /*top right bottom left */
-    text-transform: uppercase;
 }
 .title__container h3 {
     font-size: 1.2rem;
     font-weight: 600;
-    
 }
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 0.2em 0px 0 0;
+}
+  .title__icon {
+    font-size: 1.6rem !important;
+    color: var(--primary-color);
+}
+
 /* title container */
 
 

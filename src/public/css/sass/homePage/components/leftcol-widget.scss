@@ -96,6 +96,7 @@
   .card__image img{
     width: 70px;
     height: auto;
+    border-radius: 0.5em;
   } 
   .card__details {
     margin-left: 0.7em;
@@ -125,6 +126,23 @@
 
 /* widget card */
 
+/* widget border */
+.widget__border {
+  position: relative;
+  margin-left: 0.5em;
+  border: 2px solid var(--separator-color-light);
+  margin-bottom: 1em;
+  &::before {
+    content: '';
+    width: 40px;
+    height: 4px;
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    background: var(--theme-color-1);
+  }
+} /* End widget border */
+
 /* widget btn */
 .btn--modifier {
   background-color: var(--theme-color-1);
@@ -140,9 +158,7 @@
 /* widget btn */
 
 /* color overlay */
-@mixin box-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $color: $default) {
-  box-shadow: $x-axis $y-axis $blur $color;
-}
+
 .widget__card .card__image {
   position: relative;
   overflow: hidden;
@@ -167,7 +183,7 @@
 
 /* hover */
 
-.widget__container--right:hover {
+.widget-container:hover, .activate-fire:hover, .widget__container--right:hover {
   .widget__title h5 {
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.5s;

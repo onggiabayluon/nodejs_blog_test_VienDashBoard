@@ -1,6 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
 @import "./mixins";
+@import "./themes/dark.red.scss";
+@import "./loader//loader.scss";
+
 // Variables
 $regal-blue: #034378;
 $san-juan: #2d4e68;
@@ -9,6 +12,35 @@ $white: #fff;
 $black: #000;
 $open-sans: 'Open Sans',
 sans-serif;
+
+$main-menu-item-height: 110px;
+$main-menu-width: 120px;
+$main-menu-width-lg: 110px;
+$main-menu-width-md: 100px;
+$main-menu-width-xs: 90px;
+
+$sub-menu-width: 230px;
+$sub-menu-width-lg: 230px;
+$sub-menu-width-md: 230px;
+$sub-menu-width-xs: 230px;
+
+$navbar-height:70px;
+$navbar-height-xs: 50px;
+$navbar-height-md: 60px;
+$navbar-height-lg: 60px;
+
+$main-margin: 60px;
+$main-margin-lg: 50px;
+$main-margin-md: 40px;
+$main-margin-xs: 15px;
+
+$app-menu-width: 280px;
+
+$main-menu-item-height-mobile: 90px;
+
+$menu-collapse-time: 300ms;
+$animation-time-long: 1000ms;
+$animation-time-short: 200ms;
 
 $animation-time-long: 1000ms;
 $animation-time-short: 200ms;
@@ -89,6 +121,15 @@ body, .dynamic__text, .title__container {
     border: 1px solid var(--button-text-unimportant) !important;
     color: var(--button-text-important) !important;
     background-color: var(--foreground-color) !important;
+  }
+}
+.outline-visited {
+  color: var(--primary-color) !important;
+  border-color: var(--button-text-unimportant) !important;
+  &:hover {
+    color: var(--input-background) !important;
+    background-color: var(--dark-btn-background) !important;
+    border-color: var(--dark-btn-background) !important;
   }
 }
 
@@ -726,12 +767,17 @@ p {
     }
   }
 }
+
 // vendor css
+@import "./vendorsass/navbar.scss";
 @import "./vendorsass/glider.scss";
+@import "./vendorsass/button.scss";
 @import "./vendorsass/badge.scss";
 @import "./vendorsass/cards.scss";
 
 // my css
+@import "./components/sub-navbar.scss";
+@import "./components/rightcol-widget.scss";
 @import "./components/leftcol-widget.scss";
 @import "./components/leftcol-cardnav.scss";
 @import "./components//leftcol-card.scss";

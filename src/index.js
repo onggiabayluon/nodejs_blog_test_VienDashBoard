@@ -137,6 +137,10 @@ app.engine(
                 str = str.toString().replace(/-/g, ' ');
                 return str && str[0].toUpperCase() + str.slice(1);// replace '-' -> space 
             },
+            chapterText: (str) => {
+                str = str.toString().replace(/-/g, ' ').replace("apter", '. ');
+                return str && str[0].toUpperCase() + str.slice(1);// replace '-' -> space 
+            },
             encodeMyString: (text) => { 
                 return new Handlebars.SafeString(text);
             }

@@ -1,86 +1,14 @@
 <style>
-    /* color Scheme */
-    :root {
-        --separator-color-light: #313131;
-        --separator-color: #424242;
-        --background-color: #1b191b;
-        --foreground-color: #232223;
-        --input-background: #232223;
-
-        --dark-btn-background: #8d8d8d;
-        --light-btn-background: #e4e4e4;
-        --button-text-color: #d0d0d0;
-        --button-text-important: #d0d0d0;
-        --button-text-unimportant: #5a5a5a;
-
-        --theme-color-1: #8f2938;
-        --theme-color-2: #aa5e6c;
-        --theme-color-3: #a53949;
-        --theme-color-4: #843a47;
-        --theme-color-5: #9e777e;
-        --theme-color-6: #c07a6c;
-
-        --primary-color: #969696;
-        --secondary-color: #757575;
-        --muted-color: #5a5a5a;
-
-        --gradient-color-1 : #612c34;
-        --gradient-color-2 : #421e24;
-        --gradient-color-3 : #662b34;
-
-        --lp-bg-color-1 : #320209;
-        --lp-bg-color-2 : #35030b;
-        --lp-bg-color-3 : #620917;
-        --lp-bg-color-4 : #700c1b;
-    }
-    .dark {
-        --separator-color-light: #373a43;
-        --separator-color: rgba(228, 228, 228, 0.1);
-        --background-color: #1f222a;
-        --foreground-color: #242731;
-        --input-background: #242731;
-
-        --dark-btn-background: #8d8d8d;
-        --light-btn-background: #e4e4e4;
-        --button-text-color: #7c7d83;
-        --button-text-important: #ffffff;
-        --button-text-unimportant: #7c7d83;
-
-        --theme-color-1: #6c5dd3;
-        --theme-color-2: #c4bdf1;
-        --theme-color-3: #c4bdf1;
-        --theme-color-4: #6155bb;
-        --theme-color-5: #8dbdcc;
-        --theme-color-6: #3360a5;
-
-        --primary-color: #969696;
-        --secondary-color: #757575;
-        --muted-color: #5a5a5a;
-
-        --button-color-1: #5f75ee;
-        --button-background-1: #1f2128;
-
-        --gradient-color-1 : #612c34;
-        --gradient-color-2 : #421e24;
-        --gradient-color-3 : #662b34;
-
-        --lp-bg-color-1 : #320209;
-        --lp-bg-color-2 : #35030b;
-        --lp-bg-color-3 : #620917;
-        --lp-bg-color-4 : #700c1b;
-    }
+    
     /* End color Scheme */
     body {
         font-family: Nunito,sans-serif;
         background: #1b191b;
         border-radius: 1.3rem;
     }
-    
-    
-    
-    
-     
+
 </style>
+
 
 
 
@@ -90,8 +18,10 @@
             {{!-- glider --}}
             <div class="row">
                 <div class="col-12">
-
-                    <h5 class="mb-4">Popular Manga Updates</h5>
+                    <div class="d-flex">
+                        <i class="title__icon far fa-bolt fa-2x mr-3"></i>
+                        <h3 class="title mb-4">POPULAR TODAY</h3>
+                    </div>
                         <div class="row mb-4">
                                 <div class="col-md-12 mb-4 pl-0 pr-0">
                                     <div class="glide basic">
@@ -271,7 +201,7 @@
 
             <div class="row">
                 {{!-- left: 8 --}}
-                <div class="col-12 col-lg-8 col-md-8 col-sm-12 col-left mb-3">
+                <div class="col-12 col-lg-8 col-md-12 col-sm-12 col-left mb-3">
 
                     {{!-- nav container --}}
                     <div class="row">
@@ -288,11 +218,11 @@
                                     </label>
                                     <input class="nav__checkbox" type="radio" name="comic" id="item3">
                                     <label id="tooltip3" class="nav__item" for="item3" data-toggle="tooltip" data-placement="top" title="Book Mark">
-                                        <i class="fas fa-bookmark"></i>
+                                        <i class="far fa-bookmark"></i>
                                     </label>
                                     <input class="nav__checkbox" type="radio" name="comic" id="item4">
                                     <label id="tooltip4" class="nav__item disabled" for="item4" data-toggle="tooltip" data-placement="top" title="Chat Box">
-                                        <i class="fas fa-comments"></i>
+                                        <i class="far fa-comments"></i>
                                     </label>
                                     
                                     {{!-- animation bar --}}
@@ -308,19 +238,23 @@
                         </div>
                     </div> {{!-- End nav container --}}
 
-                    <div class="row title title__container">
-                        <i class="title__icon fas fa-2x fa-book mr-3"></i>
-                        <h3 class="title__text">Truyện mới cập nhật</h3>
+                    <div class="row title__container">
+                        <i class="title__icon far fa-2x fa-book-spells mr-3"></i>
+                        <h3 class="title__text"> LATEST MANGA UPDATES </h3>
                     </div>
+                    {{!-- <div class="widget__border title__border"></div> --}}
 
-                    <div class="separator mt-4"></div>
+                    
                     
                     <div id="main__box" class="card__container card__container--left row foreground card__wrapper">
                         {{#each comics}}
                         {{!-- 12/3 = 4 --}}
-                        <div class="align-middle col-6 col-lg-3 col-md-4 col-sm-4 mt-2 mb-4">
+                        <div class="align-middle col-6 col-lg-3 col-md-3 col-sm-4 mt-2 mb-4">
                             <div class="">
-                                <div class="example-2 card">
+                                <div class="example-2 card card-w-175">
+                                {{!-- <span class="badge badge-theme-1 position-absolute badge-top-left" style="
+                                        z-index: 999;">NEW
+                                </span> --}}
                                 <div class="wrapper">
                                     <img src="{{#if this.thumbnail.url}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.thumbnail.url}}-thumbnail.webp
                                     {{else}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/user-comic-2/thumbnail/1622345516518-7-thumbnail.webp
@@ -332,9 +266,9 @@
                                     <div class="color-overlay"></div>
                                     <div class="header">
                                         <ul class="menu-content icon-3-right icon-4-right">
-                                            <li><a href="#" class="fa fa-xs fa-bookmark-o"></a></li>
-                                            <li><a href="#" class="fa fa-xs fa-heart-o"><span>{{this.view.totalView}}</span></a></li>
-                                            <li><a href="#" class="fa fa-xs fa-comment-o"><span>30</span></a></li>
+                                            <li><a href="#" class="fa fa fa-bookmark-o"></a></li>
+                                            <li><a href="#" class="fa fa fa-heart-o"><span>{{this.view.totalView}}</span></a></li>
+                                            <li><a href="#" class="fa fa fa-comment-o"><span>30</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -351,7 +285,7 @@
                                         {{#each chapters}}
                                         <a href="/me/stored/comics/{{../ this.slug}}/chapter-list/{{this.chapter}}"
                                             class="card-body__container mb-xl-custom mb-2 ml-xl-0">
-                                            <span id="{{this._id}}" class="card-body__chapter badge badge--modifier badge-pill "> 
+                                            <span id="{{this._id}}" class="card-body__chapter badge badge--modifier badge-pill"> 
                                                 {{replaceHyphenIntoSpace this.chapter}} </span>
                                             <span class="card-body__time"> 56 mins ago </span>
                                         </a>
@@ -394,30 +328,26 @@
                     
 
                 </div>  {{!-- End col left --}}
+                
                 {{!-- right: 4 --}}
-                <div class="col-12 col-lg-4 col-md-4 col-sm-12 col-right mt-2">
-
-                    {{!-- 🖼️ widget History --}}
-                    <div id="history__box" class="mb-3">
-                        <div class="widget__container widget__container--right">
-                            {{!-- widget title --}}
-                            <div class="widget__title">
-                                <i class="fas fa-fire">
+                <div id="history__box" class="col-12 col-lg-4 col-md-12 col-sm-12 col-right mt-2">
+                    <div class="widget-container card mb-4 d-lg-block">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-fire mr-1">
                                     <span class="particle-fire"></span>
                                 </i>
-                                <h5>Reading History</h5>
-                            </div> {{!-- End widget title --}}
-                            {{!-- append box --}}
-                            <div id="append__Box" style="display: none;">
-                    
-                            </div>{{!-- end append box --}}
-                            {{!-- widget button --}}
-                            <div class="widget__btn">
-                                <button type="button" class="btn--modifier btn btn-sm btn-block">More</button>
+                                <span>Reading History</span>
+                                <a class="btn-link float-right text-small pt-1" href="#">View All</a>
+                            </h5>
+                            <div class="row social-image-row gallery">
+                                {{!-- append box --}}
+                                <div id="append__Box" style="display: none;">
+                        
+                                </div> {{!-- end append box --}}
                             </div>
-                            {{!-- End widget button --}}
                         </div>
-                    </div> {{!-- 🛑 end widget History --}}
+                    </div>
 
                     {{!-- 🍿 widget popular --}}
                     <div id="popular__box" class="mb-3">
@@ -446,11 +376,11 @@
                                 <div class="card__details">
                                     <h4 class="card__category">Wizard of Anesia</h4>
                                     <div class="card__chapter">
-                                        <a id="id="{{this._id}}"" class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 1</a>
+                                        <a id="id="{{this._id}}"" class="chapter__info badge badge-pill-custom badge--modifier" href="">Chapter 1</a>
                                         <span class="time__info">May 10, 2018</span>
                                     </div>
                                     <div class="card__chapter">
-                                        <a class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 2</a>
+                                        <a class="chapter__info badge badge-pill-custom badge--modifier" href="">Chapter 2</a>
                                         <span class="time__info">May 10, 2018</span>
                                     </div>
                                 </div> 
@@ -468,11 +398,11 @@
                                 <div class="card__details">
                                     <h4 class="card__category">Wizard of Anesia</h4>
                                     <div class="card__chapter">
-                                        <a class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 1</a>
+                                        <a class="chapter__info badge badge-pill-custom badge--modifier " href="">Chapter 1</a>
                                         <span class="time__info">May 10, 2018</span>
                                     </div>
                                     <div class="card__chapter">
-                                        <a class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">Chapter 2</a>
+                                        <a class="chapter__info badge badge-pill-custom badge--modifier " href="">Chapter 2</a>
                                         <span class="time__info">May 10, 2018</span>
                                     </div>
                                 </div> 
@@ -487,7 +417,6 @@
 
                         </div> {{!-- end Widget Container --}}
                     </div> {{!-- 🛑 end widget popular --}}
-
                 </div>
                 
 
@@ -499,33 +428,33 @@
 
 {{!-- 🖼️ history Template --}}
 <script id="history-template" type="text/x-handlebars-template">
-   \{{#each historyItems}}
-    {{!-- Widget card --}}
-    <div class="widget__card widget__card--styling">
-        <a class="card__image" href="#">
-            <img alt="Card image cap" width="175" height="238" class="zoom"
-                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp
-                                    ">
-            <div class="card__image--overlay"></div>
-        </a>
-        <div class="card__details">
-            <h4 class="card__category">\{{this.comicName}}</h4>
-            \{{#each (limitlast this.chapterNameList 2) }}
-            <div class="card__chapter">
-                <a id="\{{this._id}}" class="chapter__info badge badge-pill-custom badge--modifier badge-pill" href="">\{{replaceHyphenIntoSpace this.chapter}}</a>
-                <span class="time__info">May 10, 2018</span>
-            </div>
-            \{{/each}}
-        </div>
-    </div>
-    \{{/each}} {{!-- End Widget card --}}
+    {{!-- first row --}}
+    \{{#each historyItems}}
+        <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
+            <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <a class="img-box" href="#">
+                    <img width="128" height="96" class="img img-fluid border-radius" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp">
+                    <span class="img-overlay"> 21 Hours ago</span>
+                </a>
 
-    
+            </div>
+            <div class="col-xl-6 col-6 col-lg-6 col-md-6 col-sm-6 widget-chapterbox">
+                <h5 class="comic-title">\{{this.comicName}}</h5>
+                \{{#each (limitlast this.chapterNameList 2) }}
+                <a class="comic-chapter-btn" href="/">
+                    <button id="\{{this._id}}" href="#" class="rounded chapter-btn btn btn-outline-secondary">\{{chapterText this.chapter}}</button>
+                </a>
+                \{{/each}}
+            </div>
+        </div>
+    \{{/each}} {{!-- End first row --}}
+
 </script> {{!-- 🛑 end history Template --}}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script>
+   
     $( document ).ready(() => {
     /* 03.42. Glide */
     if (typeof Glide !== "undefined") {
@@ -718,9 +647,11 @@
     });
 </script>
 <script>
+    
+
     $( document ).ready(function() {
         /* local History */
-       
+        
         constructHistory()
         
         addClassVisited()
@@ -736,7 +667,7 @@
 
             for (let i = 0; i < visited_chapters_list.length; i++) {
                 $mainBox.find(`#${visited_chapters_list[i]}`).addClass('visited')
-                $historyBox.find(`#${visited_chapters_list[i]}`).addClass('visited')
+                $historyBox.find(`#${visited_chapters_list[i]}`).addClass('outline-visited')
             }
             
         }
@@ -750,15 +681,16 @@
                 if (!Array.isArray(arr)) { return []; }
                 return arr.slice(arr.length - limit, arr.length);
             }) 
-            Handlebars.registerHelper('replaceHyphenIntoSpace', (str) => {
-                 str = str.toString().replace(/-/g, ' ');
-                return str && str[0].toUpperCase() + str.slice(1);
+            Handlebars.registerHelper('chapterText', (str) => {
+                str = str.toString().replace(/-/g, ' ').replace("apter", '. ');
+                return str && str[0].toUpperCase() + str.slice(1);// replace '-' -> space 
             }) /* helper */
 
             var content             = visited_comics_list.slice(Math.max(visited_comics_list.length - 3, 0))
             var source              = document.getElementById("history-template").innerHTML
             var template            = Handlebars.compile(source)
             var html                = template({historyItems: content})
+            console.log(content)
             $('#append__Box').append(html).slideDown('slow')
         }
         /* 🛑 end local History */

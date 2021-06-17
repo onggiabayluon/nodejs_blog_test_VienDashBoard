@@ -1,0 +1,136 @@
+
+.m-0 {
+    margin: 0;
+}
+.p-0 {
+    padding: 0;
+}
+
+#append__Box {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.widget-container {
+    border-radius: .75rem;
+}
+
+.comic-title {
+    font-size: 1rem;
+    max-height: calc( 2.2em);
+    line-height: calc(2.2em / 2);
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    margin-bottom: 1.2rem;
+}
+
+.card-title {
+
+    & .btn-link {
+        color: var(--theme-color-2);
+    }
+
+    & span {
+        font-weight: 700;
+    }
+}
+.widget-img {
+    display: flex;
+    margin-bottom: 1rem;
+    position: relative;
+
+    & img {
+        border-radius: .75rem;
+        width: 100%;
+        height: 96px;
+        object-fit: cover;
+        object-position: center top;
+    }
+}
+.img-box {
+    position: relative;
+    overflow: hidden;
+    width: fit-content;
+    @include box-shadow(8px, 10px, 15px, #000000);
+
+    &:hover .img-overlay{
+        opacity: 1;
+        z-index: 10;
+        color: var(--light);
+    }
+
+    &:hover img {
+        object-position: center center;
+        -moz-transition: all .5s;
+        -webkit-transition: all .5s;
+        transition: all .5s;
+    }
+}
+.img-overlay {
+    color: var(--button-text-color);
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    position: absolute;
+    opacity: 1;
+        z-index: 10;
+    width: 100%;
+    height: 30%;
+    background-color: rgba(44, 51, 53, 0.4);
+    background-image: linear-gradient(
+    315deg
+    , rgba(44, 51, 53, 0.4) 0%, rgba(0, 0, 0, 0.4) 74%);
+    border-bottom-left-radius: 0.75em;
+    border-bottom-right-radius: 0.75em;
+    -webkit-border-bottom-left-radius: 0.75rem;
+    -webkit-border-bottom-right-radius: 0.75rem;
+    -moz-border-bottom-left-radius: 0.75rem;
+    -moz-border-bottom-right-radius: 0.75rem;
+    bottom: 0; left: 0;
+}
+
+
+.widget-chapterbox {
+    // margin: auto 0;
+
+    .chapter-btn {
+        margin: 0 0 0.8em 0;
+        padding: 0.3rem 0.65rem 0.3rem 0.65rem;
+    }
+}
+
+
+@media (max-width: 1200px) {
+    .comic-title {
+        font-size: 0.8rem;
+    }
+    .comic-chapter-btn {
+        display: block;
+    }
+    .widget-img {
+        & img {
+            height: 125px;
+        }
+    }
+    
+}
+@media (max-width: 576px) {
+    .card-title a {
+        margin-right: -2rem;
+    }
+    .img-box span {
+        font-size: 0.8em;
+    }
+}
+@media (max-width: 400px) {
+    .img-box span {
+        font-size: 0.7em;
+    }
+}

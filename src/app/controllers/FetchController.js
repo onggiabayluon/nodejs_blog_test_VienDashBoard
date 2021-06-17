@@ -5,8 +5,8 @@ const { singleMongooseToObject, multiMongooseToObject } =  require('../../util/m
 
 class SiteController {
 
-    async fetchUsers(req, res, next) {
-         User
+    fetchUsers(req, res, next) {
+        User
         .find({}).lean()
         .select('banned role name _id')
         .then(users => res.send(users))
@@ -17,7 +17,7 @@ class SiteController {
         Comic
         .find({}).lean()
         .select('-userId')
-        .then(comic => res.send(comic))
+        .then(comics => res.send(comics))
         .catch(next)
     }
 

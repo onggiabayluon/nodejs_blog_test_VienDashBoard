@@ -81,3 +81,17 @@ a:link {
     color: var(--button-text-important);
     background-color: var(--theme-color-1)
 }
+
+.title__border {
+    width: 95%;
+    margin: 0.7em 0px 0em 1.75em;
+    border-radius: 0.35em;
+    &::before {
+        width: 5em;
+    }
+}
+@media (max-width: 576px) {
+    .title__border {
+        margin-bottom: 1em;
+    }
+}
