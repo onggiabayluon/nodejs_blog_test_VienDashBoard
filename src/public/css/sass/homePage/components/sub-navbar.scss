@@ -1,7 +1,15 @@
+#mainnav {
+    z-index: 2;
+}
+#subnav {
+    z-index: 1;
+    margin-bottom: 4rem;
+}
 .subnav-container {
+    width: 100%;
     box-shadow: 0 1px 15px rgba(0, 0, 0 ,10%), 0 1px 8px rgba(0, 0 ,0 , 10%);
     background: var(--background-color);
-    padding: 0 0 1em 0;
+    padding: 2.3em 0 1em 0px;
     font-size: 0.9em;
 }
 .fixed {
@@ -35,7 +43,7 @@
 .btn-foreground {
     text-transform: uppercase;
     font-weight: 800;
-    margin: 1em -0.8em 1em 0.5em;
+    margin: 1em 0em 1em 0.5em;
     padding: 1em 1.5em 1em 1.5em;
     background-color: unset;
     border: 4px solid var(--background-color);
@@ -63,9 +71,15 @@
     }
 }
 
+@media (min-width: 992px) {
+    .btn-foreground {
+        margin: 1em 0.5em 1em 0.5em;
+        padding: 1em 0.5em 1em 0.5em;
+    }
+}
 @media (max-width: 992px) {
     .subnav-container {
-        padding: 0;
+        padding: 1.5em;
     }
     .btn-foreground {
         margin: 1em 1em 1em 0em;
@@ -79,5 +93,14 @@
     }
     .hotkey-container {
         max-width: 780px !important;
+    }
+
+    .hide-hambuger-phone {
+        height: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        transition: all 0.5s;
+        opacity: 0;
+        visibility: hidden;
     }
 }

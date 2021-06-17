@@ -1,38 +1,7 @@
-{{!-- 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-      <a class="navbar-brand" href="/">{{user.name}}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/me/stored/comics/create">Đăng truyện</a>
-            <a class="dropdown-item" href="/me/stored/comics/comic-list"> Truyện tranh của tôi</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/admin">Admin</a>
-            <a class="dropdown-item" href="#">Đăng xuất</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
-     
-    </div>
-
-  </div>
-</nav> --}}
-<nav class="navbar" style="opacity: 1;">
+<nav id="mainnav" class="navbar" style="opacity: 1;">
         <div class="d-flex align-items-center navbar-left">
-            <a href="#" class="menu-button d-none d-md-block">
+            <a id="myCollapsible" href="#" class="menu-button d-none d-md-block" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <svg class="main" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 17">
                     <rect x="0.48" y="0.5" width="7" height="1"></rect>
                     <rect x="0.48" y="7.5" width="7" height="1"></rect>
@@ -45,7 +14,8 @@
                 </svg>
             </a>
 
-            <a href="#" class="menu-button-mobile d-xs-block d-sm-block d-md-none">
+            <a id="myCollapsible" href="#" class="menu-button-mobile d-xs-block d-sm-block d-md-none" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
                     <rect x="0.5" y="0.5" width="25" height="1"></rect>
                     <rect x="0.5" y="7.5" width="25" height="1"></rect>
@@ -198,36 +168,65 @@
         </div>
     </nav>
 
-<nav>
+<nav id="subnav" class="navbar navbar-expand-lg hide-hambuger-phone">
     <div class="subnav-container">
-        <div class="hotkey-container card-body container" style="background: var(--background-color);">
-            <div class="hotkeyleft">
-                <button type="button" class="rounded btn btn-foreground default mb-1 selected">
-                    <i class="far fa-home mr-1"></i>
-                    Home
-                </button>
-                <button type="button" class="activate-fire rounded btn btn-foreground default mb-1">
-                    <i class="fas fa-fire mr-1"><span class="particle-fire"></span></i>
-                    Hot
-                </button>
-                <button type="button" class="rounded btn btn-foreground default mb-1">
-                    <i class="fas fa-bookmark mr-1"></i>
-                    BookMark
-                </button>
-                <button type="button" class="rounded btn btn-foreground default mb-1">
-                    <i class="fas fa-history mr-1"></i>
-                    History
-                </button>
-                <button type="button" class="rounded btn btn-foreground default mb-1">Category</button>
-                <button type="button" class="rounded btn btn-foreground default mb-1">
-                    More
-                    <i class="fas fa-caret-right ml-1 customIcon"></i>
-                </button>
-            </div>
+        <div class="hotkey-container card-body container">
+            <div class="hotkeyleft collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a type="button" class="rounded btn btn-foreground default mb-1 selected">
+                        <i class="far fa-home mr-1"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a type="button" class="activate-fire rounded btn btn-foreground default mb-1">
+                        <i class="fas fa-fire mr-1"><span class="particle-fire"></span></i>
+                        Hot
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a type="button" class="rounded btn btn-foreground default mb-1">
+                        <i class="fas fa-bookmark mr-1"></i>
+                        BookMark
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a type="button" class="rounded btn btn-foreground default mb-1">
+                        <i class="fas fa-history mr-1"></i>
+                        History
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a type="button" class="rounded btn btn-foreground default mb-1">Category</a>
+                </li>
+                <li class="nav-item active">
+                    <div class="dropdown d-inline-block">
+                        <a class="rounded btn btn-foreground default mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">
+                            More
+                            <i class="fas fa-caret-right ml-1 customIcon"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                            style="position: absolute; transform: translate3d(15px, 57px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+           
+            
+                
+
             <div class="hotkeyright">
                 <button type="button" class=" btn btn-outline-foreground mb-1">Log in</button>
                 <button type="button" class=" btn btn-outline-foreground mb-1">Sign up</button>
             </div>
+
+        </div>
             
 
         </div>
