@@ -12,6 +12,7 @@ const flash         = require('connect-flash')
 const sortMiddleWare= require('./app/middlewares/meControllerSort.middleware')
 const serveStatic   = require('serve-static')
 const favicon       = require('serve-favicon');
+const CalcTimeEnglish      = require('./config/middleware/CalcTimeEnglish')
 //Phương thức [PUT]:để chỉnh sửa nhưng chưa hỗ trợ nên sử dụng [PUT]
 //sẽ bị chuyển thành [GET] nên h phải dùng middleware
 const methodOverride = require('method-override');
@@ -127,6 +128,16 @@ app.engine(
         extname: '.hbs',
           //Hàm tự thêm vào nhờ express handlebars
           helpers: {
+            setVar: (varName, varValue, options) => {
+                if (!options.data.root) {
+                    options.data.root = {};
+                }
+                options.data.root[varName] = varValue;
+            },
+            getValues: (arr, index) => {
+               return Object.values(arr[index])[0]
+            },
+            CalcTimeEnglish: (time) => CalcTimeEnglish(time),
             minus: (a,b) => a - b,
             sum: (a, b) =>  a + b,
             limit: (arr, limit) => {

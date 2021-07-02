@@ -6,207 +6,81 @@
 
 const Comic     = require('../models/Comic');
 const Chapter   = require('../models/Chapter');
+const Comment   = require('../models/Comment');
 const Category  = require('../models/Category')
 const ObjectId    = require('mongoose').Types.ObjectId;
-const TimeDifferent = require('../../config/middleware/TimeDifferent')
-//cái dấu { } này để import từng phần tử bên trong
+const TimeDifferent = require('../../config/middleware/CalcTimeVnmese')
+
 const { singleMongooseToObject, multiMongooseToObject } =  require('../../util/mongoose');
 const User = require('../models/User');
 
 class SiteController {
 
-    dashboardPage(req, res, next) {
-        
-        res.render('users/dashboard', {
-            layout: `${req.user.role}Main`,
-            user: singleMongooseToObject(req.user)
-        })
-    }
+    
     // [GET] / Site
     index(req, res, next) {
        
-        //render courses vao homepage
-        //2.
-        //test
-        
-    
-
-        const Comment   = require('../models/Comment');
-        Comment.findOne({comicSlug: 'wizard-of-anesia'}).lean()
-        .select("comicSlug body")
-        .then(commentDocArr => {
-            // console.log(filterChapterComment(commentDocArr.body, 'chapter-1'))
-        })
-
-        /* Comment History */
-        // User.findOne({_id: "6084dd9dec23a633c03f96e7"}).lean()
-        // .select("comment")
-        // .populate("comment")
-        // .then(doc => {
-        //     console.log(doc.comment.chapterArr)
-            
-        //     let userComment = doc.comment.chapterArr.filter(x => JSON.stringify(x.userId).includes("6084dd9dec23a633c03f96e7"));
-        //     console.log(userComment[0])
-        //     //populate user schema từ comment schema
-        //     User.populate(userComment[0], {path: 'userId'}).then(u => console.log(u))
-        //     // console.log(user.comment.body.filter(filterThisUserComment))
-        //     // function filterThisUserComment(commentDocArr) {
-        //     //     console.log(commentDocArr.userId)
-        //     //     // return commentDocArr.userId == '6084dd9dec23a633c03f96e7'
-        //     // }
-        // })
-
-
-        // Comment.findOne({ comicSlug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap', 'chapterArr.chapter': 'chapter-2' })
-        // .then(info => console.log(info))
-        
-
-        /* Comment  
-        var condition = 'chapter-1'
-        Comment.findOne({_id: "607a994a6290a72e18635e53"}).lean()
-        // .select("chapterArr")
-        .then(doc => {
-            console.log(doc.chapterArr)
-            
-            // let filteredChapters = doc.chapterArr.filter(x => JSON.stringify(x).includes("chapter-1"));
-            const filteredChapterArr = (condition != 'all') ? filterChapter(doc.chapterArr, condition) : doc.chapterArr
-            console.log("filteredChapterArr: ")
-            console.log(filteredChapterArr.sort())
-
-            filteredChapterArr.forEach(filteredChapter => {
-                filteredChapter.commentArr.forEach(comment => {
-                    console.log(comment.text)
-                });
-            });
-            // filteredChapters.forEach(chapter => {
-            //     chapter.comments.forEach(comment => {
-            //         console.log(comment.text)
-            //     });
-            // });
-
-            //populate user schema từ comment schema
-            // User.populate(userComment[0], {path: 'userId'}).then(u => console.log(u))
-
-            // console.log(user.comment.body.filter(filterThisUserComment))
-            // function filterThisUserComment(commentDocArr) {
-            //     console.log(commentDocArr.userId)
-            //     // return commentDocArr.userId == '6084dd9dec23a633c03f96e7'
-            // }
-        })
-        function filterChapter(chapterArr, condition) {
-            var result = []
-            for (let i = 0; i < chapterArr.length; i++) {
-                if (chapterArr[i].chapter == condition) {
-                    result = [chapterArr[i]]
-                    break;
+        Promise.all([
+            Comic.find({ chaptername: { $not: { $exists: true } } }).lean()
+            .populate({
+                path: 'chapters',
+                select: 'chapter',
+                options: {
+                    limit: 2,
+                    sort: { createdAt: -1},
                 }
-            }
-            return result;
-        }
-        */
-        //temp
-        // User.findOne({_id: "6084dd9dec23a633c03f96e7"}).lean()
-        // // .select("comment")
-        // .populate("comment", "comments -_id")
-        // .then(doc => {
-        //     // console.log(doc.comment.comments)
-        //     let userComment = doc.comment.comments.filter(x => JSON.stringify(x.userId).includes("6084dd9dec23a633c03f96e7"));
-        //     console.log(userComment)
-        //     // console.log(user.comment.body.filter(filterThisUserComment))
-        //     // function filterThisUserComment(commentDocArr) {
-        //     //     console.log(commentDocArr.userId)
-        //     //     // return commentDocArr.userId == '6084dd9dec23a633c03f96e7'
-        //     // }
-        // })
-
-        
-
-        // Comic.findOneAndUpdate({
-        //     slug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap'
-        // }, { $pullAll: { category: [ '609f24f0ce319201845e45cd' ] } }).exec()
-        
-        // var test = new ObjectId('603a068034d84d21247cdb22')
-        // console.log(test)
-        // Category.findOneAndUpdate(
-        //     { _id: '609f24f0ce319201845e45cd'}, 
-        //     { $pull: { comic: '603a068034d84d21247cdb22'  } },
-        //     function(error, doc) {
-        //       console.log('Error: ' + error);
-        //       console.log(JSON.stringify(doc));
-        //     })
-
-        // Comic.findOneAndUpdate({
-        //     slug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap'
-        // }, 
-        // { $addToSet: { category: { $each: [ "609f250ace319201845e45ce", "609f250ace319201245e45ce", "601d118d4488cb18084a57bc" ] } } }
-        // ).exec().then(console.log('cuss'))
-
-        // Comic.findOneAndUpdate({
-        //     slug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap'
-        // }, {
-        //     $addToSet: {
-        //         category: '609f250ace3192018 45e45ce'
-        //     }
-        // }).exec()
-
-        // Comic
-        // .findOne({slug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap'})
-        // .populate("category", "name -_id")
-        // .then( comic => {
-
-        //     console.log(comic) // Return result as soon as you can
-        //     comic.save(); // Save user without dead refs to database
-        // })
-
-        // Comic
-        // .findOne({slug: 'toi-la-nguoi-choi-duy-nhat-dang-nhap'})
-        // .lean().populate("category", "name -_id")
-        // .then( comic => {
-        //     delete comic.category // xai delete de chinh sua field tai. cho
-
-        //     console.log(comic) // Return result as soon as you can
-        //     comic.save(); // khong the edit trong database do su dung lean
-        // })
-
-        // Delete array url
-        // Comic
-        //     .findOne({ slug: 'test-3' }).lean()
-        //     .then(comic => {
-        //         var arrURL = [
-        //             {
-        //                 url: comic.thumbnail.url + '-thumbnail.webp'
-        //             },
-        //             {
-        //                 url: comic.thumbnail.url + '-thumbnail-original.jpeg'
-        //             }
-        //         ]
-        //         console.log(arrURL)
-        //         S3DeleteMiddleware(comic.thumbnail)
-        //     })
-
-
-        // .populate(Comic)
-        Comic.find({ chaptername: { $not: { $exists: true } } })
-        .populate({
-            path: 'chapters',
-            select: 'chapter',
-            options: {
-                limit: 2,
-                sort: { createdAt: -1},
-            }
-        })
-        
-        //3. 
-        .then(comics => { //4.  
-            // console.log(comics[0])     
+            }),
+            // Chapter.findOne({ comicSlug: req.params.slug, chapter: req.params.chapter }),
+            // Comment.find({}).sort('-chapterArr.createdAt').lean()
+            Comment.aggregate([
+                {
+                    $match:  { }
+                },
+                {
+                    $sort: {'updatedAt': -1}
+                },
+                {
+                    //limit n document = n comments needed
+                    $limit: 5
+                },
+                {
+                    $unwind: "$commentArr"
+                },
+                {
+                    $sort: {'commentArr.updatedAt': -1}
+                },
+                {
+                    // comments needed
+                    $limit: 5
+                },
+                {
+                    $group: {
+                    _id: '$_id', 
+                    chapter:    { $first: '$chapter'    }, 
+                    comicSlug:  { $first: '$comicSlug'  }, 
+                    title:      { $first: '$title'      }, 
+                    commentArr: { $push: '$commentArr'  }}
+            
+                },
+                {
+                    $project: { commentArr: 1, chapter: 1, title: 1, comicSlug: 1,  _id: 0 }
+            
+                }
+            ])
+          ])
+          .then(([comics, commentDoc]) => {
+            // console.table(commentDoc)
+            // console.log(commentDoc)
+            //   console.log(commentDoc[0])
+            //   console.log(commentDoc[1])
             res.render('home', { 
-                layout: 'adminMain',
-                comics: multiMongooseToObject(comics),
-                user: singleMongooseToObject(req.user)
+                layout: 'home_layout',
+                comics: comics,
+                user: singleMongooseToObject(req.user),
+                commentDoc: commentDoc
              });
-        })
-        .catch(error => next(error));
-
+          })
+          .catch(err => next(err))
     }
     
     // [GET] / search

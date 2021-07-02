@@ -1,27 +1,77 @@
-<style>
-    
-    /* End color Scheme */
-    body {
-        font-family: Nunito,sans-serif;
-        background: #1b191b;
-        border-radius: 1.3rem;
-    }
-
-</style>
-
-
-
-
 <div class="mt-4 container">
     <div class="row">
+        {{!-- first slider --}}
+        <div id="first-slider" class="slider__wrapper">
+            <div class="slider__container">
+                <div class="slider__cover">
+                    <div class="cover__icon">
+                        <a href="/"><i class="fas fa-location-circle"></i></a>
+                    </div>
+                    <div class="cover__meta">
+                        <span class="meta__views">200 Views</span>
+                        <div class="meta__title">Legend Of Zelda</div>
+                    </div>
+                    <a href="#">
+                        <img class="mainthumb" src="/img/1360593.png" alt="">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/1910324.jpg" alt="" 
+                        data-title="Angelic Figure" data-views="120 Views">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/1910341.jpg" alt=""
+                        data-title="Angelic Figure 2" data-views="20102 Views">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/wallpaperflare.com_wallpaper_1.jpg" alt=""
+                        data-title="Angelic Figure 3" data-views="121 Views">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/wallpaperflare.com_wallpaper_2.jpg" alt=""
+                        data-title="Legendary Tree" data-views="30000 Views">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/wallpaperflare.com_wallpaper.jpg" alt=""
+                        data-title="The sisters" data-views="30000 Views">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/balloon.jpg" alt=""
+                        data-title="Flying Balloon" data-views="93183 Views">
+                    </a>
+                </div>
+                <div class="slider__item">
+                    <a href="#">
+                        <img class="subthumb" src="/img/1360593.png" alt=""
+                        data-title="Legend Of Zelda" data-views="200 Views">
+                    </a>
+                </div>
+            </div>
+        </div> {{!-- 🛑 end first slider --}}
+
         <div class="p-xs-custom  col-12 pb-4">
-            {{!-- glider --}}
+            {{!-- second glider --}}
             <div class="row">
                 <div class="col-12">
-                    <div class="d-flex">
-                        <i class="title__icon far fa-bolt fa-2x mr-3"></i>
-                        <h3 class="title mb-4">POPULAR TODAY</h3>
+                    <div class="title__wrapper">
+                        <div class="titleBox">
+                            <i class="title__icon far fa-bolt fa-2x mr-3"></i>
+                            <h3 class="title mb-4">POPULAR TODAY</h3>
+                        </div>
+                        
                     </div>
+                    
                         <div class="row mb-4">
                                 <div class="col-md-12 mb-4 pl-0 pr-0">
                                     <div class="glide basic">
@@ -29,14 +79,46 @@
                                             <div class="glide__slides">
                                                 <div class="glide__slide">
                                                     <div class="rounded card flex-row">
-                                                        <div class="w-c-35 position-relative">
-                                                            <img width="125" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
+                                                        <div class="w-c-45 position-relative">
+                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
                                                                 alt="Card image cap">
                                                             <span   
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
                                                         </div>
-                                                        <div class="w-c-65">
-                                                            <div class="card-body">
+                                                        <div class="w-c-55">
+                                                            <div class="card-body--custom">
+                                                                <a href="#">
+                                                                    <h6 class="mb-3 d-webkit-box">Comic Text Title</h6>
+                                                                </a>
+                                                                <p class="text-muted text-small mb-2 font-weight-light">
+                                                                    January 12, 2018
+                                                                </p>
+                                                                
+                                                                <footer>
+                                                                    <div class="card__chapter mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
+                                                                            href="" style="transition: none;">Chapter 2</a>
+                                                                    </div>
+                                                                    <div class="card__chapter mb-2 mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
+                                                                            href="" style="transition: none;">Chapter 1</a>
+                                                                    </div>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-c-45 position-relative">
+                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp"
+                                                                alt="Card image cap">
+                                                            <span   
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
+                                                        </div>
+                                                        <div class="w-c-55">
+                                                            <div class="card-body--custom">
                                                                 <h6 class="mb-3 d-webkit-box">Comic Text Title
                                                                 </h6>
                                                                 <p class="text-muted text-small mb-2 font-weight-light">
@@ -44,7 +126,70 @@
                                                                 </p>
                                                                 
                                                                 <footer>
+                                                                    <div class="card__chapter mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
+                                                                            href="">Chapter 2</a>
+                                                                    </div>
                                                                     <div class="card__chapter mb-2 mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
+                                                                            href="">Chapter 1</a>
+                                                                    </div>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-c-45 position-relative">
+                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/kill-the-hero/thumbnail/1622887926952-images-11-223x300-thumbnail.webp
+                                    "
+                                                                alt="Card image cap">
+                                                            <span   
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
+                                                        </div>
+                                                        <div class="w-c-55">
+                                                            <div class="card-body--custom">
+                                                                <h6 class="mb-3 d-webkit-box">Comic Text Title
+                                                                </h6>
+                                                                <p class="text-muted text-small mb-2 font-weight-light">
+                                                                    January 12, 2018
+                                                                </p>
+                                                                
+                                                                <footer>
+                                                                    <div class="card__chapter mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
+                                                                            href="">Chapter 2</a>
+                                                                    </div>
+                                                                    <div class="card__chapter mb-2 mx-auto">
+                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
+                                                                            href="">Chapter 1</a>
+                                                                    </div>
+                                                                </footer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="glide__slide">
+                                                    <div class="rounded card flex-row">
+                                                        <div class="w-c-45 position-relative">
+                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/tensei-shite-inaka-de-slowlife-wo-okuritai/thumbnail/1622888365802-34352-350x500-thumbnail.webp"
+                                                                alt="Card image cap">
+                                                            <span   
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
+                                                        </div>
+                                                        <div class="w-c-55">
+                                                            <div class="card-body--custom">
+                                                                <h6 class="mb-3 d-webkit-box">Comic Text Title
+                                                                </h6>
+                                                                <p class="text-muted text-small mb-2 font-weight-light">
+                                                                    January 12, 2018
+                                                                </p>
+                                                                
+                                                                <footer>
+                                                                    <div class="card__chapter mx-auto">
                                                                         <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
                                                                             href="">Chapter 2</a>
                                                                     </div>
@@ -61,83 +206,10 @@
                                                 <div class="glide__slide">
                                                     <div class="rounded card flex-row">
                                                         <div class="w-50 position-relative">
-                                                            <img class="card-img-left" src="img/card-thumb-2.jpg"
-                                                                alt="Card image cap">
-                                                            <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
-                                                        </div>
-                                                        <div class="w-50">
-                                                            <div class="card-body">
-                                                                <h6 class="mb-4">Wedding Cake with Flowers Macarons and
-                                                                    Blueberries</h6>
-
-                                                                <footer>
-                                                                    <p class="text-muted text-small mb-0 font-weight-light">
-                                                                        09.04.2018
-                                                                    </p>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-50 position-relative">
-                                                            <img class="card-img-left" src="img/card-thumb-3.jpg"
-                                                                alt="Card image cap">
-                                                            <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
-                                                        </div>
-                                                        <div class="w-50">
-                                                            <div class="card-body">
-                                                                <h6 class="mb-4">Cheesecake with Chocolate Cookies and Cream
-                                                                    Biscuits
-                                                                </h6>
-
-                                                                <footer>
-                                                                    <p class="text-muted text-small mb-0 font-weight-light">
-                                                                        09.04.2018
-                                                                    </p>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-50 position-relative">
-                                                            <img class="card-img-left" src="img/card-thumb-3.jpg"
-                                                                alt="Card image cap">
-                                                            <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
-                                                        </div>
-                                                        <div class="w-50">
-                                                            <div class="card-body">
-                                                                <h6 class="mb-4">Cheesecake with Chocolate Cookies and Cream
-                                                                    Biscuits
-                                                                </h6>
-
-                                                                <footer>
-                                                                    <p class="text-muted text-small mb-0 font-weight-light">
-                                                                        09.04.2018
-                                                                    </p>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-50 position-relative">
                                                             <img class="card-img-left" src="img/card-thumb-1.jpg"
                                                                 alt="Card image cap">
                                                             <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
                                                         </div>
                                                         <div class="w-50">
                                                             <div class="card-body">
@@ -160,7 +232,7 @@
                                                             <img class="card-img-left" src="img/card-thumb-3.jpg"
                                                                 alt="Card image cap">
                                                             <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left">NEW</span>
+                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
                                                         </div>
                                                         <div class="w-50">
                                                             <div class="card-body">
@@ -179,9 +251,15 @@
 
                                             </div>
                                         </div>
+                                        <div class="glide__arrows sliderBox" data-glide-el="controls">
+                                                <button class="slick-prev slick-arrow" aria-label="Previous" type="button" data-glide-dir="<">
+                                                    <i class="fas fa-caret-left"></i>
+                                                </button>
+                                                <button class="slick-next slick-arrow" aria-label="Next" type="button" data-glide-dir=">">
+                                                    <i class="fas fa-caret-right"></i>
+                                                </button>
+                                        </div>
                                         <div class="glide__arrows slider-nav" data-glide-el="controls">
-                                            <button class="glide__arrow glide__arrow--left left-arrow btn btn-link"
-                                                data-glide-dir="<"><i class="simple-icon-arrow-left"></i></button>
                                             <div class="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
                                                 <button class="glide__bullet slider-dot" data-glide-dir="=0"></button>
                                                 <button class="glide__bullet slider-dot" data-glide-dir="=1"></button>
@@ -189,19 +267,17 @@
                                                 <button class="glide__bullet slider-dot" data-glide-dir="=3"></button>
                                                 <button class="glide__bullet slider-dot" data-glide-dir="=4"></button>
                                             </div>
-                                            <button class="glide__arrow glide__arrow--right right-arrow btn btn-link"
-                                                data-glide-dir=">"><i class="simple-icon-arrow-right"></i></button>
                                         </div>
                                     </div>
                                 </div>
                         </div>
                 </div>
             </div>
-            {{!-- 🛑 end glider --}}
+            {{!-- 🛑 end second glider --}}
 
             <div class="row">
                 {{!-- left: 8 --}}
-                <div class="col-12 col-lg-8 col-md-12 col-sm-12 col-left mb-3">
+                <div class="col-12 col-lg-8 col-md-12 col-sm-12 col-left mb-3" style="background: var(--foreground-color);">
 
                     {{!-- nav container --}}
                     <div class="row">
@@ -275,7 +351,7 @@
                             </div>
                                 <div class="mt-auto">
                                     <div class="card-body mb-3" style="padding-bottom: 0;">
-                                        <a href="./manga/{{this.slug}}">
+                                        <a href="./comic/{{this.slug}}">
                                             <h5 class="card-title card-title--modifier row w-md-unset">
                                                 {{ this.title}}
                                             </h5>
@@ -283,7 +359,7 @@
                                     </div>
                                     <div class="chapter" style="padding: 0;">
                                         {{#each chapters}}
-                                        <a href="/me/stored/comics/{{../ this.slug}}/chapter-list/{{this.chapter}}"
+                                        <a href="/comic/{{../ this.slug}}/{{this.chapter}}"
                                             class="card-body__container mb-xl-custom mb-2 ml-xl-0">
                                             <span id="{{this._id}}" class="card-body__chapter badge badge--modifier badge-pill"> 
                                                 {{replaceHyphenIntoSpace this.chapter}} </span>
@@ -330,8 +406,82 @@
                 </div>  {{!-- End col left --}}
                 
                 {{!-- right: 4 --}}
-                <div id="history__box" class="col-12 col-lg-4 col-md-12 col-sm-12 col-right mt-2">
-                    <div class="widget-container card mb-4 d-lg-block">
+                <div class="col-12 col-lg-4 col-md-12 col-sm-12 col-right mt-2">
+
+
+                    
+
+                    <div id="bookmark__box" class="widget-container card mb-4 d-lg-block">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-fire mr-1">
+                                    <span class="particle-fire"></span>
+                                </i>
+                                <span>BookMark</span>
+                                <a class="btn-link float-right text-small pt-1" href="#">View All</a>
+                            </h5>
+                            
+                            <div class="row social-image-row gallery">
+                                {{!-- widget item --}}
+                                <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
+                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <a class="bookmark widget-box img-box" href="#">
+                                            <img width="128" height="96" class="img img-fluid border-radius"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+                                            
+                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                             <a href="" class="position-relative">
+                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                            </a>
+                                        </a>
+                                        <span class="widget-title">Magic Emperor</span>
+                                    </div>
+                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <a class="bookmark widget-box img-box" href="#">
+                                            <img width="128" height="96" class="img img-fluid border-radius"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+                                            
+                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                             <a href="" class="position-relative">
+                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                            </a>
+                                        </a>
+                                        <span class="widget-title">Magic Emperor</span>
+                                    </div>
+                                </div> {{!-- widget item --}}
+                                {{!-- widget item --}}
+                                <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
+                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <a class="bookmark widget-box img-box" href="#">
+                                            <img width="128" height="96" class="img img-fluid border-radius"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+                                            
+                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                             <a href="" class="position-relative">
+                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                            </a>
+                                        </a>
+                                        <span class="widget-title">Magic Emperor</span>
+                                    </div>
+                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <a class="bookmark widget-box img-box" href="#">
+                                            <img width="128" height="96" class="img img-fluid border-radius"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+                                            
+                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                            <a href="" class="position-relative">
+                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                            </a>
+                                        </a>
+                                        <span class="widget-title">Magic Emperor</span>
+                                    </div>
+                                </div> {{!-- widget item --}}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="history__box" class="widget-container card mb-4 d-lg-block">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <i class="fas fa-fire mr-1">
@@ -348,81 +498,53 @@
                             </div>
                         </div>
                     </div>
-
-                    {{!-- 🍿 widget popular --}}
-                    <div id="popular__box" class="mb-3">
-                        {{!-- Widget Container --}}
-                        <div class="widget__container widget__container--right">
-                            {{!-- widget title --}}
-                            <div class="widget__title">
-                                <i class="fas fa-fire">
-                                    <span class="particle-fire"></span>
-                                </i>
-                                <h5>Popular Manga</h5>
-                            </div> {{!-- End widget title --}}
-                            
-
-                            {{!-- Widget card --}}
-                            <div>
-                                <div class="widget__card widget__card--styling">
-                                <a class="card__image" href="#">
-                                    <img alt="Card image cap" 
-                                    width="175" height="238"
-                                    class="zoom"
-                                    src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp
-                                    ">
-                                    <div class="card__image--overlay"></div>
-                                </a>
-                                <div class="card__details">
-                                    <h4 class="card__category">Wizard of Anesia</h4>
-                                    <div class="card__chapter">
-                                        <a id="id="{{this._id}}"" class="chapter__info badge badge-pill-custom badge--modifier" href="">Chapter 1</a>
-                                        <span class="time__info">May 10, 2018</span>
+                    
+                    <div id="comment__box" class="widget-container card mb-4 d-lg-block">
+                        <div class="card-body">
+                            <h5 class="card-title">Comments</h5>
+                    
+                            <div class="scroll dashboard-list-with-user ps ps--active-y">
+                                {{#if commentDoc}}
+                                {{#each commentDoc}}
+                                 {{#each this.commentArr}}
+                                    <div class="d-flex flex-row mb-3 pb-3 border-bottom">
+                                        <a href="#">
+                                            <img alt="Profile Picture" src="img/profile-pic-l.jpg"
+                                                class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall">
+                                        </a>
+                                        <div class="pl-3" style="flex: 1;">
+                                            <a href="/comic/{{../comicSlug}}{{#if ../chapter}}/{{../chapter}}{{/if}}/#comment-{{this._id}}
+                                            ">
+                                                <p class="font-weight-medium mb-0">{{this.text}}</p>
+                                            </a>
+                                            <div class="info d-flex flex-wrap justify-content-between">
+                                                <a href="#" class="text-muted mt-1 text-small">
+                                                {{this.userName}}
+                                                </a>
+                                                <a href="#" class="text-muted mt-1 text-small mb-2" 
+                                                style="text-decoration: underline;">{{CalcTimeEnglish this.updatedAt}}</a>  
+                                            </div>
+                                            
+                                            <a href="#" class="text-muted mb-0 text-small">
+                                                {{../title}} {{#if ../chapter}} | {{chapterText ../chapter}} {{/if}}
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="card__chapter">
-                                        <a class="chapter__info badge badge-pill-custom badge--modifier" href="">Chapter 2</a>
-                                        <span class="time__info">May 10, 2018</span>
-                                    </div>
-                                </div> 
-                            </div> {{!-- End Widget card --}}
-                            {{!-- Widget card --}}
-                            <div class="widget__card widget__card--styling">
-                                <a class="card__image" href="#">
-                                    <img alt="Card image cap" 
-                                    width="175" height="238"
-                                    class="zoom"
-                                    src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp
-                                    ">
-                                    <div class="card__image--overlay"></div>
-                                </a>
-                                <div class="card__details">
-                                    <h4 class="card__category">Wizard of Anesia</h4>
-                                    <div class="card__chapter">
-                                        <a class="chapter__info badge badge-pill-custom badge--modifier " href="">Chapter 1</a>
-                                        <span class="time__info">May 10, 2018</span>
-                                    </div>
-                                    <div class="card__chapter">
-                                        <a class="chapter__info badge badge-pill-custom badge--modifier " href="">Chapter 2</a>
-                                        <span class="time__info">May 10, 2018</span>
-                                    </div>
-                                </div> 
-                            </div> {{!-- End Widget card --}}
+                                    {{/each}}
+                                {{/each}}
+                                {{/if}}
+                                
+                    
                             </div>
-                            
-                            {{!-- widget button --}}
-                            <div class="widget__btn">
-                                <button type="button" class="btn--modifier btn btn-sm btn-block">More</button>
-                            </div>
-                            {{!-- End widget button --}}
-
-                        </div> {{!-- end Widget Container --}}
-                    </div> {{!-- 🛑 end widget popular --}}
+                        </div>
+                    </div>
                 </div>
                 
 
             </div>
 
         </div>
+        
     </div>
 </div>
 
@@ -457,6 +579,7 @@
     
 
     $( document ).ready(function() {
+        
         /* local History */
         
         constructHistory()

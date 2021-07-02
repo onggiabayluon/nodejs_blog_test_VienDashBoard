@@ -1,16 +1,10 @@
-/* seperator */
-.separator {
-    border-bottom: 1px solid var(--separator-color);
-    width: 95%;
-    margin: 0 auto;
-}
+
 /* title container */
 .title__container {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
     color: var(--primary-color);
-    background: var(--foreground-color);
     margin: auto 0;
     padding: 2em 1.75em 0 2.8em;  /*top right bottom left */
 }

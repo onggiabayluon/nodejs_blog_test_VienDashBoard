@@ -16,8 +16,85 @@ $('#navbarSupportedContent').on('hidden.bs.collapse', function () {
 }) /* 🤣 End Hambuger Bar */
 
 
+/* 0.3 Scroll */
+// Optimalisation: Store the references outside the event handler:
+var $window = $(window);
+var $pane = $('#pane1');
+var $subnav = $('#subnav')
+var $subnavContainer = $('.subnav-container')
+var $mainnav = $('#mainnav')
+var $tempnav = $('#tempnav') 
 
-/* 0.3. Glide */
+function checkWidth() {
+    var lastScrollTop = 0;
+    var windowsize = $window.width();
+    if (windowsize > 992) {
+        
+        $(window).scroll(function (event) {
+            var st = $(this).scrollTop();
+            
+            if (st > lastScrollTop) {
+                // downscroll code
+                $subnav.removeClass('fixed-style')
+                $subnavContainer.removeClass('subnav-container--p-0')
+                $tempnav.addClass('d-none')
+            } else {
+                // upscroll code
+                if (st < 100) {
+                    $subnav.removeClass('fixed-style')
+                    $subnavContainer.removeClass('subnav-container--p-0')
+                    $tempnav.addClass('d-none')
+                } else {
+                    $subnav.addClass('fixed-style')
+                    $subnavContainer.addClass('subnav-container--p-0')
+                    $tempnav.removeClass('d-none')
+                }
+            }
+            lastScrollTop = st;
+        });
+
+    } else {
+        $(window).scroll(function (event) {
+
+            var st = $(this).scrollTop();
+            if (st > lastScrollTop) {
+                // downscroll code
+                $mainnav.removeClass('fixed-style')
+            } else {
+                // upscroll code
+                if (st < 100) {
+                    $tempnav.addClass('d-none')
+                    $mainnav.removeClass('fixed-style')
+                    $subnavContainer.removeClass('subnav-container--fixed')
+                } else {
+                    $mainnav.addClass('fixed-style')
+                    $subnavContainer.addClass('subnav-container--fixed')
+                }
+                
+            }
+            lastScrollTop = st;
+        });
+
+    }
+};
+function reset() {
+    $('#mainnav').removeClass('fixed-style')
+    $('#subnav').removeClass('fixed-style')
+    $('.subnav-container').removeClass('subnav-container--fixed')
+    $('.subnav-container').removeClass('subnav-container--p-0')
+    $(window).unbind('scroll');
+};
+// Execute on load
+checkWidth();
+// Bind event listener
+$(window).resize(() => {
+    reset()
+    checkWidth()
+});
+
+/* 😘 End Scroll */
+
+/* 0.4. Glide */
 if (typeof Glide !== "undefined") {
 
     // Details Images
@@ -117,20 +194,20 @@ if (typeof Glide !== "undefined") {
     }
 
     // Dashboard Best Rated
-    if ($(".best-rated-items").length > 0) {
-        new Glide(".best-rated-items", {
-            gap: 10,
-            perView: 1,
-            direction: 'ltr',
-            type: "carousel",
-            peek: { before: 0, after: 100 },
-            breakpoints: {
-                480: { perView: 1 },
-                992: { perView: 2 },
-                1200: { perView: 1 }
-            },
-        }).mount();
-    }
+    // if ($(".best-rated-items").length > 0) {
+    //     new Glide(".best-rated-items", {
+    //         gap: 10,
+    //         perView: 1,
+    //         direction: 'ltr',
+    //         type: "carousel",
+    //         peek: { before: 0, after: 100 },
+    //         breakpoints: {
+    //             480: { perView: 1 },
+    //             992: { perView: 2 },
+    //             1200: { perView: 1 }
+    //         },
+    //     }).mount();
+    // }
 
 
     if ($(".glide.basic").length > 0) {
@@ -142,33 +219,34 @@ if (typeof Glide !== "undefined") {
             direction: 'ltr',
             breakpoints: {
                 600: { perView: 1 },
-                1000: { perView: 2 }
+                1000: { perView: 2 },
+                1200: { perView: 3 },
             },
         }).mount();
     }
 
-    if ($(".glide.center").length > 0) {
-        new Glide(".glide.center", {
-            gap: 0,
-            type: "carousel",
-            perView: 4,
-            direction: 'ltr',
-            peek: { before: 50, after: 50 },
-            breakpoints: {
-                600: { perView: 1 },
-                1000: { perView: 2 }
-            },
-        }).mount();
-    }
+    // if ($(".glide.center").length > 0) {
+    //     new Glide(".glide.center", {
+    //         gap: 0,
+    //         type: "carousel",
+    //         perView: 4,
+    //         direction: 'ltr',
+    //         peek: { before: 50, after: 50 },
+    //         breakpoints: {
+    //             600: { perView: 1 },
+    //             1000: { perView: 2 }
+    //         },
+    //     }).mount();
+    // }
 
-    if ($(".glide.single").length > 0) {
-        new Glide(".glide.single", {
-            gap: 0,
-            type: "carousel",
-            perView: 1,
-            direction: 'ltr',
-        }).mount();
-    }
+    // if ($(".glide.single").length > 0) {
+    //     new Glide(".glide.single", {
+    //         gap: 0,
+    //         type: "carousel",
+    //         perView: 1,
+    //         direction: 'ltr',
+    //     }).mount();
+    // }
 
 
 
@@ -205,3 +283,58 @@ if (typeof Glide !== "undefined") {
 
     }
 }  /* 😆 End Glide */
+
+/* first slider */ 
+
+var $AllSubthumbs = $('.subthumb')
+var $mainThumb = $('.mainthumb')
+var $meta__views = $('.meta__views')
+var $meta__title = $('.meta__title')
+var currentIndex = 0
+$('.slider__item').on("mouseenter", function (e) {
+    $meta__views.html(e.target.getAttribute('data-views'));
+    $meta__title.html(e.target.getAttribute('data-title'));
+    
+    $mainThumb.fadeOut('200', () => {
+        $mainThumb.attr("src", e.target.src);
+        $mainThumb.fadeIn('300');
+    })
+    
+});
+// Slider Running 
+play()
+
+function play () {
+    $AllSubthumbs.each((i, subthumb) => {
+        //index, element, delay time
+        setDelay(i, subthumb, 7000);
+    });
+};
+
+function anim(subthumb) {
+
+    if ( currentIndex === $AllSubthumbs.length - 1 ) {
+        currentIndex = 0
+        play()
+    }
+
+    $meta__views.html(subthumb.getAttribute('data-views'));
+    $meta__title.html(subthumb.getAttribute('data-title'));
+
+    $mainThumb.fadeOut('200', () => {
+        $mainThumb.attr("src", subthumb.src);
+        $mainThumb.fadeIn('300');
+    })
+};
+
+function setDelay(i, subthumb, delay) {
+    setTimeout(() => {
+        anim(subthumb)
+        currentIndex++
+    }, i * delay);
+};
+
+  
+
+
+/* first slider */ 

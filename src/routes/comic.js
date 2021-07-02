@@ -4,6 +4,12 @@ const router = express.Router();
 
 const ComicController = require('../app/controllers/ComicController');
 
+
+// comic / :comicSlug 
+router.get('/:comicSlug', ComicController.comicdetailsPage);
+// comic /  :comicSlug / :chapterSlug 
+router.get('/:comicSlug/:chapter', ComicController.chapterdetailsPage);
+
 // comic / comment 
 router.post('/comment', ComicController.postComment);
 // comic / reply

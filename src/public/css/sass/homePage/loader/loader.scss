@@ -5,7 +5,7 @@ $highlight: #c8102e;
 @import url("https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap");
 
 section {
-	font-family: "PT Sans Narrow", Ariel, sans-serif;
+	font-family: "PT Sans Narrow", Ariel, sans-serif !important;
 	font-weight: 300;
 	font-size: 16px;
 	box-sizing: border-box;
@@ -28,7 +28,7 @@ section {
 	position: fixed;
     width: 100%;
     height: 100vh;
-    z-index: 999;
+    z-index: 10000;
 }
 
 .app-loader {
@@ -56,6 +56,7 @@ section {
 	}
 
 	&__text {
+		font-size: 1.75rem;
 		display: flex;
 		justify-content: center;
 		text-transform: uppercase;

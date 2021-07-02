@@ -8,36 +8,40 @@ const opts = { timestamps: { currentTime: () => moment.tz(Date.now(), "Asia/Bang
 
 const Comment = new Schema({
   comicSlug: { type: String },
-  chapterArr: [
-    {
-      chapter: { type: String }, // chapter-1
-      createdAt: { type: Date, default: new Date().toISOString()},
-      commentArr: [{
-        //1. user
-        userId: { 
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User"
-        }, 
-        //2. User name
-        userName: { type: String },
-        //3. text
-        text: { type: String },
-        //4. reply
-        reply: [{
-          //4.1 user 
-          userId: { 
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-          },
-          //4.1 user name
-          userName: { type: String },
-          //4.3 text
-          text: { type: String },
-        }] 
-      }],
-    }
-  ]
+  title: { type: String },
+  chapter: { type: String, default: null }, // chapter-1
+  commentArr: [{
+    //1. user
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    //2. User name
+    userName: { type: String },
+    //3. text
+    text: { type: String, trim: true },
+    //4. updated time
+    updatedAt: { type: Date },
+    //5. reply
+    reply: [{
+      //5.1 user 
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      },
+      //5.1 user name
+      userName: { type: String },
+      //5.3 text
+      text: { type: String },
+      //5.4 updated time
+      updatedAt: { type: Date },
+    }],
+      
+    
+  }],
 }, opts);
+
+
 
 module.exports = mongoose.model('Comment', Comment);
 

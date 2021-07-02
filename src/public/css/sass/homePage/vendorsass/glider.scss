@@ -12,7 +12,7 @@
   
   .glide__slide {
     display: flex;
-    height: unset;
+    height: 180px;
     .card {
       display: flex;
       flex-grow: 1;
@@ -177,7 +177,7 @@
   }
   
   .bullet-text {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 }
   .bullet-text:before {
     content: "";
@@ -190,4 +190,56 @@
     vertical-align: middle;
 }
 
+.card-body--custom {
+  padding: 1.5rem 1.2rem 1.5rem 1.2rem;
 
+  & h6 {
+    font-weight: 600;
+  }
+}
+
+.title__wrapper {
+  display: flex;
+  justify-content: space-between; 
+  
+  & .titleBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+ 
+}
+.slick-prev {
+  margin-right: 0.4em;
+
+  &:hover {
+    background-color: var(--theme-color-2);
+    transition: all 0.3s;
+  }
+}
+.slick-next {
+
+  & i {
+    margin-left: 3px;
+  }
+  
+  &:hover {
+    background-color: var(--theme-color-2);
+    transition: all 0.3s;
+  }
+}
+
+.slick-arrow {
+  background-color: var(--theme-color-3);
+  border: unset;
+  color: white;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.sliderBox {
+  position: absolute;
+  top: -52px;
+  right: 15px;
+
+}

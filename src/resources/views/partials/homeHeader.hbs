@@ -153,7 +153,7 @@
                 <a class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="name">Sarah Kortney</span>
                     <span>
-                        <img alt="Profile Picture" src="img/profile-pic-l.jpg">
+                        <img alt="Profile Picture" src="/img/profile-pic-l.jpg">
                     </span>
                 </button>
 
@@ -162,19 +162,20 @@
                     <a class="dropdown-item" href="#">Features</a>
                     <a class="dropdown-item" href="#">History</a>
                     <a class="dropdown-item" href="#">Support</a>
-                    <a class="dropdown-item" href="#">Sign out</a>
+                    <a class="dropdown-item" href="/users/logout">Sign out</a>
                 </div>
             </div>
         </div>
     </nav>
 
+<nav id="tempnav" class="d-none" style="height: 60px;margin-bottom: 4rem;"></nav>
 <nav id="subnav" class="navbar navbar-expand-lg hide-hambuger-phone">
     <div class="subnav-container">
-        <div class="hotkey-container card-body container">
+        <div class="position-relative hotkey-container card-body container">
             <div class="hotkeyleft collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a type="button" class="rounded btn btn-foreground default mb-1 selected">
+                    <a href="/" type="button" class="rounded btn btn-foreground default mb-1 selected">
                         <i class="far fa-home mr-1"></i>
                         Home
                     </a>
@@ -200,18 +201,33 @@
                 <li class="nav-item active">
                     <a type="button" class="rounded btn btn-foreground default mb-1">Category</a>
                 </li>
-                <li class="nav-item active">
-                    <div class="dropdown d-inline-block">
+                <li class="nav-item more active">
+                    <div class=" d-inline-block">
                         <a class="rounded btn btn-foreground default mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="true">
                             More
                             <i class="fas fa-caret-right ml-1 customIcon"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
-                            style="position: absolute; transform: translate3d(15px, 57px, 0px); top: 0px; left: 0px; will-change: transform;">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            style="width: fit-content;position: absolute; transform: translate3d(15px, 57px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <ul class="dropdown-box">
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                                <li class="item"><a href="#" class="category">Action</a></li>
+                            </ul>
                         </div>
                     </div>
                 </li>
@@ -220,11 +236,16 @@
            
             
                 
-
+            {{#unless user}}
             <div class="hotkeyright">
-                <button type="button" class=" btn btn-outline-foreground mb-1">Log in</button>
-                <button type="button" class=" btn btn-outline-foreground mb-1">Sign up</button>
+                <a href="/users/login" type="button" class=" btn btn-outline-foreground mb-1">Log in</a>
+                <a href="/users/register" type="button" class=" btn btn-outline-foreground mb-1">Sign up</a>
             </div>
+            {{else}}
+            <div class="hotkeyright">
+                <a href="/users/logout" type="button" class=" btn btn-outline-foreground mb-1">Log out</a>
+            </div>
+            {{/unless}}
 
         </div>
             

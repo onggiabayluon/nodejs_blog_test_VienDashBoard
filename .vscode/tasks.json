@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"group": "rebuild",
+			"problemMatcher": [],
+			"label": "npm: start",
+			"detail": "nodemon --inspect src/index.js"
+		}
+	]
+}

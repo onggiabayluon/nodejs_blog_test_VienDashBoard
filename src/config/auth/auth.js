@@ -20,7 +20,7 @@ module.exports = {
           return next();
         }
         req.flash('error-message', `Bạn phải đăng nhập bằng ${ROLE} để xem nội dung này`);
-        res.status(401).redirect('/dashboard');
+        res.status(401).redirect('/');
       }
     },
     
@@ -29,6 +29,6 @@ module.exports = {
       if (!req.isAuthenticated()) {
         return next();
       }
-      res.status(401).redirect('/dashboard');      
+      res.status(401).redirect('/');      
     }
   };

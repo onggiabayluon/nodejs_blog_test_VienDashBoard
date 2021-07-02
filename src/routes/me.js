@@ -50,8 +50,6 @@ router.post('/stored/handle-form-action-for-comics', ensureAuthenticated, meCont
 *** CHAPTER ROUTE ***
 ***               **/
 
-// show Chapter
-router.get('/stored/comics/:slug/chapter-list/:chapter', meController.showChapter);
 // Page Chapter List 
 router.get('/stored/comics/:slug/chapter-list', meController.chapterListPage);
 // Page Create Chapter

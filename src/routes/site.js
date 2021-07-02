@@ -7,7 +7,7 @@ const { User } = require('../app/models/User');
 // Load Sitecontroller
 const Sitecontroller = require('../app/controllers/SiteController');
 
-router.get('/dashboard', ensureAuthenticated, Sitecontroller.dashboardPage);
+//SEARCH
 router.post('/search', Sitecontroller.search);
 
 //HOME

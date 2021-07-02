@@ -109,6 +109,7 @@
             {{#if user}}
             <form id="postCommentForm" method="POST" onsubmit="return postComment(this);"
                 enctype="application/x-www-form-urlencoded">
+                <input class="form-control" name="title" value="{{chapter.title}}" type="hidden"></input>
                 <input class="form-control" name="userId" value="{{user._id}}" type="hidden"></input>
                 <input class="form-control" name="userName" value="{{user.name}}" type="hidden"></input>
                 <input class="form-control" name="chapter" value="{{chapter.chapter}}" type="hidden"></input>
@@ -196,6 +197,7 @@
                                                             enctype="application/x-www-form-urlencoded">
                                                             <input name="reply_id" value="{{../this._id}}" type="hidden"></input>
                                                             <input name="comment_id" value="{{../../this._id}}" type="hidden"></input>
+                                                            <input class="form-control" name="title" value="{{../../../chapter.title}}" type="hidden"></input>
                                                             <input name="comicSlug" value="{{../../../chapter.comicSlug}}" type="hidden"></input>
                                                             <input name="chapter" value="{{../../../chapter.chapter}}" type="hidden"></input>
                                 
@@ -618,11 +620,13 @@
         /* Start POST comment */
         window.postComment = function (form) {
             var formData = {
+                title: form.title.value,
                 userId: form.userId.value,
                 userName: form.userName.value,
                 inputText: form.inputText.value,
                 comicSlug: form.comicSlug.value,
                 chapter: form.chapter.value,
+                updatedAt:  new Date().toISOString()
             }
             $.ajax({
                 type: "POST",
@@ -644,12 +648,14 @@
         /* Start POST reply */
         window.postReply = function (form) {
             var formData = {
+                title: form.title.value,
                 userId: form.userId.value,
                 userName: form.userName.value,
                 comment_id: form.comment_id.value,
                 inputText: form.inputText.value,
                 comicSlug: form.comicSlug.value,
                 chapter: form.chapter.value,
+                updatedAt:  new Date().toISOString()
             }
             $.ajax({
                 type: "POST",

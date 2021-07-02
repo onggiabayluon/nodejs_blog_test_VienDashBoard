@@ -1,7 +1,7 @@
 const Comic = require('../models/Comic');
 const Chapter = require('../models/Chapter')
 const Category = require('../models/Category')
-const TimeDifferent = require('../../config/middleware/TimeDifferent')
+const TimeDifferent = require('../../config/middleware/CalcTimeVnmese')
 const removeVietnameseTones = require('../../config/middleware/VnameseToEng');
 const trimEng = require('../../config/middleware/trimEng')
 const shortid = require('shortid');
@@ -222,16 +222,16 @@ const UpdateComic_Helper = (exports.UpdateComic_Helper
                   .then(() => updateCategory(req.body.slug))
                   .catch(next)
 
-                Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: req.body.slug })
-                  .select("comicSlug")
-                  .then(result => { console.log(result) })
-                  .catch(next)
+                Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: req.body.slug, title: newtitle })
+                  .exec()
+                  .catch(err => next(err))
 
               } else {
 
                 // nếu slug mới chưa có sử dụng thì slug cũ = slug mới
                 
                 req.body.slug = newSlug;
+                req.body.title = newtitle
                 jsonFile = req.body
                 finalReqBody = Object.assign({}, jsonFile, titleforsearch);
                 Comic.updateOne({ slug: req.params.slug }, finalReqBody)
@@ -243,9 +243,9 @@ const UpdateComic_Helper = (exports.UpdateComic_Helper
                   .then(() => updateCategory(req.body.slug))
                   .catch(next)
 
-                Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: newSlug })
-                  .select("comicSlug")
-                  .then(result => { console.log(result) })
+                Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: newSlug, title: newtitle })
+                .exec()
+                .catch(err => next(err))
               }
             })
         } else {
@@ -259,6 +259,9 @@ const UpdateComic_Helper = (exports.UpdateComic_Helper
                 .redirect('/me/stored/comics/comic-list');
             })
             .catch(next)
+          Chapter.updateMany({ comicSlug: oldSlug }, { comicSlug: newSlug, title: newtitle })
+          .exec()
+          .catch(err => next(err))
         }
       })
       .catch(next)

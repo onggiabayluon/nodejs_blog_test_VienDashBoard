@@ -1,7 +1,7 @@
 const Comic                     = require('../models/Comic');
 const Chapter                   = require('../models/Chapter');
 const User                      = require('../models/User')
-const TimeDifferent             = require('../../config/middleware/TimeDifferent')
+const TimeDifferent             = require('../../config/middleware/CalcTimeVnmese')
 const bcrypt                    = require('bcrypt');
 const passport                  = require('passport');
 const { multiMongooseToObject } = require('../../util/mongoose');

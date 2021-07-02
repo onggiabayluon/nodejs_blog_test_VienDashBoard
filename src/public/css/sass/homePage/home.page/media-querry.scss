@@ -30,7 +30,6 @@
         margin-right: 0.5em;
     }
     .card-body {
-        width: 90%;
         justify-content: space-evenly;
     }
    .example-2 .menu-content li {
@@ -103,7 +102,6 @@
     }
 
     .card-body__container  {
-        margin: 0;
         & .card-body__time {
             margin: auto;    
             margin-left: 0.5em;
@@ -116,6 +114,10 @@
         .card__details {
             margin-left: 1.7em;
         }
+    }
+    .badge.badge-pill {
+        padding-right: 0.85em;
+        padding-left: 0.85em;
     }
 }
  @media (min-width: 992px) {
@@ -131,7 +133,6 @@
         flex-wrap: wrap;
         align-content: center;
         justify-content: center;
-        margin: 0;
 
         & .card-body__time {
             margin: 0 auto;
