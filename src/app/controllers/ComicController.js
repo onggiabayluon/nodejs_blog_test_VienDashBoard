@@ -8,63 +8,122 @@ const { singleMongooseToObject, multiMongooseToObject } = require('../../util/mo
 class ComicController {
 
   comicdetailsPage(req, res, next) {
+    let sort = (req.query.hasOwnProperty('_sort')) ? {[req.query.column]: parseInt(req.query.type)} : {commentArr: -1} 
+
+    let page = +req.body.page || 1;
+    let PageSize = 10;
+    let skipComment = (page - 1) * PageSize;
+
     Promise.all([
-      Comic.findOne({ slug: req.params.comicSlug }).lean().populate('category', 'name'),
-      Comment.findOne({ comicSlug: req.params.comicSlug, chapter: null }).lean(),
+      Comic.findOne({ slug: req.params.comicSlug }).lean()
+      .populate('category', 'name')
+      .populate({ path: 'chapters', select: '-_id chapter updatedAt', options: { sort: { 'chapter': 1 } }}),
       Comment.aggregate([
+        { $match: { comicSlug: req.params.comicSlug, chapter: null } },
+        { $limit: 1 },
         {
-          $match:  { comicSlug: req.params.comicSlug, chapter: null }
+          $addFields: {
+            maxComment: { $size: "$commentArr" }
+          }
+        },
+        { $unwind: "$commentArr" },
+        { $sort: sort },
+        { $skip: skipComment },
+        { $limit: PageSize },
+        {
+          $addFields: {
+            replyLength : { $size: "$commentArr.reply" },
+          }
         },
         {
-          $unwind: "$commentArr"
+          $group: {
+          _id: '$_id',
+          title:      { $first: '$title'      }, 
+          chapter:    { $first: '$chapter'    }, 
+          comicSlug:  { $first: '$comicSlug'  }, 
+          maxComment: { $first: '$maxComment' }, 
+          commentArr: { $push: '$commentArr'  },
+          replyLength: { $push: '$replyLength'  },}
         },
-        {
-          $project: {
-          _id: 0,
-          length: {  $size: "$commentArr.reply" }}
-        }
       ])
     ])
-      .then(([comicdoc, commentdoc, repliesArr]) => {
+      .then(([comicdoc, commentdoc]) => {
         if (!comicdoc) {
           return next(new customError('Not found', 404));
         }
-        var commentLength = (commentdoc) ? commentdoc.commentArr.length : 0
+        let chaptersLength = comicdoc.chapters.length
         res.status(200).render('comic.details.hbs', {
           layout: 'home_layout',
           comic: comicdoc,
           comments: commentdoc,
-          commentLength: commentLength,
-          repliesArr: repliesArr
+          firstChapter: comicdoc.chapters[0],
+          lastChapter: comicdoc.chapters[chaptersLength - 1],
+          user: singleMongooseToObject(req.user),
         })
       })
       .catch(next)
   };
 
   chapterdetailsPage(req, res, next) {
+    let sort = (req.query.hasOwnProperty('_sort')) ? {[req.query.column]: parseInt(req.query.type)} : {commentArr: -1} 
+    let match = (req.query.hasOwnProperty('_match')) ? { comicSlug: req.params.comicSlug, chapter: { $ne: null } } : { comicSlug: req.params.comicSlug, chapter: req.params.chapter }
+    
     var comicSlug = req.params.comicSlug
     var currentReadingChapter = req.params.chapter
     var cookie = req.cookies[comicSlug]; //  ['chapter-1', 'chapter-2]}
 
+    let page = +req.body.page || 1;
+    let PageSize = 10;
+    let firstLimit = (req.query.hasOwnProperty('_match')) ? PageSize : 1
+    let skipComment = (page - 1) * PageSize;
+    
     Promise.all([
-      Comic.findOne({ slug: comicSlug }).lean(),
+      Comic.findOne({ slug: comicSlug }).lean()
+      .select('-category').populate('chapters', 'chapter')
+      .populate({ path: 'chapters', select: '-_id chapter', options: { sort: { 'chapter': 1 } }}),
       Chapter.findOne({ comicSlug: comicSlug, chapter: req.params.chapter }).lean(),
-      Comment.findOne({ comicSlug: comicSlug, chapter: req.params.chapter }).lean()
+      Comment.aggregate([
+        { $match: match },
+        { $limit: firstLimit },
+        {
+          $addFields: {
+            maxComment: { $size: "$commentArr" }
+          }
+        },
+        { $unwind: "$commentArr" },
+        { $sort: sort },
+        { $skip: skipComment },
+        { $limit: PageSize },
+        {
+          $addFields: {
+            replyLength : { $size: "$commentArr.reply" },
+          }
+        },
+        {
+          $group: {
+          _id: '$_id',
+          title:      { $first: '$title'      }, 
+          chapter:    { $first: '$chapter'    }, 
+          comicSlug:  { $first: '$comicSlug'  }, 
+          maxComment: { $first: '$maxComment' }, 
+          commentArr: { $push: '$commentArr'  },
+          replyLength: { $push: '$replyLength'  },}
+        },
+        { $sort: sort },
+      ])
     ])
       .then(([comicdoc, chapterdoc, commentdoc]) => {
         if (!chapterdoc || !comicdoc) {
           return next(new customError('Not found', 404));
         }
 
-        checkCookie(comicdoc)
-
         renderChapterView(comicdoc, chapterdoc, commentdoc)
+        checkCookie(comicdoc)
       })
       .catch(err => next(err))
 
 
     async function checkCookie(comic) {
-
       var hadCookie = (cookie === undefined) ? false : true
 
       if (hadCookie === false) {
@@ -153,14 +212,24 @@ class ComicController {
       return (result === currentReadingChapter) // if check cookie giống chapter đang đọc > true
     };
 
-    function renderChapterView(comicdoc, chapterDoc, commentDoc) {
-      const commentArr = (commentDoc != null) ? commentDoc.commentArr : []
-      res.render('me/showChapter.hbs',
+    function renderChapterView(comicdoc, chapterdoc, commentdoc) {
+      
+      //sort to make sure when chapters get deleted then this btn wont callapse
+      comicdoc.chapters.sort(function(a,b) {return (a.chapter > b.chapter) ? 1 : ((b.chapter > a.chapter) ? -1 : 0);} );
+
+      let $thisChapterIndex = comicdoc.chapters.findIndex(x => JSON.stringify(x.chapter) === JSON.stringify(chapterdoc.chapter))
+      
+      let prevChapter = comicdoc.chapters[$thisChapterIndex - 1]
+      let nextChapter = comicdoc.chapters[$thisChapterIndex + 1]
+      
+      res.render('chapter.details.hbs',
         {
-          layout: 'home_layout',
+          layout: 'chapter.details.layout.hbs',
           comics: comicdoc,
-          chapter: chapterDoc,
-          commentArr: commentArr,
+          chapter: chapterdoc,
+          comments: commentdoc,
+          prevChapter: prevChapter,
+          nextChapter: nextChapter,
           user: singleMongooseToObject(req.user),
         })
     };
@@ -168,12 +237,11 @@ class ComicController {
 
   postComment(req, res, next) {
     // if (!req.body.user_id ) return res.redirect('back')
-    const chapter = (req.body.isComicComment == "true") ? null : req.body.chapter
+    const chapter = (req.body.isChapterComment == "true" || req.body.isChapterReply == "true") ? req.body.chapter : null
     
     //check nếu truyện đã có 
     Comment.findOne({comicSlug: req.body.comicSlug, chapter: chapter}).lean()
     .then(commentDoc => {
-       console.log(commentDoc) // :x:
       if (!commentDoc) { 
         // Trường hợp Chưa có comment của truyện này => tạo mới
 
@@ -204,6 +272,7 @@ class ComicController {
       comment.chapter = chapter
       comment.commentArr.push(newComicComment)
       comment.save()
+      sendStufftoClient(newComicComment);
     };
 
     
@@ -237,7 +306,7 @@ class ComicController {
   
   destroyComment(req, res, next) {
     // if (!req.body.user_id ) return res.redirect('back')
-    const chapter = (req.body.isComicComment == "true") ? null : req.body.chapter
+    const chapter = (req.body.isChapterComment == "true" || req.body.isChapterReply == "true") ? req.body.chapter : null
     Comment.findOne({ comicSlug: req.body.comicSlug, chapter: chapter }).lean()
       .then(commentDoc => {
         if(!commentDoc) { return next(new customError('Comment Not found', 404)); }
@@ -262,7 +331,7 @@ class ComicController {
 
   postReply(req, res, next) {
     // if (!req.body.user_id ) return res.redirect('back')
-    const chapter = (req.body.isComicComment == "true") ? null : req.body.chapter
+    const chapter = (req.body.isChapterComment == "true" || req.body.isChapterReply == "true") ? req.body.chapter : null
     Comment.findOne({ comicSlug: req.body.comicSlug, chapter: chapter }).lean()
       .then(commentDoc => {
 
@@ -300,7 +369,7 @@ class ComicController {
 
   destroyReply(req, res, next) {
     // if (!req.body.user_id ) return res.redirect('back')
-    const chapter = (req.body.isComicComment == "true") ? null : req.body.chapter
+    const chapter = (req.body.isChapterComment == "true" || req.body.isChapterReply == "true") ? req.body.chapter : null
     Comment.findOne({ comicSlug: req.body.comicSlug, chapter: chapter }).lean()
       .then(commentDoc => {
 
@@ -325,6 +394,99 @@ class ComicController {
         text: 'delete succesfully'
       })
     };
+  };
+
+  editComment(req, res, next) {
+    // if (!req.body.user_id ) return res.redirect('back')
+    // chapter = null => edit comic
+    // chapter = number => edit chapter
+    const chapter = (req.body.isChapterComment == "true" || req.body.isChapterReply == "true") ? req.body.chapter : null
+    
+    Comment.findOne({ comicSlug: req.body.comicSlug, chapter: chapter }).lean().select('commentArr')
+      .then(commentDoc => {
+
+        if (req.body.isComicComment == 'true' || req.body.isChapterComment == 'true')
+        return updateComment(commentDoc)
+        
+        if (req.body.isComicReply == 'true' || req.body.isChapterReply == 'true')
+        return updateReply(commentDoc)
+    
+      })
+      .catch(err => next(err))
+
+
+    function updateComment(commentDoc) {
+
+      const commentIndex = commentDoc.commentArr.findIndex(x => JSON.stringify(x._id) === JSON.stringify(req.body.comment_id))
+      
+      Comment.updateOne(
+        { comicSlug: req.body.comicSlug, chapter: chapter},
+        { $set: { [`commentArr.${commentIndex}.text`]: req.body.text } })
+        .then(() => {
+          res.send({comment_id: req.body.comment_id})
+        })
+        .catch(next)
+    };
+
+    function updateReply(commentDoc) {
+
+      const commentIndex = commentDoc.commentArr.findIndex(x => JSON.stringify(x._id) === JSON.stringify(req.body.comment_id))
+      const replyIndex = commentDoc.commentArr[commentIndex].reply.findIndex(x => JSON.stringify(x._id) === JSON.stringify(req.body.reply_id))
+
+      Comment.updateOne(
+        { comicSlug: req.body.comicSlug, chapter: chapter},
+        { $set: { [`commentArr.${commentIndex}.reply.${replyIndex}.text`]: req.body.text } })
+        .then(() => {
+          res.send({
+            comment_id: req.body.comment_id,
+            reply_id: req.body.reply_id,
+          })
+        })
+        .catch(next)
+    };
+
+  }
+
+  fetchMoreComments(req, res, next) {
+    let chapter = (req.body.isChapterComment == "true" || req.body.isChapterReply == "true") ? req.body.chapter : null
+    let sort = (req.query.hasOwnProperty('_sort')) ? {[req.query.column]: parseInt(req.query.type)} : {commentArr: -1} 
+    let match = (req.query.hasOwnProperty('_match')) ? {} : { comicSlug: req.body.comicSlug, chapter: chapter }
+    let firstLimit = (req.query.hasOwnProperty('_match')) ? PageSize : 1
+
+    let page = +req.body.page || 1;
+    let PageSize = 10;
+    let skipComment = (page - 1) * PageSize;
+    Comment.aggregate([
+      { $match: match },
+      { $limit: firstLimit },
+      { $unwind: "$commentArr" },
+      { $sort: sort },
+      { $skip: skipComment },
+      { $limit: PageSize },
+      {
+        $addFields: {
+          replyLength : { $size: "$commentArr.reply" }
+        }
+      },
+      {
+        $group: {
+        _id: '$_id',
+        title:      { $first: '$title'      }, 
+        chapter :   { $first: '$chapter'    }, 
+        comicSlug : { $first: '$comicSlug'  }, 
+        commentArr: { $push: '$commentArr'  },
+        replyLength: { $push: '$replyLength'  },}
+      },
+      { $sort: sort },
+    ])
+    .then(commentdoc => {
+      if(!commentdoc) { res.send(false) }
+      res.status(200).render('template/fetch.comments.template.hbs', {
+        layout: 'fetch_layout',
+        comments: commentdoc[0]
+      })
+    })
+    .catch(next)
   };
 
 }

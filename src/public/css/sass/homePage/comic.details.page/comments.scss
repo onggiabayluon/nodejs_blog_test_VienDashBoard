@@ -123,18 +123,19 @@ comment-thread-renderer:target {
     
         &__author {
             margin: 0.2rem 0.4rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
     
         &__timer {
             margin: 0 0.4rem;
+            text-decoration: underline;
         }
     }
 
     & .content {
 
         &__text {
-            font-size: 0.9rem;
+            font-size: 1rem;
             margin: 0 0.4rem;
         }
     }
@@ -171,7 +172,7 @@ comment-thread-renderer:target {
       color: #2196f3;
 
       .expander__text {
-        font-size: 0.9rem;
+        font-size: 1rem;
         margin-left: 0.5rem;
       }
     }

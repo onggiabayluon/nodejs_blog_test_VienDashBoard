@@ -11,9 +11,88 @@
   }
   
   .glide__slide {
+    width: 210px;
+    height: 310px;
+    margin-right: 0px;
+    padding: 0px;
     display: flex;
-    height: 180px;
+    flex-direction: column;
+
+    glide-img {
+      img {
+        object-fit: cover;
+        object-position: top;
+        width: 100%;
+      }
+    }
+    bottom-info {
+      display: block;
+      padding: 0.7rem;
+      border: 2px solid var(--foreground-color-2);
+
+      info-title {
+        display: block;
+        font-family: 'hind_m';
+        font-weight: 600;
+        color: var(--button-text-color);
+      }
+      info-chapter {
+        display: block;
+        text-transform: uppercase;
+      }
+      info-sub {
+        display: block;
+        border: 1px solid var(--button-text-unimportant);
+        color: var(--button-text-color);
+        font-family: 'hind_m';
+        padding: 0.2rem 1rem;
+        text-align: center;
+        margin-top: 0.5rem;
+      }
+    }
+
+    main {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: var(--button-text-important);
+      display: inline-flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      padding: 0.7rem 1rem 0.4rem 1rem;
+      
+      maintitle {
+        color: var(--light);
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 20px;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        word-wrap: break-word;
+        margin-top: auto;
+      }
+      info {
+        a {
+          color: var(--light);
+        }
+        span {
+          margin-left: 10px;
+        }
+      }
+    }
+    bottom-category {
+      margin-top: auto;
+      color: var(--danger);
+    }
+
     .card {
+      background: unset;
+      box-shadow: unset;
+
       display: flex;
       flex-grow: 1;
   
@@ -177,7 +256,7 @@
   }
   
   .bullet-text {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
 }
   .bullet-text:before {
     content: "";
@@ -211,20 +290,26 @@
 }
 .slick-prev {
   margin-right: 0.4em;
+  left: -3rem;
+  position: relative;
+  cursor: pointer;
 
   &:hover {
-    background-color: var(--theme-color-2);
+    color: var(--theme-color-2);
     transition: all 0.3s;
   }
 }
 .slick-next {
+  right: -3rem;
+  position: relative;
+  cursor: pointer;
 
   & i {
     margin-left: 3px;
   }
   
   &:hover {
-    background-color: var(--theme-color-2);
+    color: var(--theme-color-2);
     transition: all 0.3s;
   }
 }
@@ -239,7 +324,9 @@
 }
 .sliderBox {
   position: absolute;
-  top: -52px;
-  right: 15px;
+  top: 37%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 
 }

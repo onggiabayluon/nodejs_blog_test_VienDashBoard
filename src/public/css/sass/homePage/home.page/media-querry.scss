@@ -1,4 +1,7 @@
 @media (max-width: 576px) {
+    .container {
+        max-width: 90%;
+    }
     .m-xs-custom {
         margin: -10px;
     }
@@ -62,7 +65,7 @@
         padding: 0
     }
     .container {
-        max-width: 700px;
+        max-width: 90%;
     }
     .w-sm-80 {
         width: 80%;
@@ -87,7 +90,7 @@
         padding-left: 15px
     }
     .container {
-        max-width: 900px;
+        max-width: 90%;
     }
     .w-md-unset {
         width: unset;

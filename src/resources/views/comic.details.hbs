@@ -127,49 +127,32 @@
                             </div>
                             <div class="chapterRight card mb-4">
                                 <div class="btnbox card-body">
-                                    <a href="#" class="btnbox__firstChapter btn btn-primary mb-1">
+                                    <a href="/comic/{{comic.slug}}/{{firstChapter.chapter}}" class="btnbox__firstChapter btn btn-primary mb-1">
                                         <span> First Chapter </span>
-                                        <span style="font-size: 1.1rem;"> Chapter 1</span>
+                                        <span style="font-size: 1.1rem;"> {{replaceHyphenIntoSpace firstChapter.chapter}}</span>
                                     </a>
-                                    <a href="#" class="btnbox__lastChapter btn btn-primary mb-1">
+                                    <a href="/comic/{{comic.slug}}/{{lastChapter.chapter}}" class="btnbox__lastChapter btn btn-primary mb-1">
                                         <span> Last Chapter </span>
-                                        <span style="font-size: 1.1rem;"> Chapter 21 </span>
+                                        <span style="font-size: 1.1rem;"> {{replaceHyphenIntoSpace lastChapter.chapter}} </span>
                                     </a>
                                 </div>
                                 <div class="listbox">
-                                    <a href="#" class="listbox__chapterbtn">
-                                        <span class="chaptertext"> Chapter 111 </span>
-                                        <span class="date text-muted"> June 26, 2021</span>
+                                    {{#each comic.chapters}}
+                                    <a href="/comic/{{../comic.slug}}/{{this.chapter}}" class="listbox__chapterbtn">
+                                        <span class="chaptertext"> {{replaceHyphenIntoSpace this.chapter}} </span>
+                                        <span class="date text-muted"> {{CalcTimeEnglish this.updatedAt}}</span>
                                     </a>
-                                    <a href="#" class="listbox__chapterbtn">
-                                        <span class="chaptertext"> Chapter 110 </span>
-                                        <span class="date text-muted"> June 26, 2021</span>
-                                    </a>
-                                    <a href="#" class="listbox__chapterbtn">
-                                        <span class="chaptertext"> Chapter 111 </span>
-                                        <span class="date text-muted"> June 26, 2021</span>
-                                    </a>
-                                    <a href="#" class="listbox__chapterbtn">
-                                        <span class="chaptertext"> Chapter 110 </span>
-                                        <span class="date text-muted"> June 26, 2021</span>
-                                    </a>
-                                    <a href="#" class="listbox__chapterbtn">
-                                        <span class="chaptertext"> Chapter 111 </span>
-                                        <span class="date text-muted"> June 26, 2021</span>
-                                    </a>
-                                    <a href="#" class="listbox__chapterbtn">
-                                        <span class="chaptertext"> Chapter 110 </span>
-                                        <span class="date text-muted"> June 26, 2021</span>
-                                    </a>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
+
                         <div id="commentbox" class="col-12 mb-4">
-                           
+                            {{!-- tools-header --}}
                             <tools-header id="theader" class="theader">
                                 <div class="title">
                                     Comments
-                                    <span class="title__counter text-small"> ({{commentLength}}) </span> 
+                                    <span class="title__counter text-small"> ({{#if comments.[0].maxComment}} {{comments.[0].maxComment}} {{else}} 0 {{/if}}) </span> 
                                 </div>
                                 <div class="sort-menu">
                                     <div class="sort-text dropdown show">
@@ -180,15 +163,16 @@
                                         </a>
                                     
                                         <div id="sort-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#" data-sort="1" >Normal</a>
-                                            <a class="dropdown-item" href="#" data-sort="2">Newest</a>
-                                            <a class="dropdown-item" href="#" data-sort="3">All</a>
+                                            <a class="dropdown-item" href="?">Default</a>
+                                            <a class="dropdown-item" href="?_sort&column=commentArr&type=-1">Newest</a>
+                                            <a class="dropdown-item" href="?_sort&column=commentArr&type=1">Oldest</a>
+                                            <a class="dropdown-item" href="?_match=all&coloumn=updatedAt&type=1">All</a>
                                         </div>
                                     </div>
                                 </div>
                             </tools-header>
 
-                            {{!-- if user --}}
+                            {{!-- {{#if user}} --}}
                             <simplebox id="simplebox" class="comment mb-4">
                                 <div id="body" class="comment__body">
                                     <thumbnail id="author-thumbnail" class="author-thumbnail">
@@ -219,10 +203,15 @@
                                     </div>
                                 </div>
                             </simplebox>
-                            {{!-- /if  --}}
+                            {{!-- {{else}}
+                            <p class="text-medium">Login to comment</p>
+                            <a href="/users/login" class="btn btn-primary mr-2 mb-5">Log in</a>
+                            <a href="/users/register" class="btn btn-primary mb-5">Sign up</a>
+                            {{/if}}  --}}
 
                             <comments-container id="commentcontainer">
-                                {{#each comments.commentArr}}
+                                {{#each comments}}
+                                {{#each this.commentArr}}
                                 <comment-thread-renderer id="comment-{{this._id}}">
                             
                                     <comment-renderer id="comment" class="comment">
@@ -244,13 +233,24 @@
                                                 {{!-- comment --}}
                                                 <comment id="content" class="content">
                                                     <div id="text" class="content__text">{{this.text}}</div>
+                                                    <form method="POST" onsubmit="return editCommentForm(this);" enctype="application/x-www-form-urlencoded">
+                                                        <input name="comment_id" value="{{this._id}}" type="hidden">
+                                                        <textarea name="text" style="display:none"></textarea>
+                                                        <div id="buttonbox" class="mt-5 buttonbox buttonbox--hide">
+                                                            <button onfocus="return normalState(this);" class="resetbtn btn default buttonbox__clearbtn">CLEAR</button>
+                                                            <button type="submit" class="ml-4 btn btn-primary default d-block ">
+                                                                Edit</button>
+                                                        </div>
+                                                    </form>
                                                 </comment>
-                            
+                                
                                                 {{!-- toolbar --}}
                                                 <toolbar id="toolbar" class="toolbar">
                                                     <div id="like"><i class="fas fa-thumbs-up"></i></div>
                                                     <div id="dislike"><i class="fas fa-thumbs-down"></i></div>
+                                                    {{#if user}}
                                                     <div onclick="return showReplyBox(this);" id="reply">Reply</div>
+                                                    {{/if}}
                                                 </toolbar>
                             
                                                 {{!-- replydialog --}}
@@ -289,7 +289,7 @@
                                                 </replydialog>
                             
                                                 {{!-- replies expander --}}
-                                                {{setVar "replyLength" (getValues ../repliesArr @index)}}
+                                                {{setVar "replyLength" (getValues ../this.replyLength @index)}}
                                                 {{#ifCond @root.replyLength '>=' 1}}
                                                 <expander id="replies" class="replies">
                                                     <comment-replies-renderer>
@@ -314,9 +314,11 @@
                                                         aria-expanded="false">
                                                         <i class="menu__icon fas fa-ellipsis-v"></i>
                                                         <div class="menu__dropdown dropdown-menu">
-                                                            <a class="dropdown-item" href="#">Edit</a>
+                                                            <a onclick="return editableContent(this);" class="dropdown-item" href="#">
+                                                                Edit</a>
                                                             <a class="dropdown-item" href="#">Report</a>
                                                             <div class="dropdown-divider"></div>
+                                                            
                                                             <form method="POST" onclick="return destroyComment(this);"
                                                                 enctype="application/x-www-form-urlencoded">
                                                                 <input class="form-control" name="comment_id" value="{{this._id}}"
@@ -333,6 +335,7 @@
                                         </div> {{!-- End body --}}
                             
                                     </comment-renderer>
+                                    
                                     {{#each this.reply}}
                                     <replies-renderer id="reply-{{this._id}}" class="expander__content expander__content--hide">
                                         <comment-renderer id="comment" class="comment">
@@ -354,6 +357,16 @@
                                                     {{!-- comment --}}
                                                     <comment id="content" class="content">
                                                         <div id="text" class="content__text">{{this.text}}</div>
+                                                        <form method="POST" onsubmit="return editReplyForm(this);" enctype="application/x-www-form-urlencoded">
+                                                            <input name="comment_id" value="{{../this._id}}" type="hidden">
+                                                            <input name="reply_id" value="{{this._id}}" type="hidden">
+                                                            <textarea name="text" style="display:none"></textarea>
+                                                            <div id="buttonbox" class="mt-5 buttonbox buttonbox--hide">
+                                                                <button onfocus="return normalState(this);" class="resetbtn btn default buttonbox__clearbtn">CLEAR</button>
+                                                                <button type="submit" class="ml-4 btn btn-primary default d-block ">
+                                                                    Edit</button>
+                                                            </div>
+                                                        </form>
                                                     </comment>
                             
                                                     {{!-- toolbar --}}
@@ -405,7 +418,7 @@
                                                             aria-expanded="false">
                                                             <i class="menu__icon fas fa-ellipsis-v"></i>
                                                             <div class="menu__dropdown dropdown-menu">
-                                                                <a class="dropdown-item" href="#">Edit</a>
+                                                                <a onclick="return editableContent(this);" class="dropdown-item" href="#">Edit</a>
                                                                 <a class="dropdown-item" href="#">Report</a>
                                                                 <div class="dropdown-divider"></div>
                                                                 <form method="POST" onclick="return destroyReply(this);"
@@ -427,15 +440,16 @@
                             
                                 </comment-thread-renderer>
                                 {{/each}}
+                                {{/each}}
                             </comments-container>
 
-                            {{!-- #if comments >= 11 --}}
+                            {{#ifCond comments.[0].maxComment '>=' 10}}
                             <tools-footer id="tfooter" class="tfooter">
-                                <a href="#" class="tfooter__btn btn btn-primary default mb-1">
+                                <a data-page="2" onclick="return fetchMoreComments(this);" class="tfooter__btn btn btn-primary default mb-1">
                                     More comments
                                 </a>
                             </tools-footer>
-                            {{!-- /if  --}}
+                            {{/ifCond}}
                         </div>
                     </div>
                     
@@ -451,10 +465,10 @@
 <input name="userName" value="{{user.name}}" type="hidden"></input>
 {{!-- comic info --}}
 <input name="isComicComment" value="true" value=true type="hidden"></input>
+<input name="isComicReply" value="true" value=true type="hidden"></input>
 <input name="title" value="{{comic.title}}" type="hidden"></input>
 <input name="comicSlug" value="{{comic.slug}}" type="hidden"></input>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="/js/comic.details.js"></script>

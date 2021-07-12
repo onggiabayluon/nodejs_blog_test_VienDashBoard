@@ -45,6 +45,24 @@ window.expander = function (e) {
     }
 }
 
+window.editableContent = function (e) {
+    $thisContentBox = $(e).parents('action-menu-renderer').siblings('.content')
+    $thisContentBox.siblings('.header').hide()
+    $thisContentBox.siblings('.toolbar').hide()
+    $thisContentBox.find('.content__text').val("1").trigger('change');
+    $thisContentBox.children('.content__text').attr('contenteditable','true');
+    $thisContentBox.find('.buttonbox').toggleClass('buttonbox--flex')
+};
+window.normalState = function (e) {
+    
+    $thisContentBox = $(e).parents('comment')
+    $thisContentBox.siblings('.header').show()
+    $thisContentBox.siblings('.toolbar').show()
+    $thisContentBox.children('.content__text').trigger("reset");
+    $thisContentBox.children('.content__text').attr('contenteditable','false');
+    $thisContentBox.find('.buttonbox').toggleClass('buttonbox--flex')
+};
+
 /*************** Function ***************/
 
 
@@ -53,6 +71,7 @@ window.expander = function (e) {
 var $user_id = $("input[type=hidden][name=user_id]").val()
 var $username = $("input[type=hidden][name=username]").val()
 var $isComicComment = $("input[type=hidden][name=isComicComment]").val()
+var $isComicReply = $("input[type=hidden][name=isComicReply]").val()
 var $title = $("input[type=hidden][name=title]").val()
 var $comicSlug = $("input[type=hidden][name=comicSlug]").val()
 var formData
@@ -86,7 +105,7 @@ window.destroyComment = function (form) {
         comment_id: form.comment_id.value,
         comicSlug: $comicSlug,
     }
-    if (confirm("Bạn chắc chắn muốn xóa comment này ?")) {
+    if (confirm("Delete this Comment ? ?")) {
         $.ajax({
             type: "POST",
             url: `/comic/comment/destroyComment?_method=DELETE`,
@@ -131,7 +150,7 @@ window.destroyReply = function (form) {
         comment_id: form.comment_id.value,
         comicSlug: $comicSlug,
     }
-    if (confirm("Bạn chắc chắn muốn xóa Reply này ?")) {
+    if (confirm("Delete this Reply ?")) {
         $.ajax({
             type: "POST",
             url: `/comic/comment/destroyReply?_method=DELETE`,
@@ -144,6 +163,64 @@ window.destroyReply = function (form) {
     }
     return false;
 }; 
+
+// Start edit Comment 
+window.editCommentForm = function (form) {
+    $thisVal = $(form).parent().find('.content__text').html()
+    form.text.value = $thisVal
+    
+    formData = {
+        comment_id: form.comment_id.value,
+        text: form.text.value,
+        title: $title,
+        userId: $user_id,
+        userName: $username,
+        comicSlug: $comicSlug,
+        updatedAt: new Date().toISOString(),
+        isComicComment: $isComicComment,
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: '/comic/comment/edit?_method=PUT',
+        data: JSON.stringify(formData),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            normalState(form)
+            socket.emit('edited_comment', response)
+        }
+    })
+    return false;
+};
+// Start edit reply
+window.editReplyForm = function (form) {
+    $thisVal = $(form).parent().find('.content__text').html()
+    form.text.value = $thisVal
+    
+    formData = {
+        comment_id: form.comment_id.value,
+        reply_id: form.reply_id.value,
+        text: form.text.value,
+        title: $title,
+        userId: $user_id,
+        userName: $username,
+        comicSlug: $comicSlug,
+        updatedAt: new Date().toISOString(),
+        isComicReply: $isComicReply,
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: '/comic/comment/edit?_method=PUT',
+        data: JSON.stringify(formData),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            normalState(form)
+            socket.emit('edited_reply', response)
+        }
+    })
+    return false;
+};
 /***************  Form ***************/
 
 
@@ -169,4 +246,38 @@ socket.on('delete_comment', formData => {
 socket.on('delete_reply', formData => {
     $(`#reply-${formData.reply_id}`).css('display','block').slideUp("slow", function() { $(this).remove();});
 })
+
+socket.on('edited_comment', formData => {
+    $(`#comment-${formData.comment_id}`).find('.content__text').hide().show("slow");
+})
+socket.on('edited_reply', formData => {
+    $(`#reply-${formData.reply_id}`).find('.content__text').hide().show("slow");
+})
 /*************** Socket IO ***************/
+
+
+/*************** fetch ***************/
+var _sort = window.location.search;
+window.fetchMoreComments = function (form) {
+    formData = {
+        page: $(form).data('page'),
+        comicSlug: $comicSlug,
+    }
+    $.ajax({
+        type: "POST",
+        url: `/comic/comment/fetch${_sort}`,
+        data: JSON.stringify(formData),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response) {
+                $(form).data().page++
+                $('#commentcontainer').append(response)
+            } else {
+                $('.tfooter__btn').fadeOut("slow", () => { $(this).remove();});
+            }
+        }
+    })
+    return false;
+}
+
+/*************** fetch ***************/

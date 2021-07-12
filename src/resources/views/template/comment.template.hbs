@@ -20,6 +20,15 @@
 
                 <comment id="content" class="content">
                     <div id="text" class="content__text">{{comments.text}}</div>
+                    <form method="POST" onsubmit="return editCommentForm(this);" enctype="application/x-www-form-urlencoded">
+                        <input name="comment_id" value="{{comments._id}}" type="hidden">
+                        <textarea name="text" style="display:none"></textarea>
+                        <div id="buttonbox" class="mt-5 buttonbox buttonbox--hide">
+                            <button onfocus="return normalState(this);" class="resetbtn btn default buttonbox__clearbtn">CLEAR</button>
+                            <button type="submit" class="ml-4 btn btn-primary default d-block ">
+                                Edit</button>
+                        </div>
+                    </form>
                 </comment>
 
 
@@ -87,8 +96,8 @@
                         aria-expanded="false">
                         <i class="menu__icon fas fa-ellipsis-v"></i>
                         <div class="menu__dropdown dropdown-menu">
-                            <a class="dropdown-item" href="#">Edit</a>
                             <a class="dropdown-item" href="#">Report</a>
+                            <a onclick="return editableContent(this);" class="dropdown-item" href="#">Edit</a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" onclick="return destroyComment(this);"
                                 enctype="application/x-www-form-urlencoded">

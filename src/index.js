@@ -52,6 +52,15 @@ io.on('connection', client => {
     client.on('delete_reply', reply_id => {
         io.emit('delete_reply', reply_id)
     })
+
+    client.on('edited_comment', comment_id => {
+        io.emit('edited_comment', comment_id)
+    })
+
+    client.on('edited_reply', reply_id => {
+        io.emit('edited_reply', reply_id)
+    })
+    
 });
 // Flash setup
 app.use(session({
@@ -135,7 +144,7 @@ app.engine(
                 options.data.root[varName] = varValue;
             },
             getValues: (arr, index) => {
-               return Object.values(arr[index])[0]
+               return arr[index]
             },
             CalcTimeEnglish: (time) => CalcTimeEnglish(time),
             minus: (a,b) => a - b,
@@ -144,13 +153,17 @@ app.engine(
                 if (!Array.isArray(arr)) { return []; }
                 return arr.slice(0, limit);
             },
+            replaceHyphenIntoHashmark: (str) => {
+                str = str.toString().replace(/chapter-/g, '#');
+                return str && str[0].toUpperCase() + str.slice(1);
+            },
             replaceHyphenIntoSpace: (str) => {
                 str = str.toString().replace(/-/g, ' ');
                 return str && str[0].toUpperCase() + str.slice(1);// replace '-' -> space 
             },
             chapterText: (str) => {
                 str = str.toString().replace(/-/g, ' ').replace("apter", '. ');
-                return str && str[0].toUpperCase() + str.slice(1);// replace '-' -> space 
+                return str && str[0].toUpperCase() + str.slice(1);
             },
             encodeMyString: (text) => { 
                 return new Handlebars.SafeString(text);

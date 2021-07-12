@@ -5,7 +5,9 @@ $(window).on('load', function () {
     $('#loader').fadeOut("slow");
 }); /* 😃 0.1 Loader */
 
-
+$('#hidden-btn').on('click', () => {
+    $('#categories-content').slideToggle('slow')
+})
 
 /* 0.2 Hambuger Bar */
 $('#navbarSupportedContent').on('show.bs.collapse', function () {
@@ -94,6 +96,22 @@ $(window).resize(() => {
 
 /* 😘 End Scroll */
 
+// Slider
+
+// new Splide( '.splide', {
+// 	type   : 'loop',
+//     // startAt: 0,
+//     perPage: 5,
+// 	rewind : true,
+//     height : '210px',
+//     lazyLoad: 'nearby',
+// 	// padding: {
+// 	// 	right: '3rem',
+// 	// 	left : '3rem',
+// 	// },
+// } ).mount();
+
+
 /* 0.4. Glide */
 if (typeof Glide !== "undefined") {
 
@@ -169,118 +187,58 @@ if (typeof Glide !== "undefined") {
     }
 
     // Dashboard Numbers
-    if ($(".glide.dashboard-numbers").length > 0) {
-        new Glide(".glide.dashboard-numbers", {
-            bound: true,
-            rewind: false,
-            perView: 4,
-            perTouch: 1,
-            focusAt: 0,
-            startAt: 0,
-            direction: 'ltr',
-            gap: 7,
-            breakpoints: {
-                1800: {
-                    perView: 3
-                },
-                576: {
-                    perView: 2
-                },
-                320: {
-                    perView: 1
-                }
-            }
-        }).mount();
-    }
-
-    // Dashboard Best Rated
-    // if ($(".best-rated-items").length > 0) {
-    //     new Glide(".best-rated-items", {
-    //         gap: 10,
-    //         perView: 1,
+    // if ($(".glide.dashboard-numbers").length > 0) {
+    //     new Glide(".glide.dashboard-numbers", {
+    //         bound: true,
+    //         rewind: false,
+    //         perView: 2,
+    //         perTouch: 1,
+    //         focusAt: 0,
+    //         startAt: 0,
     //         direction: 'ltr',
-    //         type: "carousel",
-    //         peek: { before: 0, after: 100 },
+    //         gap: 7,
     //         breakpoints: {
-    //             480: { perView: 1 },
-    //             992: { perView: 2 },
-    //             1200: { perView: 1 }
-    //         },
+    //             1800: {
+    //                 perView: 3
+    //             },
+    //             576: {
+    //                 perView: 2
+    //             },
+    //             320: {
+    //                 perView: 1
+    //             }
+    //         }
     //     }).mount();
     // }
 
-
-    if ($(".glide.basic").length > 0) {
-        new Glide(".glide.basic", {
+    if ($("#glide_1").length > 0) {
+        new Glide("#glide_1", {
+            // type: 'carousel',
+            gap: 15,
+            rewind: false,
+            bound: true,
+            perView: 1,
+            direction: 'ltr',
+            // breakpoints: {
+            //     600: { perView: 2},
+            //     900: { perView: 3 },
+            //     1200: { perView: 2 },
+            // },
+        }).mount();
+    }
+    if ($("#glide_2").length > 0) {
+        new Glide("#glide_2", {
             gap: 0,
             rewind: false,
             bound: true,
-            perView: 3,
+            perView: 5,
             direction: 'ltr',
             breakpoints: {
-                600: { perView: 1 },
-                1000: { perView: 2 },
-                1200: { perView: 3 },
+                600: { perView: 2},
+                900: { perView: 3 },
+                1200: { perView: 4 },
             },
         }).mount();
-    }
-
-    // if ($(".glide.center").length > 0) {
-    //     new Glide(".glide.center", {
-    //         gap: 0,
-    //         type: "carousel",
-    //         perView: 4,
-    //         direction: 'ltr',
-    //         peek: { before: 50, after: 50 },
-    //         breakpoints: {
-    //             600: { perView: 1 },
-    //             1000: { perView: 2 }
-    //         },
-    //     }).mount();
-    // }
-
-    // if ($(".glide.single").length > 0) {
-    //     new Glide(".glide.single", {
-    //         gap: 0,
-    //         type: "carousel",
-    //         perView: 1,
-    //         direction: 'ltr',
-    //     }).mount();
-    // }
-
-
-
-    if ($(".glide.gallery").length > 0) {
-        var enableClick = true;
-        var glideGallery = new Glide(".glide.gallery", {
-            gap: 10,
-            perTouch: 1,
-            perView: 1,
-            type: "carousel",
-            peek: { before: 100, after: 100 },
-            direction: direction
-        })
-
-        glideGallery.on(["swipe.move"], function () {
-            enableClick = false;
-        });
-
-        glideGallery.on(["run.after"], function () {
-            enableClick = true;
-        });
-
-        glideGallery.mount();
-
-        $(".glide.gallery").get(0).addEventListener('click', function (event) {
-            if (!enableClick) {
-                event.stopPropagation();
-                event.preventDefault();
-                return false;
-            } else {
-                return true;
-            }
-        }, true);
-
     }
 }  /* 😆 End Glide */
 

@@ -1,8 +1,26 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+// @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+// @import url('https://fonts.googleapis.com/css2?family=Hind:wght@400;500&display=swap');
+
 @font-face {
-  font-family: 'POPPINSVN';
-  src: url('/font/PoppinsVN/PoppinsVN-500.woff2') format('woff2');
+  font-family: hind;
+  font-style: normal;
+  font-weight: 400;
+  src: url('/font/hind/Hind-Regular.ttf');
+  src: local("Hind Regular"),local("Hind-Regular"),url('/font/hind/Hind-Regular.ttf') format("woff")
 }
+
+@font-face {
+  font-family: hind_m;
+  font-style: normal;
+  font-weight: 500;
+  src: url('/font/hind/Hind-Medium.ttf') format("woff");
+  src: local("Hind Regular"),local("Hind-Regular"),url('/font/hind/Hind-Medium.ttf') format("woff")
+}
+
+// @font-face {
+//   font-family: 'POPPINSVN';
+//   src: url('/font/PoppinsVN/PoppinsVN-500.woff2') format('woff2');
+// }
 
 @import "./mixins";
 @import "./themes/dark.red.scss";
@@ -96,11 +114,15 @@ a:hover {
   color: var(--button-text-color);
 }
 
+a {
+  font-family: hind_m, sans-serif;
+}
 
 body {
-  font-family: "POPPINSVN", sans-serif;
+  font-family: 'Hind', sans-serif;
   color: var(--primary-color);
   background: var(--background-color);
+  overflow-x: hidden;
 }
 
 .m-all-0 {
@@ -208,9 +230,6 @@ h4 {
 h5 {
   font-size: 1rem;
 
-  @include respond-below(sm) {
-    font-size: 0.9rem;
-  }
 }
 
 h6 {
@@ -262,7 +281,7 @@ p {
 }
 
 .text-small {
-  font-size: 0.76rem !important;
+  font-size: 0.86rem !important;
   line-height: 0.9rem !important;
 }
 
@@ -350,7 +369,19 @@ p {
 @import "./vendorsass/badge.scss";
 @import "./vendorsass/cards.scss";
 
+//utility css
+@import "./utility/utility.scss";
+@import "./utility/comic-info.scss";
+
 // my css
+@import "./home.page/categories-nav.scss";
+@import "./home.page/bookmark-places.scss";
+@import "./home.page/categories-content.scss";
+@import "./home.page/newest-places.scss";
+@import "./home.page/welcome-places.scss";
+
+@import "./home.page/comics-gridbox.scss";
+@import "./home.page/top-displayer.scss";
 @import "./home.page/first-slider.scss";
 @import "./home.page/sub-navbar.scss";
 @import "./home.page/rightcol-widget.scss";
@@ -361,3 +392,5 @@ p {
 
 @import "./comic.details.page/info.scss";
 @import "./comic.details.page/comments.scss";
+
+@import "./chapter.details.page/breadcumb.scss";

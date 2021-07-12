@@ -149,9 +149,8 @@ const CreateComic_Helper = (exports.CreateComic_Helper
 const comicEditPage_Helper = (exports.comicEditPage_Helper
   = (req, res, next, msg) => {
     Promise.all([
-      Comic
-      .findOne({ slug: req.params.slug }).lean()
-      , Category.find({}).lean().select("name _id")
+      Comic.findOne({ slug: req.params.slug }).lean(),
+      Category.find({}).lean().select("name _id")
     ])
       .then(([comic, categories]) => {
         if (comic == null) {

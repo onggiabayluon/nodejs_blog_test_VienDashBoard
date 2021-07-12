@@ -1,6 +1,554 @@
-<div class="mt-4 container">
+<top-displayer id="top-displayer" class="d-block">
+    <background-banner style="background: url('/img/solo_wallpaper.png') no-repeat 50% 0">
+    </background-banner>
+    <grid-container>
+        <banner-main class="main-pic" style="background-image: url('/img/solo_wallpaper.png')">
+            <a href="">
+                <span class="pic" style="background: url('/img/1360593.png') no-repeat 50% 0;"></span>
+            </a>
+        </banner-main>
+        <banner-topright class="topright-pic" style="background-image: url('/img/upload.jpg')">
+    
+        </banner-topright>
+        <banner-botright class="topbot-pic" style="background-image: url('/img/readall.jpg')">
+    
+        </banner-botright>
+    </grid-container>
+</top-displayer>
+
+<categories-nav id="categories-nav" class="container">
+    <ul class="categoires-container">
+        <li id="hidden-btn" class="category" style="color: var(--button-text-unimportant);">
+            <i class="far fa-2x fa-chevron-circle-down"></i>
+        </li>
+        <li class="category active"><a href="">Action</a></li>
+        <li class="category"><a href="">Adventure</a></li>
+        <li class="category"><a href="">Romance</a></li>
+        <li class="category"><a href="">Fantasy</a></li>
+        <li class="category"><a href="">Slice of Life</a></li>
+        <li class="more"><a href="">MORE</a></li>
+    </ul>
+</categories-nav>
+
+<categories-content id="categories-content" class="foreground-color border-bottom-2" style="display: none;">
+    {{!-- <heading class="container" style="padding: 0 1.3rem;">
+        <title class="title">
+            My Series
+        </title>
+        <icon-right>
+            <i class="fas fa-chevron-right"></i>
+        </icon-right>
+    </heading> --}}
+    <grid-wrapper class="grid-wrapper">
+        <top-grid class="top-grid">
+            <item class="left">
+                {{!-- <background-overlay></background-overlay> --}}
+                <img width="336" height="336" src="/img/The Vault.jpg" alt="">
+                <comic-info>
+                    <title class="title title--ellipsis-2 title--bot-2">
+                        Action
+                    </title>
+                </comic-info>
+            </item>
+            <item class="mid">
+                {{!-- <background-overlay></background-overlay> --}}
+                <img width="336" height="160" src="/img/TOG.jpg" alt="">
+                <comic-info>
+                    <title class="title title--ellipsis-2 title--bot-2">
+                        An A-Ranked Adventurer’s “Slow-living
+                    </title>
+                </comic-info>
+            </item>
+            <item class="right">
+                {{!-- <background-overlay></background-overlay> --}}
+                <img width="336" height="336" src="/img/[Artwork] Rực rỡ cánh đồng trong đêm.jpg
+                " alt="">
+                <comic-info>
+                    <title class="title title--ellipsis-2 title--bot-2">
+                        Adventure
+                    </title>
+                </comic-info>
+            </item>
+        </top-grid>
+        <bottom-grid class="bottom-grid">
+            <grid-comic-item class="grid__item">
+                <background-overlay-2></background-overlay-2>
+                <img width="336" height="336" src="/img/0001.jpg" alt="">
+                <comic-info class="mid">
+                    <title class="title title--ellipsis-2 title--mid">
+                        Fantasy
+                    </title>
+                </comic-info>
+            </grid-comic-item>
+            <grid-comic-item class="grid__item">
+                <background-overlay-2></background-overlay-2>
+                <img width="336" height="336" src="/img/Sherwood's Legacy Rebecca of York by HELMUTTT on DeviantArt.jpg" alt="">
+                <comic-info class="mid">
+                    <title class="title title--ellipsis-2 title--mid">
+                        Mystery
+                    </title>
+                </comic-info>
+            </grid-comic-item>
+            <grid-comic-item class="grid__item">
+                <background-overlay-2></background-overlay-2>
+                <img width="336" height="336" src="/img/Hyouka Wallpapers.jpg" alt="">
+                <comic-info class="mid">
+                    <title class="title title--ellipsis-2 title--mid">
+                        Slice of Life
+                    </title>
+                </comic-info>
+            </grid-comic-item>
+            <grid-comic-item class="grid__item">
+                <background-overlay-2></background-overlay-2>
+                <img width="336" height="336" src="/img/comedy.jpg" alt="">
+                <comic-info class="mid">
+                    <title class="title title--ellipsis-2 title--mid">
+                        Comedy
+                    </title>
+                </comic-info>
+            </grid-comic-item>
+            <grid-comic-item class="grid__item">
+                <background-overlay-2></background-overlay-2>
+                <img width="336" height="336" src="/img/manhwa.jpg" alt="">
+                <comic-info class="mid">
+                    <title class="title title--ellipsis-2 title--mid">
+                        Manhwa
+                    </title>
+                </comic-info>
+            </grid-comic-item>
+            <grid-comic-item class="grid__item">
+                <background-overlay-2></background-overlay-2>
+                <img width="336" height="336" src="/img/female.jpg" alt="">
+                <comic-info class="mid">
+                    <title class="title title--ellipsis-2 title--mid">
+                        Female
+                    </title>
+                </comic-info>
+            </grid-comic-item>
+
+        </bottom-grid>
+    </grid-wrapper>
+    
+</categories-content>
+
+<welcome-places id="bookmark-places" class="foreground-color border-bottom-2">
+    <heading class="container">
+        <title class="title">
+            New To DORE
+        </title>
+        <icon-right>
+            <i class="fas fa-chevron-right"></i>
+        </icon-right>
+    </heading>
+
+    <slider-container id="slider-container" class="d-block container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-md-12 pl-0 pr-0">
+                        <div id="glide_1" class="glide basic">
+                            <div class="glide__track" data-glide-el="track">
+                                <div class="glide__slides glide__slides--custom">
+
+                                    <div class="glide__slide glide__slide--2">
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_1.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                    Villians are destiny to die
+                                                </title>
+                                                <grade class="color-black">
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">35. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_2.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                    Solo Leveling
+                                                </title>
+                                                <grade class="color-black">
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">352. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_3.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                   Noblesse
+                                                </title>
+                                                <grade class="color-black">
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">352. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_wide_blank_1_v4.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-white">
+                                                   The Beginning After The End
+                                                </title>
+                                                <description>
+                                                    King Grey has unrivaled strength, wealth, and prestige in a world governed by martial ability. However, solitude lingers
+                                                    closely behind those with great power. Beneath ...
+                                                    glamorous exterior of a powerful king lurks the shell of man, devoid of purpose and will.
+                                                    
+                                                    Reincarnated into a new world filled with magic and monsters, the king has a second chance to relive his life.
+                                                    Correcting the mistakes of his past will not be his only challenge, however. Underneath the peace and prosperity of the
+                                                    new world is an undercurrent threatening to destroy everything he has worked for, questioning his role and reason for
+                                                    being born again..
+                                                </description>
+                                                <grade>
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">352. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        
+                                    </div>
+
+                                    <div class="glide__slide glide__slide--2">
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_1.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                    Villians are destiny to die
+                                                </title>
+                                                <grade class="color-black">
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">35. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_2.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                    Solo Leveling
+                                                </title>
+                                                <grade class="color-black">
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">352. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_3.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                   Noblesse
+                                                </title>
+                                                <grade class="color-black">
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">352. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        <item>
+                                            <glide-img>
+                                                <img width="198" height="160" src="/img/item_wide_blank_2_v4.jpg" alt="">
+                                            </glide-img>
+                                            <comic-info class="comic-info comic-info--top">
+                                                <title class="title title--ellipsis title--bot color-black">
+                                                   When The Vllainess Love
+                                                </title>
+                                                <description class="color-black">
+                                                    I’ve transmigrated into the body of a princess, living on borrowed time.
+                                                    
+                                                    It’s okay, though, we can cure this illness!
+                                                    My goal is to lead a life where I can do whatever I want!
+                                                    
+                                                    First, I decided to rave over all of my favorite characters in the novel!
+                                                    But, because I am a villainess, people around me tend to be wary…
+                                                    
+                                                    “You will die soon, and yet… how can you laugh like that?”
+                                                    
+                                                    Well, it’s ‘cus I’m super hot.
+                                                </description>
+                                                <grade>
+                                                    <a href="#" class="fa fa fa-heart color-theme-2"><span class="num">352. 657</span></a>
+                                                </grade>
+                                                <category class="d-none">
+                                                    Action
+                                                </category>
+                                            </comic-info>
+                                        </item>
+                                        
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                            {{!-- <div class="glide__arrows sliderBox" data-glide-el="controls">
+                                <span class="slick-prev" aria-label="Previous"
+                                    data-glide-dir="<">
+                                    <i class="fas fa-2x fa-chevron-left"></i>
+                                </span>
+                                <span class="slick-next" aria-label="Next" data-glide-dir=">">
+                                    <i class="fas fa-2x fa-chevron-right"></i>
+                                </span>
+                            </div> --}}
+                            <div class="glide__arrows glide__arrows--custom slider-nav" data-glide-el="controls">
+                                <div class="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
+                                    <button class="glide__bullet glide__bullet--custom slider-dot" data-glide-dir="=0"></button>
+                                    <button class="glide__bullet glide__bullet--custom slider-dot" data-glide-dir="=1"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </slider-container>
+</welcome-places>
+
+<bookmark-places id="bookmark-places" class="foreground-color">
+    <heading class="container">
+        <title class="title">
+            My Series
+        </title>
+        <icon-right>
+            <i class="fas fa-chevron-right"></i>
+        </icon-right>
+    </heading>
+
+    <slider-container id="slider-container" class="d-block container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-md-12 pl-0 pr-0">
+                        <div id="glide_2" class="glide basic">
+                            <div class="glide__track" data-glide-el="track">
+                                <div class="glide__slides">
+
+                                    <div class="glide__slide">
+                                        <glide-img>
+                                            <img width="198" height="160" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/an-a-ranked-adventurers-slow-living-5oVZ93zLH/thumbnail/1622887888331-A-rank-boukensha-351x500-thumbnail.webp" alt="">
+                                        </glide-img>
+                                        <bottom-info>
+                                            <info-title>
+                                                DICE
+                                            </info-title>
+                                            <info-chapter>
+                                                Chap. 01
+                                            </info-chapter>
+                                            <info-sub>
+                                                <i class="far fa-xs fa-check"></i> Subscribed
+                                            </info-sub>
+                                        </bottom-info>
+                                    </div>
+
+                                    <div class="glide__slide">
+                                        <glide-img>
+                                            <img width="198" height="160" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp" alt="">
+                                        </glide-img>
+                                        <bottom-info>
+                                            <info-title>
+                                                DICE
+                                            </info-title>
+                                            <info-chapter>
+                                                Chap. 01
+                                            </info-chapter>
+                                            <info-sub>
+                                                <i class="far fa-xs fa-check"></i> Subscribed
+                                            </info-sub>
+                                        </bottom-info>
+                                    </div>
+
+                                    <div class="glide__slide">
+                                        <glide-img>
+                                            <img width="198" height="160" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp" alt="">
+                                        </glide-img>
+                                        <bottom-info>
+                                            <info-title>
+                                                DICE
+                                            </info-title>
+                                            <info-chapter>
+                                                Chap. 01
+                                            </info-chapter>
+                                            <info-sub>
+                                                <i class="far fa-xs fa-check"></i> Subscribed
+                                            </info-sub>
+                                        </bottom-info>
+                                    </div>
+                                    
+                                    <div class="glide__slide">
+                                        <glide-img>
+                                            <img width="198" height="160" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/tensei-shite-inaka-de-slowlife-wo-okuritai/thumbnail/1622888365802-34352-350x500-thumbnail.webp" alt="">
+                                        </glide-img>
+                                        <bottom-info>
+                                            <info-title>
+                                                DICE
+                                            </info-title>
+                                            <info-chapter>
+                                                Chap. 01
+                                            </info-chapter>
+                                            <info-sub>
+                                                <i class="far fa-xs fa-check"></i> Subscribed
+                                            </info-sub>
+                                        </bottom-info>
+                                    </div>
+                                    
+                                    <div class="glide__slide">
+                                        <glide-img>
+                                            <img width="198" height="160" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp" alt="">
+                                        </glide-img>
+                                        <bottom-info>
+                                            <info-title>
+                                                DICE
+                                            </info-title>
+                                            <info-chapter>
+                                                Chap. 01
+                                            </info-chapter>
+                                            <info-sub>
+                                                <i class="far fa-xs fa-check"></i> Subscribed
+                                            </info-sub>
+                                        </bottom-info>
+                                    </div>
+
+                                    
+
+                                  
+
+                                </div>
+                            </div>
+                            {{!-- <div class="glide__arrows sliderBox" data-glide-el="controls">
+                                <span class="slick-prev" aria-label="Previous"
+                                    data-glide-dir="<">
+                                    <i class="fas fa-2x fa-chevron-left"></i>
+                                </span>
+                                <span class="slick-next" aria-label="Next" data-glide-dir=">">
+                                    <i class="fas fa-2x fa-chevron-right"></i>
+                                </span>
+                            </div> --}}
+                            <div class="glide__arrows slider-nav" data-glide-el="controls">
+                                <div class="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
+                                    <button class="glide__bullet slider-dot" data-glide-dir="=0"></button>
+                                    <button class="glide__bullet slider-dot" data-glide-dir="=1"></button>
+                                    <button class="glide__bullet slider-dot" data-glide-dir="=2"></button>
+                                    <button class="glide__bullet slider-dot" data-glide-dir="=3"></button>
+                                    <button class="glide__bullet slider-dot" data-glide-dir="=4"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </slider-container>
+</bookmark-places>
+
+<newest-places id="newest-places" >
+    <wrapper-big class="container">
+
+        <heading class="container" style="padding: 0;margin: 0 0px 1.5rem 0;max-width:100%">
+            <title class="title">
+                Lastest Update
+            </title>
+            <icon-right>
+                <i class="fas fa-chevron-right"></i>
+            </icon-right>
+        </heading>
+        
+        <grid-container>
+            {{#each comics}}
+            <item class="item item--border">
+                <img width="92" height="120"
+                src="{{#if this.thumbnail.url}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.thumbnail.url}}-thumbnail.webp
+                {{else}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/user-comic-2/thumbnail/1622345516518-7-thumbnail.webp
+                {{/if}}"alt="">
+                <info>
+                    <a href="./comic/{{this.slug}}"><title class="title title--ellipsis">{{this.title}}</title></a> 
+                    <chapter-box>
+                        {{#each chapters}}
+                        <a href="/comic/{{../ this.slug}}/{{this.chapter}}">
+                            <chapter>{{replaceHyphenIntoSpace this.chapter}}<span class="left-auto">1 hours ago</span></chapter>
+                        </a>
+                        {{/each}}
+                    </chapter-box>
+                </info>
+            </item>
+            {{/each}}
+        </grid-container>
+
+    </wrapper-big>
+</newest-places>
+
+<comics-gridbox id="comics-gridbox" class="mb-4 border-top-bot-3">
+    <intro-container class="intro">
+        <main>
+            WEBTOON <span>CANVAS</span> 
+        </main>
+        <sub>
+            Have a story to tell?
+            </br>Share it on WEBTOON CANVAS.
+            </br>Find everything you need to get it published.
+        </sub>
+        <btn-intro>
+            Find out more
+        </btn-intro>
+    </intro-container>
+
+    <grid-container class="grid">
+        {{#each comics}}
+        <grid-comic-item class="grid__item">
+            <background-overlay></background-overlay>
+            <img width="160" height="160"
+                src="{{#if this.thumbnail.url}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.thumbnail.url}}-thumbnail.webp
+                {{else}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/user-comic-2/thumbnail/1622345516518-7-thumbnail.webp
+                {{/if}}"alt="">
+            <comic-info>
+                <title class="title title--ellipsis title--bot">
+                    {{this.title}}
+                </title>
+                <grade>
+                    amber
+                </grade>
+                <category class="d-none">
+                    Action
+                </category>
+            </comic-info>
+        </grid-comic-item>
+        {{/each}}
+        
+    </grid-container>
+</comics-gridbox>
+
+{{!-- <firstslider class="d-block mt-4 container">
     <div class="row">
-        {{!-- first slider --}}
         <div id="first-slider" class="slider__wrapper">
             <div class="slider__container">
                 <div class="slider__cover">
@@ -58,495 +606,417 @@
                     </a>
                 </div>
             </div>
-        </div> {{!-- 🛑 end first slider --}}
+        </div> 
+    </div>
+</firstslider> --}}
 
-        <div class="p-xs-custom  col-12 pb-4">
-            {{!-- second glider --}}
-            <div class="row">
-                <div class="col-12">
-                    <div class="title__wrapper">
-                        <div class="titleBox">
-                            <i class="title__icon far fa-bolt fa-2x mr-3"></i>
-                            <h3 class="title mb-4">POPULAR TODAY</h3>
-                        </div>
-                        
-                    </div>
-                    
-                        <div class="row mb-4">
-                                <div class="col-md-12 mb-4 pl-0 pr-0">
-                                    <div class="glide basic">
-                                        <div class="glide__track pb-3" data-glide-el="track">
-                                            <div class="glide__slides">
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-c-45 position-relative">
-                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
-                                                                alt="Card image cap">
-                                                            <span   
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
-                                                        </div>
-                                                        <div class="w-c-55">
-                                                            <div class="card-body--custom">
-                                                                <a href="#">
-                                                                    <h6 class="mb-3 d-webkit-box">Comic Text Title</h6>
-                                                                </a>
-                                                                <p class="text-muted text-small mb-2 font-weight-light">
-                                                                    January 12, 2018
-                                                                </p>
-                                                                
-                                                                <footer>
-                                                                    <div class="card__chapter mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
-                                                                            href="" style="transition: none;">Chapter 2</a>
-                                                                    </div>
-                                                                    <div class="card__chapter mb-2 mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
-                                                                            href="" style="transition: none;">Chapter 1</a>
-                                                                    </div>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+{{!-- <secondslider class="d-block container">
+    <div id="second-slider" class="row">
+        <div class="col-12">
+            <div class="title__wrapper">
+                <div class="titleBox">
+                    <i class="title__icon far fa-bolt fa-2x mr-3"></i>
+                    <h3 class="title mb-4">POPULAR TODAY</h3>
+                </div>
 
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-c-45 position-relative">
-                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp"
-                                                                alt="Card image cap">
-                                                            <span   
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
-                                                        </div>
-                                                        <div class="w-c-55">
-                                                            <div class="card-body--custom">
-                                                                <h6 class="mb-3 d-webkit-box">Comic Text Title
-                                                                </h6>
-                                                                <p class="text-muted text-small mb-2 font-weight-light">
-                                                                    January 12, 2018
-                                                                </p>
-                                                                
-                                                                <footer>
-                                                                    <div class="card__chapter mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
-                                                                            href="">Chapter 2</a>
-                                                                    </div>
-                                                                    <div class="card__chapter mb-2 mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
-                                                                            href="">Chapter 1</a>
-                                                                    </div>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+            </div>
 
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-c-45 position-relative">
-                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/kill-the-hero/thumbnail/1622887926952-images-11-223x300-thumbnail.webp
-                                    "
-                                                                alt="Card image cap">
-                                                            <span   
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
-                                                        </div>
-                                                        <div class="w-c-55">
-                                                            <div class="card-body--custom">
-                                                                <h6 class="mb-3 d-webkit-box">Comic Text Title
-                                                                </h6>
-                                                                <p class="text-muted text-small mb-2 font-weight-light">
-                                                                    January 12, 2018
-                                                                </p>
-                                                                
-                                                                <footer>
-                                                                    <div class="card__chapter mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
-                                                                            href="">Chapter 2</a>
-                                                                    </div>
-                                                                    <div class="card__chapter mb-2 mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
-                                                                            href="">Chapter 1</a>
-                                                                    </div>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+            <div class="row mb-4">
+                <div class="col-md-12 mb-4 pl-0 pr-0">
+                    <div class="glide basic">
+                        <div class="glide__track pb-3" data-glide-el="track">
+                            <div class="glide__slides">
 
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-c-45 position-relative">
-                                                            <img width="135" height="180" class="card-img-left" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/tensei-shite-inaka-de-slowlife-wo-okuritai/thumbnail/1622888365802-34352-350x500-thumbnail.webp"
-                                                                alt="Card image cap">
-                                                            <span   
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
-                                                        </div>
-                                                        <div class="w-c-55">
-                                                            <div class="card-body--custom">
-                                                                <h6 class="mb-3 d-webkit-box">Comic Text Title
-                                                                </h6>
-                                                                <p class="text-muted text-small mb-2 font-weight-light">
-                                                                    January 12, 2018
-                                                                </p>
-                                                                
-                                                                <footer>
-                                                                    <div class="card__chapter mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text"
-                                                                            href="">Chapter 2</a>
-                                                                    </div>
-                                                                    <div class="card__chapter mb-2 mx-auto">
-                                                                        <a id="60b4577cea600f0f6ca7c4b9" class="bullet-text "
-                                                                            href="">Chapter 1</a>
-                                                                    </div>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-50 position-relative">
-                                                            <img class="card-img-left" src="img/card-thumb-1.jpg"
-                                                                alt="Card image cap">
-                                                            <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
-                                                        </div>
-                                                        <div class="w-50">
-                                                            <div class="card-body">
-                                                                <h6 class="mb-4">Homemade Cheesecake with Fresh Berries and Mint
-                                                                </h6>
-
-                                                                <footer>
-                                                                    <p class="text-muted text-small mb-0 font-weight-light">
-                                                                        09.04.2018
-                                                                    </p>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="glide__slide">
-                                                    <div class="rounded card flex-row">
-                                                        <div class="w-50 position-relative">
-                                                            <img class="card-img-left" src="img/card-thumb-3.jpg"
-                                                                alt="Card image cap">
-                                                            <span
-                                                                class="badge badge-pill badge-theme-1 position-absolute badge-top-left d-none">NEW</span>
-                                                        </div>
-                                                        <div class="w-50">
-                                                            <div class="card-body">
-                                                                <h6 class="mb-4">Cheesecake with Chocolate Cookies and Cream
-                                                                    Biscuits
-                                                                </h6>
-                                                                <footer>
-                                                                    <p class="text-muted text-small mb-0 font-weight-light">
-                                                                        09.04.2018
-                                                                    </p>
-                                                                </footer>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="glide__arrows sliderBox" data-glide-el="controls">
-                                                <button class="slick-prev slick-arrow" aria-label="Previous" type="button" data-glide-dir="<">
-                                                    <i class="fas fa-caret-left"></i>
-                                                </button>
-                                                <button class="slick-next slick-arrow" aria-label="Next" type="button" data-glide-dir=">">
-                                                    <i class="fas fa-caret-right"></i>
-                                                </button>
-                                        </div>
-                                        <div class="glide__arrows slider-nav" data-glide-el="controls">
-                                            <div class="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
-                                                <button class="glide__bullet slider-dot" data-glide-dir="=0"></button>
-                                                <button class="glide__bullet slider-dot" data-glide-dir="=1"></button>
-                                                <button class="glide__bullet slider-dot" data-glide-dir="=2"></button>
-                                                <button class="glide__bullet slider-dot" data-glide-dir="=3"></button>
-                                                <button class="glide__bullet slider-dot" data-glide-dir="=4"></button>
-                                            </div>
+                                <div class="glide__slide">
+                                    <div class="rounded card flex-row">
+                                        <div class="position-relative">
+                                            <background-overlay></background-overlay>
+                                            <img width="210" height="180" class="card-img-left"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
+                                                alt="Card image cap">
+                                            <main>
+                                                <maintitle> Survival Story of a Sword King in a Fantasy World
+                                                </maintitle>
+                                                <info>
+                                                    <a href="#">Chapter 1</a>
+                                                </info>
+                                            </main>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="glide__slide">
+                                    <div class="rounded card flex-row">
+                                        <div class="position-relative">
+                                            <background-overlay></background-overlay>
+                                            <img width="210" height="180" class="card-img-left"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp"
+                                                alt="Card image cap">
+                                            <main>
+                                                <maintitle> Take me I'm Yours </maintitle>
+                                                <info>
+                                                    <a href="#" class="fa fa fa-heart-o"><span>86.213</span></a>
+                                                </info>
+
+                                            </main>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="glide__slide">
+                                    <div class="rounded card flex-row">
+                                        <div class="position-relative">
+                                            <background-overlay></background-overlay>
+                                            <img width="210" height="180" class="card-img-left"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
+                                                alt="Card image cap">
+                                            <main>
+                                                <maintitle>OverGeared </maintitle>
+                                                <info>
+                                                    <a href="#" class="fa fa fa-heart-o"><span>86.213</span></a>
+                                                </info>
+
+                                            </main>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="glide__slide">
+                                    <div class="rounded card flex-row">
+                                        <div class="position-relative">
+                                            <background-overlay></background-overlay>
+                                            <img width="210" height="180" class="card-img-left"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/tensei-shite-inaka-de-slowlife-wo-okuritai/thumbnail/1622888365802-34352-350x500-thumbnail.webp"
+                                                alt="Card image cap">
+                                            <main>
+                                                <maintitle> Tensei Shite Inaka de Slowlife wo Okuritai </maintitle>
+                                                <info>
+                                                    <a href="#" class="fa fa fa-heart-o"><span>86.213</span></a>
+                                                </info>
+
+                                            </main>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="glide__slide">
+                                    <div class="rounded card flex-row">
+                                        <div class="position-relative">
+                                            <background-overlay></background-overlay>
+                                            <img width="210" height="180" class="card-img-left"
+                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/survival-story-of-a-sword-king-in-a-fantasy-world/thumbnail/1622887993393-Survival-Story-of-a-Sword-King-333x500-thumbnail.webp"
+                                                alt="Card image cap">
+                                            <main>
+                                                <maintitle> Take me I'm Yours </maintitle>
+                                                <info>
+                                                    <a href="#" class="fa fa fa-heart-o"><span>86.213</span></a>
+                                                </info>
+
+                                            </main>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+                        <div class="glide__arrows sliderBox" data-glide-el="controls">
+                            <button class="slick-prev slick-arrow" aria-label="Previous" type="button"
+                                data-glide-dir="<">
+                                <i class="fas fa-caret-left"></i>
+                            </button>
+                            <button class="slick-next slick-arrow" aria-label="Next" type="button" data-glide-dir=">">
+                                <i class="fas fa-caret-right"></i>
+                            </button>
+                        </div>
+                        <div class="glide__arrows slider-nav" data-glide-el="controls">
+                            <div class="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
+                                <button class="glide__bullet slider-dot" data-glide-dir="=0"></button>
+                                <button class="glide__bullet slider-dot" data-glide-dir="=1"></button>
+                                <button class="glide__bullet slider-dot" data-glide-dir="=2"></button>
+                                <button class="glide__bullet slider-dot" data-glide-dir="=3"></button>
+                                <button class="glide__bullet slider-dot" data-glide-dir="=4"></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {{!-- 🛑 end second glider --}}
+        </div>
+    </div>
+</secondslider> --}}
 
-            <div class="row">
-                {{!-- left: 8 --}}
-                <div class="col-12 col-lg-8 col-md-12 col-sm-12 col-left mb-3" style="background: var(--foreground-color);">
-
-                    {{!-- nav container --}}
-                    <div class="row">
-                        <div class="col-12 nav__container">
-                            <div class="nav__wrapper">
-                                <nav class="nav">
-                                    <input class="nav__checkbox" type="radio" name="comic" id="item1">
-                                    <label id="tooltip1" for="item1" class="red-tooltip nav__item active" data-toggle="tooltip" data-placement="top" title="View All">
-                                        <i class="fal fa-books"></i>
-                                    </label>
-                                    <input class="nav__checkbox" type="radio" name="comic" id="item2">
-                                    <label id="tooltip2" class="nav__item" for="item2" data-toggle="tooltip" data-placement="top" title="History">
-                                        <i class="fas fa-history"></i>
-                                    </label>
-                                    <input class="nav__checkbox" type="radio" name="comic" id="item3">
-                                    <label id="tooltip3" class="nav__item" for="item3" data-toggle="tooltip" data-placement="top" title="Book Mark">
-                                        <i class="far fa-bookmark"></i>
-                                    </label>
-                                    <input class="nav__checkbox" type="radio" name="comic" id="item4">
-                                    <label id="tooltip4" class="nav__item disabled" for="item4" data-toggle="tooltip" data-placement="top" title="Chat Box">
-                                        <i class="far fa-comments"></i>
-                                    </label>
-                                    
-                                    {{!-- animation bar --}}
-                                    <div class="animation start-home">
-                                        <div class="center">
-                                            <i id="dynamic__icon" class="fal fa-books"></i>
-                                            {{!-- <span class="dynamic__text">View All</span> --}}
-                                        </div>
-                                    </div> {{!-- End animation bar --}}
-
-                                </nav>
+<main-container class="d-block container">
+    <div class="row">
+        {{!-- left: 8 --}}
+        <div class="col-12 col-lg-8 col-md-12 col-sm-12 col-left mb-3" style="background: var(--foreground-color);">
+    
+            {{!-- nav container --}}
+            {{!-- <div class="row">
+                <div class="col-12 nav__container">
+                    <div class="nav__wrapper">
+                        <nav class="nav">
+                            <input class="nav__checkbox" type="radio" name="comic" id="item1">
+                            <label id="tooltip1" for="item1" class="red-tooltip nav__item active" data-toggle="tooltip"
+                                data-placement="top" title="View All">
+                                <i class="fal fa-books"></i>
+                            </label>
+                            <input class="nav__checkbox" type="radio" name="comic" id="item2">
+                            <label id="tooltip2" class="nav__item" for="item2" data-toggle="tooltip" data-placement="top"
+                                title="History">
+                                <i class="fas fa-history"></i>
+                            </label>
+                            <input class="nav__checkbox" type="radio" name="comic" id="item3">
+                            <label id="tooltip3" class="nav__item" for="item3" data-toggle="tooltip" data-placement="top"
+                                title="Book Mark">
+                                <i class="far fa-bookmark"></i>
+                            </label>
+                            <input class="nav__checkbox" type="radio" name="comic" id="item4">
+                            <label id="tooltip4" class="nav__item disabled" for="item4" data-toggle="tooltip"
+                                data-placement="top" title="Chat Box">
+                                <i class="far fa-comments"></i>
+                            </label>
+    
+                            <div class="animation start-home">
+                                <div class="center">
+                                    <i id="dynamic__icon" class="fal fa-books"></i>
+                                </div>
                             </div>
-                        </div>
-                    </div> {{!-- End nav container --}}
-
-                    <div class="row title__container">
-                        <i class="title__icon far fa-2x fa-book-spells mr-3"></i>
-                        <h3 class="title__text"> LATEST MANGA UPDATES </h3>
+    
+                        </nav>
                     </div>
-                    {{!-- <div class="widget__border title__border"></div> --}}
-
-                    
-                    
-                    <div id="main__box" class="card__container card__container--left row foreground card__wrapper">
-                        {{#each comics}}
-                        {{!-- 12/3 = 4 --}}
-                        <div class="align-middle col-6 col-lg-3 col-md-3 col-sm-4 mt-2 mb-4">
-                            <div class="">
-                                <div class="example-2 card card-w-175">
-                                {{!-- <span class="badge badge-theme-1 position-absolute badge-top-left" style="
-                                        z-index: 999;">NEW
-                                </span> --}}
-                                <div class="wrapper">
-                                    <img src="{{#if this.thumbnail.url}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.thumbnail.url}}-thumbnail.webp
-                                    {{else}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/user-comic-2/thumbnail/1622345516518-7-thumbnail.webp
-                                    {{/if}}"
-                                    type="image/webp" width="175" height="238" style="max-width: 100%;height: auto" 
-                                    class=" responsive zoom"
-                                    alt="image">
-                                    <!-- overlays -->
-                                    <div class="color-overlay"></div>
-                                    <div class="header">
-                                        <ul class="menu-content icon-3-right icon-4-right">
-                                            <li><a href="#" class="fa fa fa-bookmark-o"></a></li>
-                                            <li><a href="#" class="fa fa fa-heart-o"><span>{{this.view.totalView}}</span></a></li>
-                                            <li><a href="#" class="fa fa fa-comment-o"><span>30</span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                                <div class="mt-auto">
-                                    <div class="card-body mb-3" style="padding-bottom: 0;">
-                                        <a href="./comic/{{this.slug}}">
-                                            <h5 class="card-title card-title--modifier row w-md-unset">
-                                                {{ this.title}}
-                                            </h5>
-                                        </a>
-                                    </div>
-                                    <div class="chapter" style="padding: 0;">
-                                        {{#each chapters}}
-                                        <a href="/comic/{{../ this.slug}}/{{this.chapter}}"
-                                            class="card-body__container mb-xl-custom mb-2 ml-xl-0">
-                                            <span id="{{this._id}}" class="card-body__chapter badge badge--modifier badge-pill"> 
-                                                {{replaceHyphenIntoSpace this.chapter}} </span>
-                                            <span class="card-body__time"> 56 mins ago </span>
-                                        </a>
-                                        {{/each}}
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        {{/each}}
-                    </div> {{!-- End Card container --}}
-                    
-                    {{!-- Pagination --}}
-                    <div class="row justify-content-center">
-                        <nav aria-label="Page navigation" class="mt-4">
-                            <div class="d-flex">
-                                <div class="mx-auto">
-                                    <ul class="pagination pagination-sm">
-                                        <li class="paginate_button page-item prev mr-3">
-                                            <a class="page-link prev" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
+                </div>
+            </div> --}}
+            {{!-- End nav container --}}
+    
+            <div class="row title__container">
+                <i class="title__icon far fa-2x fa-book-spells mr-3"></i>
+                <h3 class="title__text"> LATEST MANGA UPDATES </h3>
+            </div>
+    
+    
+    
+            <div id="main__box" class="card__container card__container--left row foreground card__wrapper">
+                {{#each comics}}
+                {{!-- 12/3 = 4 --}}
+                <div class="align-middle col-6 col-lg-3 col-md-3 col-sm-4 mt-2 mb-4">
+                    <div class="">
+                        <div class="example-2 card card-w-175">
+                            {{!-- <span class="badge badge-theme-1 position-absolute badge-top-left" style="
+                                            z-index: 999;">NEW
+                            </span> --}}
+                            <div class="wrapper">
+                                <img src="{{#if this.thumbnail.url}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/{{this.thumbnail.url}}-thumbnail.webp
+                                        {{else}}https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/user-comic-2/thumbnail/1622345516518-7-thumbnail.webp
+                                        {{/if}}" type="image/webp" width="175" height="238"
+                                    style="max-width: 100%;height: auto" class=" responsive zoom" alt="image">
+                                <!-- overlays -->
+                                <div class="color-overlay"></div>
+                                <div class="header">
+                                    <ul class="menu-content icon-3-right icon-4-right">
+                                        <li><a href="#" class="fa fa fa-bookmark-o"></a></li>
+                                        <li><a href="#" class="fa fa fa-heart-o"><span>{{this.view.totalView}}</span></a>
                                         </li>
-                                        <li class="page-item active"><a class="page-link custom-numbers active" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link custom-numbers" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link custom-numbers" href="#">3</a></li>
-                                        <li class="paginate_button page-item next ml-3">
-                                            <a class="page-link next" href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
+                                        <li><a href="#" class="fa fa fa-comment-o"><span>30</span></a></li>
                                     </ul>
                                 </div>
                             </div>
-                        </nav>
-                    </div> {{!-- End Pagination --}}
-                    
-
-                </div>  {{!-- End col left --}}
-                
-                {{!-- right: 4 --}}
-                <div class="col-12 col-lg-4 col-md-12 col-sm-12 col-right mt-2">
-
-
-                    
-
-                    <div id="bookmark__box" class="widget-container card mb-4 d-lg-block">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="fas fa-fire mr-1">
-                                    <span class="particle-fire"></span>
-                                </i>
-                                <span>BookMark</span>
-                                <a class="btn-link float-right text-small pt-1" href="#">View All</a>
-                            </h5>
-                            
-                            <div class="row social-image-row gallery">
-                                {{!-- widget item --}}
-                                <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
-                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <a class="bookmark widget-box img-box" href="#">
-                                            <img width="128" height="96" class="img img-fluid border-radius"
-                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
-                                            
-                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
-                                             <a href="" class="position-relative">
-                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
-                                            </a>
-                                        </a>
-                                        <span class="widget-title">Magic Emperor</span>
-                                    </div>
-                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <a class="bookmark widget-box img-box" href="#">
-                                            <img width="128" height="96" class="img img-fluid border-radius"
-                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
-                                            
-                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
-                                             <a href="" class="position-relative">
-                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
-                                            </a>
-                                        </a>
-                                        <span class="widget-title">Magic Emperor</span>
-                                    </div>
-                                </div> {{!-- widget item --}}
-                                {{!-- widget item --}}
-                                <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
-                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <a class="bookmark widget-box img-box" href="#">
-                                            <img width="128" height="96" class="img img-fluid border-radius"
-                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
-                                            
-                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
-                                             <a href="" class="position-relative">
-                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
-                                            </a>
-                                        </a>
-                                        <span class="widget-title">Magic Emperor</span>
-                                    </div>
-                                    <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <a class="bookmark widget-box img-box" href="#">
-                                            <img width="128" height="96" class="img img-fluid border-radius"
-                                                src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
-                                            
-                                            <span class="widget-time widget-time--rounded top-left">1 hours</span>
-                                            <a href="" class="position-relative">
-                                                <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
-                                            </a>
-                                        </a>
-                                        <span class="widget-title">Magic Emperor</span>
-                                    </div>
-                                </div> {{!-- widget item --}}
-
-                            </div>
                         </div>
-                    </div>
-
-                    <div id="history__box" class="widget-container card mb-4 d-lg-block">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="fas fa-fire mr-1">
-                                    <span class="particle-fire"></span>
-                                </i>
-                                <span>Reading History</span>
-                                <a class="btn-link float-right text-small pt-1" href="#">View All</a>
-                            </h5>
-                            <div class="row social-image-row gallery">
-                                {{!-- append box --}}
-                                <div id="append__Box" style="display: none;">
-                        
-                                </div> {{!-- end append box --}}
+                        <div class="mt-auto">
+                            <div class="card-body mb-3" style="padding-bottom: 0;">
+                                <a href="./comic/{{this.slug}}">
+                                    <h5 class="card-title card-title--modifier row w-md-unset">
+                                        {{ this.title}}
+                                    </h5>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div id="comment__box" class="widget-container card mb-4 d-lg-block">
-                        <div class="card-body">
-                            <h5 class="card-title">Comments</h5>
-                    
-                            <div class="scroll dashboard-list-with-user ps ps--active-y">
-                                {{#if commentDoc}}
-                                {{#each commentDoc}}
-                                 {{#each this.commentArr}}
-                                    <div class="d-flex flex-row mb-3 pb-3 border-bottom">
-                                        <a href="#">
-                                            <img alt="Profile Picture" src="img/profile-pic-l.jpg"
-                                                class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall">
-                                        </a>
-                                        <div class="pl-3" style="flex: 1;">
-                                            <a href="/comic/{{../comicSlug}}{{#if ../chapter}}/{{../chapter}}{{/if}}/#comment-{{this._id}}
-                                            ">
-                                                <p class="font-weight-medium mb-0">{{this.text}}</p>
-                                            </a>
-                                            <div class="info d-flex flex-wrap justify-content-between">
-                                                <a href="#" class="text-muted mt-1 text-small">
-                                                {{this.userName}}
-                                                </a>
-                                                <a href="#" class="text-muted mt-1 text-small mb-2" 
-                                                style="text-decoration: underline;">{{CalcTimeEnglish this.updatedAt}}</a>  
-                                            </div>
-                                            
-                                            <a href="#" class="text-muted mb-0 text-small">
-                                                {{../title}} {{#if ../chapter}} | {{chapterText ../chapter}} {{/if}}
-                                            </a>
-                                        </div>
-                                    </div>
-                                    {{/each}}
+                            <div class="chapter" style="padding: 0;">
+                                {{#each chapters}}
+                                <a href="/comic/{{../ this.slug}}/{{this.chapter}}"
+                                    class="card-body__container mb-xl-custom mb-2 ml-xl-0">
+                                    <span id="{{this._id}}" class="card-body__chapter badge badge--modifier badge-pill">
+                                        {{replaceHyphenIntoSpace this.chapter}} </span>
+                                    <span class="card-body__time"> 56 mins ago </span>
+                                </a>
                                 {{/each}}
-                                {{/if}}
-                                
-                    
                             </div>
                         </div>
+    
                     </div>
                 </div>
-                
-
+    
+                {{/each}}
+            </div> {{!-- End Card container --}}
+    
+            {{!-- Pagination --}}
+            <div class="row justify-content-center">
+                <nav aria-label="Page navigation" class="mt-4">
+                    <div class="d-flex">
+                        <div class="mx-auto">
+                            <ul class="pagination pagination-sm">
+                                <li class="paginate_button page-item prev mr-3">
+                                    <a class="page-link prev" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link custom-numbers active" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link custom-numbers" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link custom-numbers" href="#">3</a></li>
+                                <li class="paginate_button page-item next ml-3">
+                                    <a class="page-link next" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div> {{!-- End Pagination --}}
+    
+    
+        </div> {{!-- End col left --}}
+    
+        {{!-- right: 4 --}}
+        <div class="col-12 col-lg-4 col-md-12 col-sm-12 col-right mt-2">
+    
+    
+    
+    
+            <div id="bookmark__box" class="widget-container card mb-4 d-lg-block">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-fire mr-1">
+                            <span class="particle-fire"></span>
+                        </i>
+                        <span>BookMark</span>
+                        <a class="btn-link float-right text-small pt-1" href="#">View All</a>
+                    </h5>
+    
+                    <div class="row social-image-row gallery">
+                        {{!-- widget item --}}
+                        <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
+                            <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <a class="bookmark widget-box img-box" href="#">
+                                    <img width="128" height="120" class="img img-fluid border-radius"
+                                        src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+    
+                                    <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                    <a href="" class="position-relative">
+                                        <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                    </a>
+                                </a>
+                                <span class="widget-title">Magic Emperor</span>
+                            </div>
+                            <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <a class="bookmark widget-box img-box" href="#">
+                                    <img width="128" height="120" class="img img-fluid border-radius"
+                                        src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+    
+                                    <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                    <a href="" class="position-relative">
+                                        <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                    </a>
+                                </a>
+                                <span class="widget-title">Magic Emperor</span>
+                            </div>
+                        </div> {{!-- widget item --}}
+                        {{!-- widget item --}}
+                        <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
+                            <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <a class="bookmark widget-box img-box" href="#">
+                                    <img width="128" height="120" class="img img-fluid border-radius"
+                                        src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+    
+                                    <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                    <a href="" class="position-relative">
+                                        <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                    </a>
+                                </a>
+                                <span class="widget-title">Magic Emperor</span>
+                            </div>
+                            <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <a class="bookmark widget-box img-box" href="#">
+                                    <img width="128" height="120" class="img img-fluid border-radius"
+                                        src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/overgeared/thumbnail/1622887019250-mangatx-thumbnail.webp">
+    
+                                    <span class="widget-time widget-time--rounded top-left">1 hours</span>
+                                    <a href="" class="position-relative">
+                                        <span class="widget-chapter widget-chapter--circle bottom-right">12</span>
+                                    </a>
+                                </a>
+                                <span class="widget-title">Magic Emperor</span>
+                            </div>
+                        </div> {{!-- widget item --}}
+    
+                    </div>
+                </div>
             </div>
-
+    
+            <div id="history__box" class="widget-container card mb-4 d-lg-block">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-fire mr-1">
+                            <span class="particle-fire"></span>
+                        </i>
+                        <span>Reading History</span>
+                        <a class="btn-link float-right text-small pt-1" href="#">View All</a>
+                    </h5>
+                    <div class="row social-image-row gallery">
+                        {{!-- append box --}}
+                        <div id="append__Box" style="display: none;">
+    
+                        </div> {{!-- end append box --}}
+                    </div>
+                </div>
+            </div>
+    
+            <div id="comment__box" class="widget-container card mb-4 d-lg-block">
+                <div class="card-body">
+                    <h5 class="card-title">Comments</h5>
+    
+                    <div class="scroll dashboard-list-with-user ps ps--active-y">
+                        {{#if commentDoc}}
+                        {{#each commentDoc}}
+                        {{#each this.commentArr}}
+                        <div class="d-flex flex-row mb-3 pb-3 border-bottom">
+                            <a href="#">
+                                <img alt="Profile Picture" src="img/profile-pic-l.jpg"
+                                    class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall">
+                            </a>
+                            <div class="pl-3" style="flex: 1;">
+    
+                                <div class="info d-flex flex-wrap justify-content-between">
+                                    <a href="#" class="mt-1 text-small">
+                                        Quizzy Lemon
+                                    </a>
+                                    <a href="#" class="text-muted mt-1 text-small mb-2"
+                                        style="text-decoration: underline;">{{CalcTimeEnglish this.updatedAt}}</a>
+                                </div>
+    
+                                <a
+                                    href="/comic/{{../comicSlug}}{{#if ../chapter}}/{{../chapter}}{{/if}}/#comment-{{this._id}}">
+                                    <p class="font-weight-medium mb-2">{{this.text}}</p>
+                                </a>
+    
+                                <a href="#" class="text-muted mt-2 text-small">
+                                    {{../title}} {{#if ../chapter}} | {{chapterText ../chapter}} {{/if}}
+                                </a>
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{/each}}
+                        {{/if}}
+    
+    
+                    </div>
+                </div>
+            </div>
         </div>
-        
+    
+    
     </div>
-</div>
+</main-container>
+
 
 {{!-- 🖼️ history Template --}}
 <script id="history-template" type="text/x-handlebars-template">
@@ -555,7 +1025,7 @@
         <div class="widget-item col-12 col-xl-12 col-lg-12 col-md-6 col-sm-6 row m-0 p-0 mb-3">
             <div class="widget-img col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <a class="img-box" href="#">
-                    <img width="128" height="96" class="img img-fluid border-radius" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp">
+                    <img width="128" height="120" class="img img-fluid border-radius" src="https://s3.eu-central-1.wasabisys.com/cloudimagewallbucket/the-strongest-dull-princes-secret-battle-for-the-throne/thumbnail/1622898960004-44412-352x500-thumbnail.webp">
                     <span class="img-overlay"> 21 Hours ago</span>
                 </a>
 
@@ -576,10 +1046,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script>
+	
+</script>
+<script>
     
 
     $( document ).ready(function() {
-        
         /* local History */
         
         constructHistory()
